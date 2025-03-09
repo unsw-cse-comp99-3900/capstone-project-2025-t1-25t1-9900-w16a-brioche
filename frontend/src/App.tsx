@@ -25,7 +25,7 @@ function App() {
           Show Toast
         </Button>
       </div>
-      <div>Hello world</div>
+      <div>No direct push to main</div>
       <Toaster />
     </>
   );
