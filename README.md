@@ -23,7 +23,6 @@ This guide provides the initial setup and development instructions for the front
    ```bash
    cd ./frontend
    ```
-
    This ensures you're in the correct directory.
 
 3. Install the project dependencies using pnpm:
