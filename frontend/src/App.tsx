@@ -7,7 +7,7 @@ function App() {
     <>
       <div className="flex flex-col justify-center items-center h-screen gap-5">
         <h1 className="text-3xl font-bold underline text-blue-400">
-          InvoiceFlow Preview
+          InvoiceFlow
         </h1>
         <Button>Shadcn Button</Button>
         <Button
