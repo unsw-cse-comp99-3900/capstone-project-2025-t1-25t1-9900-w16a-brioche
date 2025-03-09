@@ -16,6 +16,6 @@ Styles define the visual appearance of our application's components. This includ
 - Follow a consistent naming and theming convention across the project.
 - Leverage CSS preprocessors if needed for more organized code.
 
-## Guidance for Interns
+## Guidance
 
 When working with styles, ensure you keep the styling separate from your component logic. Use absolute paths to import styles and maintain consistency across your project. Follow the project's design system and theming guidelines to ensure uniformity.
