@@ -2,7 +2,51 @@
 
 # [Production Website](https://myinvoiceflow.netlify.app)
 
-# E-Invoicing API Platform for SMEs - User Stories and Analysis
+# Frontend Development Guide
+
+This guide provides the initial setup and development instructions for the frontend portion of the InvoiceFlow project.
+
+## Prerequisites
+
+- Ensure you have the latest version of [VS Code](https://code.visualstudio.com/) installed.
+- Install the following VS Code extensions:
+  - Prettier - Code formatter
+  - ESLint - Integrates ESLint into VS Code
+  - Tailwind CSS IntelliSense - Provides advanced features for Tailwind CSS
+
+## Initial Setup
+
+1. Open VS Code and install the above extensions if you haven't already.
+
+2. Open your terminal in VS Code and navigate to the frontend directory using the absolute path:
+
+   ```bash
+   cd ./frontend
+   ```
+
+   This ensures you're in the correct directory.
+
+3. Install the project dependencies using pnpm:
+
+   ```bash
+   pnpm install
+   ```
+
+4. Start the development server:
+   ```bash
+   pnpm run dev
+   ```
+   The development server will start, and you can access the application at http://localhost:3000 (or the configured port).
+
+## Development Guidelines
+
+- Always use absolute paths for imports when possible. This helps maintain clarity and consistency in the codebase.
+- Adhere to ESLint and Prettier rules for code quality and formatting consistency.
+- Utilize Tailwind CSS classes as documented in the official [Tailwind CSS documentation](https://tailwindcss.com/docs).
+
+
+
+# InvoiceFlow - E-Invoicing API Platform for SMEs 
 
 ## Project Overview
 
