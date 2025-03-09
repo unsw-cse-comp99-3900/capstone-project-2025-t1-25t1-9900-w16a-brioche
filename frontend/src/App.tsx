@@ -25,6 +25,7 @@ function App() {
           Show Toast
         </Button>
       </div>
+      <div>Hello world</div>
       <Toaster />
     </>
   );

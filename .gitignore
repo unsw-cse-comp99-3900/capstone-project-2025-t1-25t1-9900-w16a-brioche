@@ -25,3 +25,6 @@ frontend/*.sln
 frontend/*.sw?
 
 # Backend
+
+# Local Netlify folder
+.netlify
