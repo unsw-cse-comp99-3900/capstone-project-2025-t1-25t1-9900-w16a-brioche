@@ -34,4 +34,4 @@ This project uses ESLint to enforce code quality for JavaScript/TypeScript. The 
 
 ### Prettier
 
-This project uses the default Prettier configuration to format the code. 
+This project uses the default Prettier configuration to format the code.
