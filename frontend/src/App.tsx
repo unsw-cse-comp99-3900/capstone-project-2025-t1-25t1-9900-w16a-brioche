@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button"
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
       <div>No direct push to main</div>
       <Toaster />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
