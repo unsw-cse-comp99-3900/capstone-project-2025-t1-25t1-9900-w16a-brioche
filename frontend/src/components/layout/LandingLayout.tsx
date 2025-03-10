@@ -91,7 +91,7 @@ const Layout: React.FC = () => {
 
         {/* Copyright & Policies */}
         <div className="mt-6 border-t border-gray-700 pt-4 text-center text-gray-400 text-sm flex flex-wrap justify-center md:justify-between items-center max-w-7xl mx-auto">
-          <p>© 2025 W16a-Brioche Development Team. All rights reserved</p>
+          <p>© 2025 W16a-Brioche Development Team. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-6 mt-2 md:mt-0">
             <Link to="/privacy" className="hover:text-blue-400">
               Privacy Policy
