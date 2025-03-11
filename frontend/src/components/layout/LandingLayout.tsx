@@ -1,6 +1,7 @@
 import React from "react"
 import { Link, Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
+import Footer from "../common/Footer"
 
 const Layout: React.FC = () => {
   return (
@@ -31,12 +32,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
 
-      <footer className="bg-slate-800 text-white p-4 mt-auto">
-        <div className="container mx-auto text-center">
-          <p>© 2024 InvoiceFlow. All rights reserved.</p>
-        </div>
-      </footer>
-
+      <Footer />
       <Toaster />
     </div>
   )
