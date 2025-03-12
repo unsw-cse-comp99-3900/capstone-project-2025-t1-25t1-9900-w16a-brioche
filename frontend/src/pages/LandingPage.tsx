@@ -1,12 +1,11 @@
 import React from "react"
-import LandingHeaderContainer from "@/containers/Landing/LandingHeaderContainer"
-import LandingButtonsContainer from "@/containers/Landing/LandingButtonsContainer"
+import HeroContainer from "@/containers/Landing/HeroContainer"
 
 const LandingPage: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <LandingHeaderContainer />
-      <LandingButtonsContainer />
+    <div>
+      <HeroContainer />
+      {/* Add other sections here */}
     </div>
   )
 }
