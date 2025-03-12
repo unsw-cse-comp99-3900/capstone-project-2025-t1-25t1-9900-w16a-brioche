@@ -1,6 +1,7 @@
 import React from "react"
 import { Link, Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
+import AuthFooter from "../common/AuthFooter"
 
 const Layout: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
 
+      <AuthFooter />
       <Toaster />
     </div>
   )
