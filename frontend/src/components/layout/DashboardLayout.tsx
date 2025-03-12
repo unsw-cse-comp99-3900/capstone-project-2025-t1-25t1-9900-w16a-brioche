@@ -3,7 +3,6 @@ import { Link, Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "../common/Footer"
 
-
 const DashboardLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
