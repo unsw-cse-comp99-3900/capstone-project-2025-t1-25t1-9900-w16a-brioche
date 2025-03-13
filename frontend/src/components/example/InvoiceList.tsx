@@ -16,6 +16,7 @@ const InvoiceList: React.FC = () => {
   if (isError) {
     return (
       <div>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         Error loading invoices: {(error as any)?.message || "Unknown error"}
       </div>
     )
