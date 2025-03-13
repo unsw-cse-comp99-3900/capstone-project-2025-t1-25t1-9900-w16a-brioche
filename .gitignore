@@ -25,6 +25,10 @@ frontend/*.sln
 frontend/*.sw?
 
 # Backend
+/.vs
+/backend/InvoiceBackend/.vs/InvoiceBackend
+/backend/InvoiceBackend/obj
+/backend/InvoiceBackend/bin/Debug/net8.0
 
 # Local Netlify folder
 .netlify
