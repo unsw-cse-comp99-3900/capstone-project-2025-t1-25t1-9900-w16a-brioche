@@ -15,6 +15,7 @@ import InvoiceFormPage from "@/pages/InvoiceFormPage"
 import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
+import InvoiceTestPage from "@/pages/ApiTestPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "/invoice/:id",
         element: <InvoiceDetailPage />,
+      },
+      {
+        path: "/api-test",
+        element: <InvoiceTestPage />,
       },
     ],
   },
