@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom"
 import LandingLayout from "@/components/layout/LandingLayout"
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import AuthLayout from "@/components/layout/Layout"
+// import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
 // Import pages using absolute paths
 import LandingPage from "@/pages/LandingPage"
@@ -54,6 +55,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <DashboardLayout />,
+
+    // for clerk protect route
+    // element: (
+    //   <ProtectedRoute>
+    //     <DashboardLayout />
+    //   </ProtectedRoute>
+    // ),
     children: [
       {
         path: "/dashboard",
