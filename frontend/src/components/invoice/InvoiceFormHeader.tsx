@@ -1,15 +1,18 @@
-import React from "react";
-import { Controller, Control, FieldErrors } from "react-hook-form";
-import { InvoiceFormData } from "./invoiceSchema";
-import SelectCustomer from "./SelectCustomer";
-import SelectPaymentTerms from "./SelectPaymentTerms";
+import React from "react"
+import { Controller, Control, FieldErrors } from "react-hook-form"
+import { InvoiceFormData } from "./invoiceSchema"
+import SelectCustomer from "./SelectCustomer"
+import SelectPaymentTerms from "./SelectPaymentTerms"
 
 interface InvoiceFormHeaderProps {
-  control: Control<InvoiceFormData>;
-  errors: FieldErrors<InvoiceFormData>;
+  control: Control<InvoiceFormData>
+  errors: FieldErrors<InvoiceFormData>
 }
 
-const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }) => {
+const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({
+  control,
+  errors,
+}) => {
   return (
     <div className="grid grid-cols-2 gap-6">
       {/* 客户选择 */}
@@ -20,7 +23,9 @@ const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }
           control={control}
           render={({ field }) => <SelectCustomer {...field} />}
         />
-        {errors.customer && <p className="text-red-500 text-sm">{errors.customer.message}</p>}
+        {errors.customer && (
+          <p className="text-red-500 text-sm">{errors.customer.message}</p>
+        )}
       </div>
 
       {/* 发票日期 */}
@@ -30,10 +35,17 @@ const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }
           name="invoiceDate"
           control={control}
           render={({ field }) => (
-            <input type="date" {...field} value={field.value || ""} className="w-full border-b-2 border-gray-400 bg-transparent focus:outline-none p-2" />
+            <input
+              type="date"
+              {...field}
+              value={field.value || ""}
+              className="w-full border-b-2 border-gray-400 bg-transparent focus:outline-none p-2"
+            />
           )}
         />
-        {errors.invoiceDate && <p className="text-red-500 text-sm">{errors.invoiceDate.message}</p>}
+        {errors.invoiceDate && (
+          <p className="text-red-500 text-sm">{errors.invoiceDate.message}</p>
+        )}
       </div>
 
       {/* 税务状态 */}
@@ -43,14 +55,21 @@ const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }
           name="amountTaxStatus"
           control={control}
           render={({ field }) => (
-            <select {...field} className="w-full border-b-2 border-gray-400 bg-transparent focus:outline-none p-2">
+            <select
+              {...field}
+              className="w-full border-b-2 border-gray-400 bg-transparent focus:outline-none p-2"
+            >
               <option value="NonTaxed">Non-Taxed</option>
               <option value="Inclusive">Inclusive</option>
               <option value="Exclusive">Exclusive</option>
             </select>
           )}
         />
-        {errors.amountTaxStatus && <p className="text-red-500 text-sm">{errors.amountTaxStatus.message}</p>}
+        {errors.amountTaxStatus && (
+          <p className="text-red-500 text-sm">
+            {errors.amountTaxStatus.message}
+          </p>
+        )}
       </div>
 
       {/* 付款条款 */}
@@ -61,10 +80,12 @@ const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }
           control={control}
           render={({ field }) => <SelectPaymentTerms {...field} />}
         />
-        {errors.paymentTerms && <p className="text-red-500 text-sm">{errors.paymentTerms.message}</p>}
+        {errors.paymentTerms && (
+          <p className="text-red-500 text-sm">{errors.paymentTerms.message}</p>
+        )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InvoiceFormHeader;
+export default InvoiceFormHeader

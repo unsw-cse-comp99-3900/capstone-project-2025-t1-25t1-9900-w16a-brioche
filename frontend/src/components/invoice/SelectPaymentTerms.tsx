@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
 type SelectPaymentTermsProps = {
-  value: string;
-  onChange: (val: string) => void;
-};
+  value: string
+  onChange: (val: string) => void
+}
 
-const SelectPaymentTerms: React.FC<SelectPaymentTermsProps> = ({ value, onChange }) => {
-  const [paymentTerms, setPaymentTerms] = useState<{ id: string; name: string }[]>([]);
+const SelectPaymentTerms: React.FC<SelectPaymentTermsProps> = ({
+  value,
+  onChange,
+}) => {
+  const [paymentTerms, setPaymentTerms] = useState<
+    { id: string; name: string }[]
+  >([])
 
   useEffect(() => {
     // 模拟 API 数据
     const fakeTerms = [
       { id: "net30", name: "Net 30 Days" },
       { id: "net60", name: "Net 60 Days" },
-      { id: "dueOnReceipt", name: "Due on Receipt" }
-    ];
-    setPaymentTerms(fakeTerms);
-  }, []);
+      { id: "dueOnReceipt", name: "Due on Receipt" },
+    ]
+    setPaymentTerms(fakeTerms)
+  }, [])
 
   return (
     <select
@@ -31,7 +36,7 @@ const SelectPaymentTerms: React.FC<SelectPaymentTermsProps> = ({ value, onChange
         </option>
       ))}
     </select>
-  );
-};
+  )
+}
 
-export default SelectPaymentTerms;
+export default SelectPaymentTerms

@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 
 interface SelectCustomerProps {
-  value: string;
-  onChange: (value: string) => void;
+  value: string
+  onChange: (value: string) => void
 }
 
 const SelectCustomer: React.FC<SelectCustomerProps> = ({ value, onChange }) => {
@@ -16,7 +16,7 @@ const SelectCustomer: React.FC<SelectCustomerProps> = ({ value, onChange }) => {
       <option value="Customer1">Customer 1</option>
       <option value="Customer2">Customer 2</option>
     </select>
-  );
-};
+  )
+}
 
-export default SelectCustomer;
+export default SelectCustomer

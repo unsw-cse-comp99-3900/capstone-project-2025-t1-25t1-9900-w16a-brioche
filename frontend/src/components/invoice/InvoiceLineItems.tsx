@@ -1,18 +1,18 @@
-import React from "react";
-import { useFieldArray, Control, FieldErrors } from "react-hook-form";
-import LineItemRow from "./LineItemRow";
-import { InvoiceFormData } from "./invoiceSchema";
+import React from "react"
+import { useFieldArray, Control, FieldErrors } from "react-hook-form"
+import LineItemRow from "./LineItemRow"
+import { InvoiceFormData } from "./invoiceSchema"
 
 interface InvoiceLineItemsProps {
-  control: Control<InvoiceFormData>;
-  errors: FieldErrors<InvoiceFormData>;
+  control: Control<InvoiceFormData>
+  errors: FieldErrors<InvoiceFormData>
 }
 
-const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control}) => {
+const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "lineItems",
-  });
+  })
 
   return (
     <div>
@@ -30,7 +30,12 @@ const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control}) => {
 
         {/* 表格内容 */}
         {fields.map((item, index) => (
-          <LineItemRow key={item.id} index={index} control={control} remove={remove} />
+          <LineItemRow
+            key={item.id}
+            index={index}
+            control={control}
+            remove={remove}
+          />
         ))}
 
         {/* 添加行按钮 */}
@@ -56,7 +61,7 @@ const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control}) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InvoiceLineItems;
+export default InvoiceLineItems
