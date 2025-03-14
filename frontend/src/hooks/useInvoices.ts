@@ -13,7 +13,7 @@ export const useInvoices = () => {
     queryKey: ["invoices"],
     queryFn: async () => {
       console.log("Fetching invoices from API...")
-      const response = await api.get("/api/invoices")
+      const response = await api.get("/api/invoices/test")
       console.log("Raw API response:", response)
 
       // Parse and validate the response
