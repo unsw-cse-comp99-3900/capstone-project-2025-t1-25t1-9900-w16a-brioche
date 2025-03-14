@@ -6,7 +6,7 @@ const HeroButtons: React.FC = () => {
   return (
     <div className="mt-8 flex flex-col sm:flex-row gap-4">
       <HeroButton
-        href="/login"
+        href="/dashboard"
         variant="primary"
         icon={
           <svg
