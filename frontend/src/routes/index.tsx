@@ -44,13 +44,9 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegistrationPage />,
       },
-      // 404 page for public routes
-      {
-        path: "*",
-        element: <NotFoundPage />,
-      },
     ],
   },
+
   // Dashboard routes with dashboard layout
   {
     path: "/",
@@ -88,6 +84,12 @@ const router = createBrowserRouter([
         element: <InvoiceTestPage />,
       },
     ],
+  },
+
+  // 404 page without layout
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ])
 
