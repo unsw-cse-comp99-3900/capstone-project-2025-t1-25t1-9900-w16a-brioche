@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
 interface FeatureListProps {
-  features: string[];
+  features: string[]
 }
 
 const FeatureList: React.FC<FeatureListProps> = ({ features }) => {
@@ -25,7 +25,7 @@ const FeatureList: React.FC<FeatureListProps> = ({ features }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default FeatureList;
+export default FeatureList

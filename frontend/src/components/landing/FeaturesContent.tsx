@@ -1,5 +1,5 @@
-import React from "react";
-import { landingFeature } from "@/constants/Landing/landingFeature";
+import React from "react"
+import { landingFeature } from "@/constants/Landing/landingFeature"
 
 const FeaturesContent: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const FeaturesContent: React.FC = () => {
       {/* Section label */}
       <div className="inline-block mb-4 px-3 py-1 bg-gradient-to-r from-primary-500/10 to-blue-500/10 rounded-full backdrop-blur-sm border border-primary-200">
         <span className="text-sm font-medium bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent">
-        {landingFeature.content.tagText}
+          {landingFeature.content.tagText}
         </span>
       </div>
       <h2 className="text-3xl scale-105 font-bold text-gray-900 sm:text-4xl mb-4">
@@ -17,7 +17,7 @@ const FeaturesContent: React.FC = () => {
         {landingFeature.content.subheadingText}
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default FeaturesContent;
+export default FeaturesContent
