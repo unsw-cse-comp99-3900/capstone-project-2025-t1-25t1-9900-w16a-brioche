@@ -5,7 +5,7 @@ const LandingPage: React.FC = () => {
   return (
     <div>
       <HeroContainer />
-      {/* Add other sections here */}
+      {/* Other sections of the Landing Page */}
     </div>
   )
 }

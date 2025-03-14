@@ -7,13 +7,19 @@ const AuthButtonGroup = () => {
   return (
     <div>
       <SignedIn>
-        <UserButton />
+        <UserButton
+          appearance={{
+            elements: {
+              avatarBox: "h-10 w-10",
+            },
+          }}
+        />
       </SignedIn>
       <SignedOut>
-        <Button className="mr-2">
+        <button className="mr-4 sm:inline-block text-secondary-700 hover:text-primary-600 font-medium text-base">
           <SignInButton />
-        </Button>
-        <Button>
+        </button>
+        <Button className="text-base">
           <SignUpButton />
         </Button>
       </SignedOut>
