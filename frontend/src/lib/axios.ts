@@ -1,81 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/**
- * Axios API client configuration file
- *
- * This file configures a custom Axios instance for making HTTP requests to the backend server.
- * It sets a base URL, default headers, and includes interceptors for request and response handling.
- *
- * Features:
- * - Automatically attaches authorization tokens from local storage.
- * - Handles response data extraction and error management.
- */
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios"
-import { BACKEND_PORT, PRODUCT_BACKEND_URL } from "@/constants"
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { BACKEND_PORT, PRODUCT_BACKEND_URL } from "@/constants";
 
-// Environment configuration
+// 环境配置
 const ENV =
-  (import.meta.env.MODE as "development" | "test" | "production") ||
-  "development"
+  (import.meta.env.MODE as "development" | "test" | "production") || "development";
 
-// API URLs for different environments
 const API_URLS = {
   development: `http://localhost:${BACKEND_PORT}`,
   test: `http://localhost:${BACKEND_PORT}`,
   production: PRODUCT_BACKEND_URL,
-}
+};
 
 const api = axios.create({
   baseURL: API_URLS[ENV],
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 30000, // 30 seconds
-})
+  timeout: 30000, // 30秒超时
+});
 
-// Define API error type
-export interface ApiError {
-  message: string
-  status?: number
-  data?: any
-}
-
-// Response interceptor: extract data and handle errors
-api.interceptors.response.use(
-  (response) => response.data,
-  (error: AxiosError) => {
-    const errorResponse = error.response
-
-    const apiError: ApiError = {
-      message:
-        (errorResponse?.data as any)?.message ||
-        (errorResponse?.data as any)?.error ||
-        error.message ||
-        "API request failed",
-      status: errorResponse?.status,
-      data: errorResponse?.data,
-    }
-
-    console.error(`API Error (${apiError.status}):`, apiError.message)
-
-    return Promise.reject(apiError)
-  }
-)
-
-/**
- * Modifies request configuration to include an Authorization header if a token exists.
- *
- * @param {object} config - Axios request configuration.
- * @returns {object} - Updated Axios request configuration.
- */
+// **Mock API 拦截器**
 api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    const token = localStorage.getItem("token")
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
+  (config: InternalAxiosRequestConfig<any>) => {
+    console.log("[Mock API] Intercepted request:", config.url);
+    
+    // 直接返回 `config`，而不是 `mockResponse`
+    return config;
+  },
+  (error: AxiosError) => {
+    console.error("[Mock API] Simulated Error:", error);
+    return Promise.reject(error);
   }
-)
+);
 
-export default api
+// **拦截响应，直接返回 mock 数据**
+api.interceptors.response.use(
+  (response: AxiosResponse) => {
+    console.log("[Mock API] Returning mock data:", response);
+    return response;
+  },
+  (error: AxiosError) => {
+    console.error("[Mock API] Simulated Error:", error);
+    return Promise.reject({
+      message: "Mock API Error - Backend Not Available",
+      status: 500,
+    });
+  }
+);
+
+export default api;
