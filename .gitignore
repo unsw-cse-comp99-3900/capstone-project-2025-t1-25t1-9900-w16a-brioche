@@ -35,7 +35,7 @@ frontend/.env.test
 
 # Backend
 /.vs
-/backend/InvoiceBackend/.vs/InvoiceBackend
+/backend/InvoiceBackend/.vs
 /backend/InvoiceBackend/obj
 /backend/InvoiceBackend/bin/Debug/net8.0
 
