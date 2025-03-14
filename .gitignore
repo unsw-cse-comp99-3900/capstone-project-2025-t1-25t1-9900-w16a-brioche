@@ -24,6 +24,15 @@ frontend/*.njsproj
 frontend/*.sln
 frontend/*.sw?
 
+# Env
+frontend/.env*
+frontend/.env.*
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+frontend/.env.test
+
+
 # Backend
 /.vs
 /backend/InvoiceBackend/.vs/InvoiceBackend
