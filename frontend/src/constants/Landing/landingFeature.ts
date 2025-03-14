@@ -2,7 +2,8 @@ export const landingFeature = {
   content: {
     tagText: "Key Features",
     headingText: "Streamlined E-Invoicing for SMEs",
-    subheadingText: "Our platform simplifies the e-invoicing process with automated workflows and Australian standards compliance.",
+    subheadingText:
+      "Our platform simplifies the e-invoicing process with automated workflows and Australian standards compliance.",
   },
   showcase: [
     {
@@ -11,7 +12,7 @@ export const landingFeature = {
       features: [
         "Manual entry through intuitive forms",
         "CSV/Excel CSV/Excel file upload with direct processing",
-        "Real-time validation during data entry"
+        "Real-time validation during data entry",
       ],
     },
     {
@@ -20,19 +21,20 @@ export const landingFeature = {
       features: [
         "UBL XML conversion and validation",
         "Checks against PEPPOL and Australian rules",
-        "Clear validation reports with error details"
+        "Clear validation reports with error details",
       ],
     },
     {
       title: "Streamlined Sending ",
-      description: "Send validated invoices directly to recipients through multiple channels:",
+      description:
+        "Send validated invoices directly to recipients through multiple channels:",
       features: [
         "Email delivery with PDF and UBL XML attachments",
         "PEPPOL network transmission for e-invoicing enabled recipients",
-        "Delivery confirmation and status tracking"
+        "Delivery confirmation and status tracking",
       ],
     },
   ],
 }
 
-export default landingFeature;
+export default landingFeature

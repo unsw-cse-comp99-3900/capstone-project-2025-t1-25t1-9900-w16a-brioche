@@ -1,6 +1,6 @@
-import React from "react";
-import FeatureCard from "@/components/landing/KeyFeatureCard";
-import { landingFeature } from "@/constants/Landing/landingFeature";
+import React from "react"
+import FeatureCard from "@/components/landing/KeyFeatureCard"
+import { landingFeature } from "@/constants/Landing/landingFeature"
 
 const FeaturesShowcase: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const FeaturesShowcase: React.FC = () => {
         <FeatureCard key={index} {...feature} index={index} />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default FeaturesShowcase;
+export default FeaturesShowcase

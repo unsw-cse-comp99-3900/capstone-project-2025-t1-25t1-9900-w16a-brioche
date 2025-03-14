@@ -1,7 +1,7 @@
 import React from "react"
-import FeaturesBackground from "@/components/landing/FeaturesBackground";
-import FeaturesContent from "@/components/landing/FeaturesContent";
-import FeaturesShowcase from "@/components/landing/KeyFeaturesShowcase";
+import FeaturesBackground from "@/components/landing/FeaturesBackground"
+import FeaturesContent from "@/components/landing/FeaturesContent"
+import FeaturesShowcase from "@/components/landing/KeyFeaturesShowcase"
 
 const FeatureSectionContainer: React.FC = () => {
   return (
