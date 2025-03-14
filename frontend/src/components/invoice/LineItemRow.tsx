@@ -1,9 +1,10 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
+import { InvoiceFormData } from "./invoiceSchema";
 
 interface LineItemRowProps {
   index: number;
-  control: any;
+  control: Control<InvoiceFormData>;
   remove: (index: number) => void;
 }
 

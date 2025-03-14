@@ -1,11 +1,12 @@
 import React from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
+import { InvoiceFormData } from "./invoiceSchema";
 import SelectCustomer from "./SelectCustomer";
 import SelectPaymentTerms from "./SelectPaymentTerms";
 
 interface InvoiceFormHeaderProps {
-  control: Control<any>;
-  errors: any;
+  control: Control<InvoiceFormData>;
+  errors: FieldErrors<InvoiceFormData>;
 }
 
 const InvoiceFormHeader: React.FC<InvoiceFormHeaderProps> = ({ control, errors }) => {

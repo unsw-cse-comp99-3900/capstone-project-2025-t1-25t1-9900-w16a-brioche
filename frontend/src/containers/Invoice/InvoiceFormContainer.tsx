@@ -2,7 +2,7 @@ import React from "react";
 import CreateInvoiceForm from "@/components/invoice/CreateInvoiceForm";
 
 const InvoiceFormContainer: React.FC = () => {
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Record<string, unknown>) => {
     console.log("✅ 模拟提交成功:", data);
     localStorage.setItem("mockInvoice", JSON.stringify(data)); 
     alert("Invoice saved successfully (mock)!");

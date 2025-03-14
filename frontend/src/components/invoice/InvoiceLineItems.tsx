@@ -1,13 +1,14 @@
 import React from "react";
-import { Controller, useFieldArray, Control } from "react-hook-form";
+import { useFieldArray, Control, FieldErrors } from "react-hook-form";
 import LineItemRow from "./LineItemRow";
+import { InvoiceFormData } from "./invoiceSchema";
 
 interface InvoiceLineItemsProps {
-  control: Control<any>;
-  errors: any;
+  control: Control<InvoiceFormData>;
+  errors: FieldErrors<InvoiceFormData>;
 }
 
-const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control, errors }) => {
+const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({ control}) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "lineItems",
