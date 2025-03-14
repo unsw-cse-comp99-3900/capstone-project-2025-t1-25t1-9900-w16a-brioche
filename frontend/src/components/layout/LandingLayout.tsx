@@ -2,6 +2,7 @@ import React from "react"
 import { Link, Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "../common/Footer"
+import AuthButtonGroup from "../auth/AuthButtonGroup"
 
 const Layout: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const Layout: React.FC = () => {
               Dashboard
             </Link>
           </nav>
+          <AuthButtonGroup />
         </div>
       </header>
 

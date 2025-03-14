@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom"
 import LandingLayout from "@/components/layout/LandingLayout"
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import AuthLayout from "@/components/layout/Layout"
+// import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
 // Import pages using absolute paths
 import LandingPage from "@/pages/LandingPage"
@@ -15,6 +16,7 @@ import InvoiceFormPage from "@/pages/InvoiceFormPage"
 import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
+import InvoiceTestPage from "@/pages/ApiTestPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -53,6 +55,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <DashboardLayout />,
+
+    // for clerk protect route
+    // element: (
+    //   <ProtectedRoute>
+    //     <DashboardLayout />
+    //   </ProtectedRoute>
+    // ),
     children: [
       {
         path: "/dashboard",
@@ -73,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/invoice/:id",
         element: <InvoiceDetailPage />,
+      },
+      {
+        path: "/api-test",
+        element: <InvoiceTestPage />,
       },
     ],
   },
