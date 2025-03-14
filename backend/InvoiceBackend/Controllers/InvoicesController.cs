@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using InvoiceBackend.Services.ReckonApiService;
 
 namespace InvoiceBackend.Controllers
 {
@@ -37,18 +39,34 @@ namespace InvoiceBackend.Controllers
             }
         };
 
-        [HttpGet]
+        private readonly IReckonApiService _apiService;
+
+        public InvoicesController(IReckonApiService apiService)
+        {
+            _apiService = apiService;
+        }
+
+        [HttpGet("test")]
         public IActionResult GetInvoices()
         {
             var response = new { list = invoices };
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("test")]
         public IActionResult AddInvoice([FromBody] object invoice)
         {
             invoices.Add(invoice);
             return Ok(new { message = "Invoice added successfully!" });
+        }
+
+        [HttpGet("{bookId}")]
+        public async Task<IActionResult> GetInvoices(string bookId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Get);
+            string responseText = await response.Content.ReadAsStringAsync();
+
+            return StatusCode((int)response.StatusCode, responseText);
         }
     }
 }
