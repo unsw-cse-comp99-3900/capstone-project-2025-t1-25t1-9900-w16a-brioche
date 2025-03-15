@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvoiceBackend.Controllers
 {
     [ApiController]
-    [Route("api/customers")]
+    [Route("api/{bookId}")]
     [EnableCors("AllowAll")]
     public class CustomersController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace InvoiceBackend.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet("{bookId}")]
+        [HttpGet("customers")]
         public async Task<IActionResult> GetCustomers(string bookId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "customers", HttpMethod.Get);

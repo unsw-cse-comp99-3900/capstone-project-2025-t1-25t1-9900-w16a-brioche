@@ -17,7 +17,7 @@ import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
 import InvoiceTestPage from "@/pages/ApiTestPage"
-
+import CustomersPage from "@/pages/CustomersPage"
 // Define routes
 const router = createBrowserRouter([
   // Public routes with main layout
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "/invoice/:id",
         element: <InvoiceDetailPage />,
+      },
+      {
+        path: "/customers",
+        element: <CustomersPage />,
       },
       {
         path: "/api-test",
