@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvoiceBackend.Controllers
 {
     [ApiController]
-    [Route("api/{bookId}")]
+    [Route("api/customers")]
     [EnableCors("AllowAll")]
     public class CustomersController : ControllerBase
     {
