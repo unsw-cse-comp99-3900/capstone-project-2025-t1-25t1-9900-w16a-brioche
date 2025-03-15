@@ -89,10 +89,7 @@ const DashboardHeader = () => {
                     <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
                         <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary-500/20 to-primary-600 p-6 no-underline outline-none focus:shadow-md"
-                            href="/management"
-                          >
+                          <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary-500/20 to-primary-600 p-6 no-underline outline-none focus:shadow-md">
                             <BarChart3 className="h-6 w-6 text-white" />
                             <div className="mb-2 mt-4 text-lg font-medium text-white">
                               Business Management
@@ -101,25 +98,25 @@ const DashboardHeader = () => {
                               Generate professional invoices quickly and easily
                               for your clients
                             </p>
-                          </a>
+                          </div>
                         </NavigationMenuLink>
                       </li>
                       <ListItem
-                        href="/management/products"
+                        href="/products"
                         title="Products & Services"
                         icon={<Package className="h-5 w-5 text-primary-600" />}
                       >
                         Add items that you can quickly include in your invoices
                       </ListItem>
                       <ListItem
-                        href="/management/customers"
+                        href="/customers"
                         title="Customers"
                         icon={<Users className="h-5 w-5 text-primary-600" />}
                       >
                         Manage client information for faster invoice creation
                       </ListItem>
                       <ListItem
-                        href="/management/invoices"
+                        href="/invoices"
                         title="Invoice History"
                         icon={<Receipt className="h-5 w-5 text-primary-600" />}
                       >
