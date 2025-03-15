@@ -25,7 +25,6 @@ export const useCustomers = (page = 1, perPage = 0) => {
         },
       })
 
-
       console.log("Raw Reckon API response:", response)
 
       // Parse and validate the response
