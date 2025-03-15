@@ -12,9 +12,13 @@ const CustomerContentHeader: React.FC<CustomerContentHeaderProps> = ({
     <>
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-secondary-900">Customers</h1>
-        <p className="mt-2 text-secondary-600">
-          Manage your customer information and view their details.
+        <h1 className="text-3xl font-extrabold tracking-tight text-neutral-800 dark:text-white mb-2">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">
+            Customer Management
+          </span>
+        </h1>
+        <p className="text-lg text-neutral-600 dark:text-neutral-300">
+          Manage your customer relationships efficiently
         </p>
       </div>
 
