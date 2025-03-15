@@ -1,6 +1,6 @@
 import { useAuth, RedirectToSignIn } from "@clerk/clerk-react"
 import { useLocation } from "react-router-dom"
-
+import LoadingPage from "@/pages/LoadingPage"
 interface ProtectedRouteProps {
   children: React.ReactNode
 }
@@ -10,7 +10,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation()
 
   if (!isLoaded) {
-    return <div>Loading...</div>
+    return <LoadingPage />
   }
 
   if (!isSignedIn) {
