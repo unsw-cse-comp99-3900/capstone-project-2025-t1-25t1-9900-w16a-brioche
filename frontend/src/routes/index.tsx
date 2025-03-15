@@ -18,6 +18,7 @@ import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
 import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
+import LoadingPage from "@/pages/LoadingPage"
 // Define routes
 const router = createBrowserRouter([
   // Public routes with main layout
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFoundPage />,
+  },
+  {
+    path: "/loading",
+    element: <LoadingPage />,
   },
 ])
 
