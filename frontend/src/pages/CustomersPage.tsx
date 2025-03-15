@@ -7,11 +7,6 @@ import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 
 const CustomersPage: React.FC = () => {
   // Handlers for customer actions
-  const handleAddCustomer = () => {
-    console.log("Add customer clicked")
-    // Implement add customer functionality here
-  }
-
   const handleEditCustomer = (id: string) => {
     console.log("Edit customer:", id)
     // Implement edit customer functionality here
@@ -27,7 +22,7 @@ const CustomersPage: React.FC = () => {
       <GridPatternOverlay />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 ">
-        <CustomerContentHeader onAddCustomer={handleAddCustomer} />
+        <CustomerContentHeader />
 
         <CustomerTableContainer
           onEditCustomer={handleEditCustomer}
