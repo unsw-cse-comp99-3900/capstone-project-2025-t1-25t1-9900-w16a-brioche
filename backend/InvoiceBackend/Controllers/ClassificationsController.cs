@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvoiceBackend.Controllers
 {
     [ApiController]
-    [Route("api/classifications")]
+    [Route("api/{bookId}/classifications")]
     [EnableCors("AllowAll")]
     public class ClassificationsController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace InvoiceBackend.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet("{bookId}")]
+        [HttpGet]
         public async Task<IActionResult> GetClassifications(string bookId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "classifications", HttpMethod.Get);
@@ -25,7 +25,7 @@ namespace InvoiceBackend.Controllers
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpGet("{bookId}/{classificationId}")]
+        [HttpGet("{classificationId}")]
         public async Task<IActionResult> GetClassificationById(string bookId, string classificationId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Get);
@@ -33,7 +33,7 @@ namespace InvoiceBackend.Controllers
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpPost("{bookId}")]
+        [HttpPost]
         public async Task<IActionResult> CreateClassification(string bookId, [FromBody] object classificationRequestBody)
         {
             string requestBody = System.Text.Json.JsonSerializer.Serialize(classificationRequestBody);
@@ -43,7 +43,7 @@ namespace InvoiceBackend.Controllers
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpDelete("{bookId}/{classificationId}")]
+        [HttpDelete("{classificationId}")]
         public async Task<IActionResult> DeleteClassification(string bookId, string classificationId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Delete);
@@ -51,7 +51,7 @@ namespace InvoiceBackend.Controllers
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpPut("{bookId}/{classificationId}")]
+        [HttpPut("{classificationId}")]
         public async Task<IActionResult> UpdateClassification(string bookId, string classificationId, [FromBody] object classificationRequestBody)
         {
             string requestBody = System.Text.Json.JsonSerializer.Serialize(classificationRequestBody);
