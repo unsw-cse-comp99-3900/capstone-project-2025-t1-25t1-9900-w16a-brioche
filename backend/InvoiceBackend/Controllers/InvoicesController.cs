@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
 using InvoiceBackend.Services.ReckonApiService;
 using InvoiceBackend.Helpers;
 
 namespace InvoiceBackend.Controllers
 {
     [ApiController]
-    [Route("api/invoices")]
+    [Route("api/{bookId}/invoices")]
     [EnableCors("AllowAll")]
     public class InvoicesController : ControllerBase
     {
@@ -19,65 +17,68 @@ namespace InvoiceBackend.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet("{bookId}")]
+        [HttpGet]
         public async Task<IActionResult> GetInvoices(string bookId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Get);
-
-            return await ApiResponseHelper.HandleApiResponse(response); ;
+            return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpGet("{bookId}/{invoiceId}")]
+        [HttpGet("{invoiceId}")]
         public async Task<IActionResult> GetInvoiceById(string bookId, string invoiceId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Get);
-
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-
-        [HttpGet("{bookId}/{invoiceId}/history")]
+        [HttpGet("{invoiceId}/history")]
         public async Task<IActionResult> GetInvoiceHistory(string bookId, string invoiceId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}/history", HttpMethod.Get);
-
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpPost("{bookId}/{invoiceId}/email")]
+        [HttpPost("{invoiceId}/email")]
         public async Task<IActionResult> SendInvoiceEmail(string bookId, string invoiceId, [FromBody] object emailRequestBody)
         {
             string requestBody = System.Text.Json.JsonSerializer.Serialize(emailRequestBody);
-
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}/email", HttpMethod.Post, requestBody);
-
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpPost("{bookId}")]
+        [HttpPost]
         public async Task<IActionResult> CreateInvoice(string bookId, [FromBody] object invoiceRequestBody)
         {
             string requestBody = System.Text.Json.JsonSerializer.Serialize(invoiceRequestBody);
-
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Post, requestBody);
-
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpPut("{bookId}/{invoiceId}")]
+        [HttpPut("{invoiceId}")]
         public async Task<IActionResult> UpdateInvoice(string bookId, string invoiceId, [FromBody] object invoiceRequestBody)
         {
             string requestBody = System.Text.Json.JsonSerializer.Serialize(invoiceRequestBody);
-
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Put, requestBody);
-
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
-        [HttpDelete("{bookId}/{invoiceId}")]
+        [HttpDelete("{invoiceId}")]
         public async Task<IActionResult> DeleteInvoice(string bookId, string invoiceId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Delete);
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpGet("{invoiceId}/pdf")]
+        public async Task<IActionResult> GetInvoicePdf(string bookId, string invoiceId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}?format=pdf", HttpMethod.Get);
+
+            if (response.IsSuccessStatusCode)
+            {
+                byte[] pdfBytes = await response.Content.ReadAsByteArrayAsync();
+                return File(pdfBytes, "application/pdf", $"invoice_{invoiceId}.pdf");
+            }
 
             return await ApiResponseHelper.HandleApiResponse(response);
         }
