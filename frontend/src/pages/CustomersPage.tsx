@@ -28,6 +28,7 @@ const CustomersPage: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 ">
         <CustomerContentHeader onAddCustomer={handleAddCustomer} />
+
         <CustomerTableContainer
           onEditCustomer={handleEditCustomer}
           onDeleteCustomer={handleDeleteCustomer}
