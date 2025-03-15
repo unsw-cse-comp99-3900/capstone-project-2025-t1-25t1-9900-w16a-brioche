@@ -48,7 +48,12 @@ const Footer = () => {
         {/* InvoiceFlow Info */}
         <div className="flex flex-col md:items-start items-center">
           <div className="flex items-center gap-3">
-            <Logo />
+            <div className="flex items-center">
+              <Logo />
+              <h2 className="ml-3 text-xl font-bold text-blue-400">
+                InvoiceFlow
+              </h2>
+            </div>
             <a
               href="https://github.com/unsw-cse-comp99-3900/capstone-project-2025-t1-25t1-9900-w16a-brioche"
               target="_blank"
