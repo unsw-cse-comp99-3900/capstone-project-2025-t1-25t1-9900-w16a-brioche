@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using InvoiceBackend.Services.ReckonApiService;
+using InvoiceBackend.Helpers;
 
 namespace InvoiceBackend.Controllers
 {
@@ -64,9 +65,8 @@ namespace InvoiceBackend.Controllers
         public async Task<IActionResult> GetInvoices(string bookId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Get);
-            string responseText = await response.Content.ReadAsStringAsync();
 
-            return StatusCode((int)response.StatusCode, responseText);
+            return await ApiResponseHelper.HandleApiResponse(response); ;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InvoiceBackend.Services.ReckonApiService;
+﻿using InvoiceBackend.Helpers;
+using InvoiceBackend.Services.ReckonApiService;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +21,8 @@ namespace InvoiceBackend.Controllers
         public async Task<IActionResult> GetCustomers(string bookId)
         {
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "customers", HttpMethod.Get);
-            string responseText = await response.Content.ReadAsStringAsync();
-
-            return StatusCode((int)response.StatusCode, responseText);
+            
+            return await ApiResponseHelper.HandleApiResponse(response); ;
         }
     }
 }
