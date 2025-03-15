@@ -81,5 +81,20 @@ namespace InvoiceBackend.Controllers
 
             return await ApiResponseHelper.HandleApiResponse(response);
         }
+
+        [HttpGet("{bookId}/{invoiceId}/pdf")]
+        public async Task<IActionResult> GetInvoicePdf(string bookId, string invoiceId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}?format=pdf", HttpMethod.Get);
+
+            if (response.IsSuccessStatusCode)
+            {
+                byte[] pdfBytes = await response.Content.ReadAsByteArrayAsync();
+                return File(pdfBytes, "application/pdf", $"invoice_{invoiceId}.pdf");
+            }
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
     }
 }
