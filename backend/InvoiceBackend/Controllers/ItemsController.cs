@@ -24,5 +24,41 @@ namespace InvoiceBackend.Controllers
 
             return await ApiResponseHelper.HandleApiResponse(response); ;
         }
+
+        [HttpGet("{bookId}/{itemId}")]
+        public async Task<IActionResult> GetItemById(string bookId, string itemId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"items/{itemId}", HttpMethod.Get);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpPost("{bookId}")]
+        public async Task<IActionResult> CreateItem(string bookId, [FromBody] object itemRequestBody)
+        {
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(itemRequestBody);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "items", HttpMethod.Post, requestBody);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpDelete("{bookId}/{itemId}")]
+        public async Task<IActionResult> DeleteItem(string bookId, string itemId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"items/{itemId}", HttpMethod.Delete);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpPut("{bookId}/{itemId}")]
+        public async Task<IActionResult> UpdateItem(string bookId, string itemId, [FromBody] object itemRequestBody)
+        {
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(itemRequestBody);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"items/{itemId}", HttpMethod.Put, requestBody);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
     }
 }

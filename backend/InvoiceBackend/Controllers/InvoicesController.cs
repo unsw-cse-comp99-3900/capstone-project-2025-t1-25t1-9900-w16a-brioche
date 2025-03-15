@@ -12,53 +12,11 @@ namespace InvoiceBackend.Controllers
     [EnableCors("AllowAll")]
     public class InvoicesController : ControllerBase
     {
-        private static readonly List<object> invoices = new List<object>
-        {
-            new {
-                id = "inv_001",
-                invoiceNumber = "INV-2024-001",
-                amount = 1250.50,
-                date = "2024-03-15T00:00:00Z",
-                dueDate = "2024-04-15T00:00:00Z",
-                status = "PENDING"
-            },
-            new {
-                id = "inv_002",
-                invoiceNumber = "INV-2024-002",
-                amount = 2800.75,
-                date = "2024-03-16T00:00:00Z",
-                dueDate = "2024-04-16T00:00:00Z",
-                status = "PAID"
-            },
-            new {
-                id = "inv_003",
-                invoiceNumber = "INV-2024-003",
-                amount = 950.25,
-                date = "2024-03-17T00:00:00Z",
-                dueDate = "2024-04-17T00:00:00Z",
-                status = "OVERDUE"
-            }
-        };
-
         private readonly IReckonApiService _apiService;
 
         public InvoicesController(IReckonApiService apiService)
         {
             _apiService = apiService;
-        }
-
-        [HttpGet("test")]
-        public IActionResult GetInvoices()
-        {
-            var response = new { list = invoices };
-            return Ok(response);
-        }
-
-        [HttpPost("test")]
-        public IActionResult AddInvoice([FromBody] object invoice)
-        {
-            invoices.Add(invoice);
-            return Ok(new { message = "Invoice added successfully!" });
         }
 
         [HttpGet("{bookId}")]
@@ -67,6 +25,61 @@ namespace InvoiceBackend.Controllers
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Get);
 
             return await ApiResponseHelper.HandleApiResponse(response); ;
+        }
+
+        [HttpGet("{bookId}/{invoiceId}")]
+        public async Task<IActionResult> GetInvoiceById(string bookId, string invoiceId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Get);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+
+        [HttpGet("{bookId}/{invoiceId}/history")]
+        public async Task<IActionResult> GetInvoiceHistory(string bookId, string invoiceId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}/history", HttpMethod.Get);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpPost("{bookId}/{invoiceId}/email")]
+        public async Task<IActionResult> SendInvoiceEmail(string bookId, string invoiceId, [FromBody] object emailRequestBody)
+        {
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(emailRequestBody);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}/email", HttpMethod.Post, requestBody);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpPost("{bookId}")]
+        public async Task<IActionResult> CreateInvoice(string bookId, [FromBody] object invoiceRequestBody)
+        {
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(invoiceRequestBody);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "invoices", HttpMethod.Post, requestBody);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpPut("{bookId}/{invoiceId}")]
+        public async Task<IActionResult> UpdateInvoice(string bookId, string invoiceId, [FromBody] object invoiceRequestBody)
+        {
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(invoiceRequestBody);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Put, requestBody);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
+
+        [HttpDelete("{bookId}/{invoiceId}")]
+        public async Task<IActionResult> DeleteInvoice(string bookId, string invoiceId)
+        {
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Delete);
+
+            return await ApiResponseHelper.HandleApiResponse(response);
         }
     }
 }
