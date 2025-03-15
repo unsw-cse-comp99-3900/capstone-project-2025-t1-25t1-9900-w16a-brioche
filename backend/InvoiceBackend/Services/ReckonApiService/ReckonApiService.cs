@@ -35,5 +35,21 @@ namespace InvoiceBackend.Services.ReckonApiService
 
             return await _httpClient.SendAsync(request);
         }
+
+        public async Task<HttpResponseMessage> GetBooksAsync()
+        {
+            string apiBaseUrl = _configuration["ReckonAPI:BaseUrl"];
+            string apiSegment = _configuration["ReckonAPI:ApiSegment"];
+            string accessToken = _configuration["ReckonAPI:AccessToken"];//应该从前端拿
+            string subscriptionKey = _configuration["ReckonAPI:SubscriptionKey"];
+
+            string requestUrl = $"{apiBaseUrl}{apiSegment}books"; // books endpoint
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+
+            return await _httpClient.SendAsync(request);
+        }
     }
 }
