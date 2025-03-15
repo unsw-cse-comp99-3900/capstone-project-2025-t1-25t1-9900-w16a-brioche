@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import Logo from "./Logo"
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,13 +16,24 @@ import {
   Users,
   Receipt,
   BarChart3,
+  Menu,
+  ChevronRight,
+  ChevronDown,
 } from "lucide-react"
 import { UserButton } from "@clerk/clerk-react"
 import { cn } from "@/lib/utils"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import LogoTextGroup from "./LogoTextGroup"
 
 const DashboardHeader = () => {
   const location = useLocation()
   const currentPath = location.pathname
+  const [isManagementOpen, setIsManagementOpen] = useState(false)
 
   const isActive = (path: string) => {
     if (path === "/dashboard" && currentPath === "/dashboard") {
@@ -41,18 +52,9 @@ const DashboardHeader = () => {
     <header className="bg-white/90 backdrop-blur-sm z-50 border-b border-secondary-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Logo />
+          <LogoTextGroup />
 
-            {/* Logo text */}
-            <div className="ml-3">
-              <span className="text-2xl font-bold text-gray-900">
-                Invoice<span className="text-primary-600">Flow</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex lg:space-x-8 space-x-1">
             <NavigationMenu>
               <NavigationMenuList className="flex space-x-1 lg:space-x-6">
@@ -88,7 +90,7 @@ const DashboardHeader = () => {
                       <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary-500/20 to-primary-600/60 p-6 no-underline outline-none focus:shadow-md"
+                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary-500/20 to-primary-600 p-6 no-underline outline-none focus:shadow-md"
                             href="/management"
                           >
                             <BarChart3 className="h-6 w-6 text-white" />
@@ -146,14 +148,180 @@ const DashboardHeader = () => {
             </NavigationMenu>
           </nav>
 
-          {/* User Button */}
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "h-10 w-10",
-              },
-            }}
-          />
+          {/* Mobile Menu Button and User Button */}
+          <div className="flex items-center">
+            {/* Mobile Menu */}
+            <div className="md:hidden mr-4">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center p-2 rounded-md text-secondary-600 hover:text-primary-600 hover:bg-secondary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+                  >
+                    <span className="sr-only">Open main menu</span>
+                    <Menu className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent
+                  side="left"
+                  className="w-[280px] sm:w-[350px] p-0"
+                >
+                  <div className="flex flex-col h-full">
+                    {/* Mobile Menu Header */}
+                    <div className="px-4 py-6 border-b border-secondary-200">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          to="/"
+                          className="flex items-center hover:opacity-90 transition-opacity"
+                        >
+                          <Logo />
+                          <div className="ml-3">
+                            <span className="text-xl font-bold text-gray-900">
+                              Invoice
+                              <span className="text-primary-600">Flow</span>
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Mobile Menu Items */}
+                    <div className="flex-1 overflow-y-auto py-4">
+                      <nav className="flex flex-col px-4 space-y-1">
+                        {/* Dashboard Link */}
+                        <a
+                          href="/dashboard"
+                          className={cn(
+                            "flex items-center px-3 py-3 text-base font-medium rounded-md transition-colors",
+                            isActive("/dashboard")
+                              ? "text-primary-600 bg-primary-50"
+                              : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                          )}
+                        >
+                          <LayoutDashboard className="mr-3 h-5 w-5 flex-shrink-0" />
+                          Dashboard
+                        </a>
+
+                        {/* Management Section */}
+                        <Collapsible
+                          open={isManagementOpen}
+                          onOpenChange={setIsManagementOpen}
+                          className="w-full"
+                        >
+                          <CollapsibleTrigger className="w-full">
+                            <div
+                              className={cn(
+                                "flex items-center justify-between px-3 py-3 text-base font-medium rounded-md transition-colors w-full",
+                                currentPath.includes("/management") ||
+                                  currentPath.includes("/invoice")
+                                  ? "text-primary-600 bg-primary-50"
+                                  : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                              )}
+                            >
+                              <div className="flex items-center">
+                                <BarChart3 className="mr-3 h-5 w-5 flex-shrink-0" />
+                                Management
+                              </div>
+                              {isManagementOpen ? (
+                                <ChevronDown className="h-5 w-5" />
+                              ) : (
+                                <ChevronRight className="h-5 w-5" />
+                              )}
+                            </div>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="pl-11 pr-3 space-y-1 mt-1">
+                            {/* Products & Services */}
+                            <a
+                              href="/management/products"
+                              className={cn(
+                                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                currentPath.includes("/management/products")
+                                  ? "text-primary-600 bg-primary-50"
+                                  : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                              )}
+                            >
+                              Products & Services
+                            </a>
+
+                            {/* Customers */}
+                            <a
+                              href="/management/customers"
+                              className={cn(
+                                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                currentPath.includes("/management/customers")
+                                  ? "text-primary-600 bg-primary-50"
+                                  : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                              )}
+                            >
+                              Customers
+                            </a>
+
+                            {/* Invoice History */}
+                            <a
+                              href="/management/invoices"
+                              className={cn(
+                                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                                currentPath.includes("/management/invoices")
+                                  ? "text-primary-600 bg-primary-50"
+                                  : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                              )}
+                            >
+                              Invoices
+                            </a>
+                          </CollapsibleContent>
+                        </Collapsible>
+
+                        {/* Documentation Link */}
+                        <a
+                          href="/documentation"
+                          className={cn(
+                            "flex items-center px-3 py-3 text-base font-medium rounded-md transition-colors",
+                            isActive("/documentation")
+                              ? "text-primary-600 bg-primary-50"
+                              : "text-secondary-600 hover:text-primary-600 hover:bg-secondary-50"
+                          )}
+                        >
+                          <FileText className="mr-3 h-5 w-5 flex-shrink-0" />
+                          Documentation
+                        </a>
+                      </nav>
+                    </div>
+
+                    {/* Mobile Menu Footer */}
+                    <div className="border-t border-secondary-200 p-4">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                          <UserButton
+                            appearance={{
+                              elements: {
+                                avatarBox: "h-10 w-10",
+                              },
+                            }}
+                          />
+                        </div>
+                        <div className="ml-3">
+                          <p className="text-sm font-medium text-secondary-700">
+                            Account Settings
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+
+            {/* User Button */}
+            <div className="hidden md:block">
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-10 w-10",
+                  },
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </header>
