@@ -1,11 +1,13 @@
 import React from "react"
 import HeroContainer from "@/containers/Landing/HeroContainer"
+import FeatureSectionContainer from "@/containers/Landing/FeatureSectionContainer"
 
 const LandingPage: React.FC = () => {
   return (
     <div>
       <HeroContainer />
-      {/* Other sections of the Landing Page */}
+      <FeatureSectionContainer />
+      {/* Add other sections here */}
     </div>
   )
 }
