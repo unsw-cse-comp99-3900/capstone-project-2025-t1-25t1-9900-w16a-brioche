@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { reckonApi } from "@/lib/axios"
+import api from "@/lib/axios"
 import { customerResponseSchema, type Customer } from "@/types/customer"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
@@ -18,15 +18,13 @@ export const useCustomers = (page = 1, perPage = 0) => {
       console.log("Fetching customers from Reckon API...")
 
       // Include the bookId in the endpoint path
-      const response = await reckonApi.get(
-        `/${Demo_RECKON_BOOK_ID}/customers`,
-        {
-          params: {
-            page,
-            perPage,
-          },
-        }
-      )
+      const response = await api.get(`/${Demo_RECKON_BOOK_ID}/customers`, {
+        params: {
+          page,
+          perPage,
+        },
+      })
+
 
       console.log("Raw Reckon API response:", response)
 

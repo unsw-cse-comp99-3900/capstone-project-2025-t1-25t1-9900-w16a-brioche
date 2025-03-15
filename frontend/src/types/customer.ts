@@ -6,7 +6,7 @@ import { z } from "zod"
 export const customerSchema = z.object({
   id: z.string(),
   name: z.string(),
-  organisationName: z.string().optional(),
+  organisationName: z.string().optional().nullable(),
   branch: z.string().nullable(),
   notes: z.string().nullable(),
   businessNumber1: z.string().nullable(),
