@@ -1,0 +1,57 @@
+name: Frontend Lint Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: ESLint & Prettier Check
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine changed files
+        id: paths
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            frontend:
+              - "frontend/**"
+
+      - name: No frontend changes, skipping lint and format checks
+        if: steps.paths.outputs.frontend != 'true'
+        run: echo "No frontend changes detected, skipping lint and prettier checks."
+
+      - name: Setup Node.js
+        if: steps.paths.outputs.frontend == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup pnpm
+        if: steps.paths.outputs.frontend == 'true'
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Install dependencies
+        if: steps.paths.outputs.frontend == 'true'
+        run: pnpm install
+
+      - name: Run ESLint
+        if: steps.paths.outputs.frontend == 'true'
+        run: pnpm lint
+
+      - name: Check Prettier formatting
+        if: steps.paths.outputs.frontend == 'true'
+        run: pnpm format:check

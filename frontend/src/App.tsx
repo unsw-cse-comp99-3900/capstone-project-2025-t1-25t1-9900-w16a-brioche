@@ -1,34 +1,38 @@
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
+import { RouterProvider } from "react-router-dom"
+import { Toaster } from "@/components/ui/sonner"
+import router from "@/routes"
+import AOS from "aos"
+import "aos/dist/aos.css"
+import { useEffect } from "react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
+        retry: 3,
+      },
+    },
+  })
+
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+    })
+  }, [])
+
   return (
-    <>
-      <div className="flex flex-col justify-center items-center h-screen gap-5">
-        <h1 className="text-3xl font-bold underline text-blue-400">
-          InvoiceFlow
-        </h1>
-        <Button>Shadcn Button</Button>
-        <Button
-          variant="outline"
-          onClick={() =>
-            toast("Event has been created", {
-              description: "Sunday, December 03, 2023 at 9:00 AM",
-              action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
-              },
-            })
-          }
-        >
-          Show Toast
-        </Button>
-      </div>
-      <div>No direct push to main</div>
-      <Toaster />
-    </>
-  );
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <Toaster closeButton expand={false} richColors />
+    </QueryClientProvider>
+  )
 }
 
-export default App;
+export default App
