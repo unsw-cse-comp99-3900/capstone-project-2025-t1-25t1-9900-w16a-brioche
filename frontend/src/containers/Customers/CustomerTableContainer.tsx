@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {
   DropdownMenu,
@@ -9,35 +9,37 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { DataTable, type ColumnConfig } from "@/components/ui/data-table"
+import DeleteCustomerDialog from "./DeleteCustomerDialog"
 
 import useCustomers from "@/hooks/useCustomers"
 import { type Customer } from "@/types/customer"
 
-interface CustomerTableContainerProps {
-  onEditCustomer?: (id: string) => void
-  onDeleteCustomer?: (id: string) => void
-}
+const CustomerTableContainer: React.FC = () => {
+  // State for delete dialog
+  const [deleteDialogState, setDeleteDialogState] = useState<{
+    isOpen: boolean
+    customerId: string
+    customerName: string
+  }>({
+    isOpen: false,
+    customerId: "",
+    customerName: "",
+  })
 
-const CustomerTableContainer: React.FC<CustomerTableContainerProps> = ({
-  onEditCustomer,
-  onDeleteCustomer,
-}) => {
   // Fetch all customers
   const { data: customers = [], isLoading, error } = useCustomers()
 
   // Dummy action handlers
   const handleEdit = (id: string) => {
     console.log("Edit customer:", id)
-    if (onEditCustomer) {
-      onEditCustomer(id)
-    }
   }
 
-  const handleDelete = (id: string) => {
-    console.log("Delete customer:", id)
-    if (onDeleteCustomer) {
-      onDeleteCustomer(id)
-    }
+  const handleDelete = (customer: Customer) => {
+    setDeleteDialogState({
+      isOpen: true,
+      customerId: customer.id,
+      customerName: customer.name,
+    })
   }
 
   // Status badge styles
@@ -114,7 +116,7 @@ const CustomerTableContainer: React.FC<CustomerTableContainerProps> = ({
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleDelete(customer.id)}
+          onClick={() => handleDelete(customer)}
           className="text-red-600 hover:text-red-700 hover:bg-red-50 focus:bg-red-50 focus:text-red-700"
         >
           Delete
@@ -143,15 +145,30 @@ const CustomerTableContainer: React.FC<CustomerTableContainerProps> = ({
   }
 
   return (
-    <DataTable
-      data={customers}
-      columns={columns}
-      keyExtractor={(customer) => customer.id}
-      defaultSortField="name"
-      searchPlaceholder="Search customers..."
-      noDataMessage="No customers found."
-      renderActions={renderActionsDropdown}
-    />
+    <>
+      <DataTable
+        data={customers}
+        columns={columns}
+        keyExtractor={(customer) => customer.id}
+        defaultSortField="name"
+        searchPlaceholder="Search customers..."
+        noDataMessage="No customers found."
+        renderActions={renderActionsDropdown}
+      />
+
+      <DeleteCustomerDialog
+        customerId={deleteDialogState.customerId}
+        customerName={deleteDialogState.customerName}
+        isOpen={deleteDialogState.isOpen}
+        onClose={() =>
+          setDeleteDialogState({
+            isOpen: false,
+            customerId: "",
+            customerName: "",
+          })
+        }
+      />
+    </>
   )
 }
 

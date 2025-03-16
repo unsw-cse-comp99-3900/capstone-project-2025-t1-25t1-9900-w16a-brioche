@@ -23,7 +23,7 @@ const FormField: React.FC<FormFieldProps> = ({
     <div className={className}>
       <Label
         htmlFor={id}
-        className="block text-sm font-medium text-secondary-700 flex items-center gap-1"
+        className="text-sm font-medium text-secondary-700 flex items-center gap-1"
       >
         {Icon && <Icon className="h-4 w-4 text-secondary-500" />}
         {label} {required && <span className="text-red-500">*</span>}
