@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -61,8 +61,13 @@ export const EditCustomerContainer: React.FC = () => {
         extension: "",
       },
     },
-    values: customer ? apiToFormSchema.parse(customer) : undefined,
   })
+
+  useEffect(() => {
+    if (customer) {
+      form.reset(apiToFormSchema.parse(customer))
+    }
+  }, [customer, form])
 
   const onSubmit = async (data: CustomerFormValues) => {
     try {
