@@ -20,6 +20,8 @@ import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
+import EditCustomerPage from "@/pages/EditCustomerPage"
+
 // Define routes
 const router = createBrowserRouter([
   // Public routes with main layout
@@ -86,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/customers/create",
         element: <CreateCustomerPage />,
+      },
+      {
+        path: "/customers/:id/edit",
+        element: <EditCustomerPage />,
       },
       {
         path: "/api-test",

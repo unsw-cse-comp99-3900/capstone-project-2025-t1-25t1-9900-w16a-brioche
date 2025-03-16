@@ -10,11 +10,14 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { DataTable, type ColumnConfig } from "@/components/ui/data-table"
 import DeleteCustomerDialog from "./DeleteCustomerDialog"
+import { useNavigate } from "react-router-dom"
 
 import useCustomers from "@/hooks/useCustomers"
 import { type Customer } from "@/types/customer"
 
 const CustomerTableContainer: React.FC = () => {
+  const navigate = useNavigate()
+
   // State for delete dialog
   const [deleteDialogState, setDeleteDialogState] = useState<{
     isOpen: boolean
@@ -29,9 +32,9 @@ const CustomerTableContainer: React.FC = () => {
   // Fetch all customers
   const { data: customers = [], isLoading, error } = useCustomers()
 
-  // Dummy action handlers
+  // Update handleEdit to navigate
   const handleEdit = (id: string) => {
-    console.log("Edit customer:", id)
+    navigate(`/customers/${id}/edit`)
   }
 
   const handleDelete = (customer: Customer) => {

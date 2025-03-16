@@ -19,8 +19,33 @@ export const customerSchema = z.object({
     isSuperfund: z.boolean(),
   }),
   status: z.string(),
-  electronicAddresses: z.array(z.any()).default([]),
-  phoneNumbers: z.array(z.any()).default([]),
+  electronicAddresses: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        address: z.string().optional(),
+        type: z.object({
+          id: z.string().optional(),
+          name: z.string(),
+        }),
+      })
+    )
+    .default([]),
+  phoneNumbers: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        countryCode: z.string().optional(),
+        areaCode: z.string().optional(),
+        number: z.string().optional(),
+        extension: z.string().optional(),
+        type: z.object({
+          id: z.string().optional(),
+          name: z.string(),
+        }),
+      })
+    )
+    .default([]),
   addresses: z.array(z.any()).default([]),
   contacts: z.array(z.any()).default([]),
   balance: z.number().nullable(),
@@ -147,3 +172,58 @@ export const apiRequestSchema = customerFormSchema.transform((data) => ({
 export type CreateCustomerResponse = z.infer<
   typeof createCustomerResponseSchema
 >
+
+// Transform schema to convert API data to form data
+export const apiToFormSchema = customerSchema.transform(
+  (data): CustomerFormValues => {
+    // Find email and website from electronic addresses
+    const emailAddress = data.electronicAddresses?.find(
+      (addr) => addr.type.name === "Email"
+    ) || { type: "Email", address: "" }
+    const website = data.electronicAddresses?.find(
+      (addr) => addr.type.name === "Web"
+    ) || { type: "Web", address: "" }
+
+    // Find mobile and phone numbers
+    const mobileNumber = data.phoneNumbers?.find(
+      (phone) => phone.type.name === "Mobile"
+    ) || { type: "Mobile", countryCode: "", number: "" }
+    const phoneNumber = data.phoneNumbers?.find(
+      (phone) => phone.type.name === "Phone"
+    ) || {
+      type: "Phone",
+      countryCode: "",
+      areaCode: "",
+      number: "",
+      extension: "",
+    }
+
+    return {
+      name: data.name,
+      organisationName: data.organisationName || undefined,
+      branch: data.branch || undefined,
+      notes: data.notes || undefined,
+      status: data.status as "Active" | "Inactive",
+      website: {
+        type: "Web",
+        address: website.address || "",
+      },
+      emailAddress: {
+        type: "Email",
+        address: emailAddress.address || "",
+      },
+      mobileNumber: {
+        type: "Mobile",
+        countryCode: mobileNumber.countryCode || "",
+        number: mobileNumber.number || "",
+      },
+      phoneNumber: {
+        type: "Phone",
+        countryCode: phoneNumber.countryCode || "",
+        areaCode: phoneNumber.areaCode || "",
+        number: phoneNumber.number || "",
+        extension: phoneNumber.extension || "",
+      },
+    }
+  }
+)
