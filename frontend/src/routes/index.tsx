@@ -18,6 +18,7 @@ import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
 import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
+import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
 // Define routes
 const router = createBrowserRouter([
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/customers",
         element: <CustomersPage />,
+      },
+      {
+        path: "/customers/create",
+        element: <CreateCustomerPage />,
       },
       {
         path: "/api-test",
