@@ -30,7 +30,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster />
+      <Toaster closeButton expand={false} richColors />
     </QueryClientProvider>
   )
 }

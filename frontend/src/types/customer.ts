@@ -53,3 +53,97 @@ export interface CustomerQueryParams {
   orderby?: string
   select?: string
 }
+
+// API Input Types as Zod Schemas
+export const phoneNumberInputSchema = z.object({
+  countryCode: z.string().optional(),
+  areaCode: z.string().optional(),
+  number: z.string().optional(),
+  extension: z.string().optional(),
+  type: z.string(),
+})
+
+export const electronicAddressInputSchema = z.object({
+  type: z.string(),
+  address: z.string().optional(),
+})
+
+export const customerInputSchema = z.object({
+  name: z.string().min(2, {
+    message: "Customer name must be at least 2 characters.",
+  }),
+  organisationName: z.string().optional(),
+  branch: z.string().optional(),
+  notes: z.string().optional(),
+  status: z.enum(["Active", "Inactive"]).default("Active"),
+  phoneNumbers: z.array(phoneNumberInputSchema).optional(),
+  electronicAddresses: z.array(electronicAddressInputSchema).optional(),
+})
+
+export type PhoneNumberInput = z.infer<typeof phoneNumberInputSchema>
+export type ElectronicAddressInput = z.infer<
+  typeof electronicAddressInputSchema
+>
+export type CustomerInput = z.infer<typeof customerInputSchema>
+
+// Form Schema
+export const customerFormSchema = z.object({
+  name: z.string().min(2, {
+    message: "Customer name must be at least 2 characters.",
+  }),
+  organisationName: z.string().optional(),
+  branch: z.string().optional(),
+  notes: z.string().optional(),
+  status: z.enum(["Active", "Inactive"]).default("Active"),
+  // Electronic Addresses
+  website: electronicAddressInputSchema.optional().default({
+    type: "Web",
+    address: "",
+  }),
+  emailAddress: electronicAddressInputSchema.optional().default({
+    type: "Email",
+    address: "",
+  }),
+  // Phone Numbers
+  mobileNumber: phoneNumberInputSchema.optional().default({
+    type: "Mobile",
+    countryCode: "",
+    number: "",
+  }),
+  phoneNumber: phoneNumberInputSchema.optional().default({
+    type: "Phone",
+    countryCode: "",
+    areaCode: "",
+    number: "",
+    extension: "",
+  }),
+})
+
+export type CustomerFormValues = z.infer<typeof customerFormSchema>
+
+// Define the response schema for create customer
+export const createCustomerResponseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
+// Define a transform schema to convert form values to API structure
+export const apiRequestSchema = customerFormSchema.transform((data) => ({
+  name: data.name,
+  organisationName: data.organisationName || undefined,
+  branch: data.branch || undefined,
+  notes: data.notes || undefined,
+  status: data.status,
+  phoneNumbers: [
+    ...(data.phoneNumber?.number ? [data.phoneNumber] : []),
+    ...(data.mobileNumber?.number ? [data.mobileNumber] : []),
+  ],
+  electronicAddresses: [
+    ...(data.emailAddress?.address ? [data.emailAddress] : []),
+    ...(data.website?.address ? [data.website] : []),
+  ],
+}))
+
+export type CreateCustomerResponse = z.infer<
+  typeof createCustomerResponseSchema
+>

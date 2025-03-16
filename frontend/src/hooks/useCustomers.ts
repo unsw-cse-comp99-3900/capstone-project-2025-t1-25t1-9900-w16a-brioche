@@ -11,9 +11,9 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @param perPage - The number of customers per page (default: 0 to get all customers)
  * @returns The React Query result containing customers data, loading state, and error
  */
-export const useCustomers = (page = 1, perPage = 0) => {
+export const useCustomers = (page = 1, perPage = 9999) => {
   return useQuery<Customer[]>({
-    queryKey: ["customers", page, perPage],
+    queryKey: ["customers"],
     queryFn: async () => {
       console.log("Fetching customers from Reckon API...")
 
