@@ -1,13 +1,15 @@
-import React from 'react';
-import { landingProcess } from "@/constants/Landing/landingProcess";
+import React from "react"
+import { landingProcess } from "@/constants/Landing/landingProcess"
 
 type ProcessTimelineNodeProps = {
-  stepIndex: number;
-};
+  stepIndex: number
+}
 
-const ProcessTimelineNode = ({ stepIndex }: ProcessTimelineNodeProps): React.ReactElement => {
-  const stepNumber = landingProcess.steps[stepIndex].stepNumber;
-  
+const ProcessTimelineNode = ({
+  stepIndex,
+}: ProcessTimelineNodeProps): React.ReactElement => {
+  const stepNumber = landingProcess.steps[stepIndex].stepNumber
+
   return (
     <div className="hidden md:flex md:w-12 md:justify-center relative z-10">
       <div className="absolute w-24 h-24 bg-primary-50 rounded-full opacity-70 transform -translate-x-1/2 -translate-y-1/2"></div>
@@ -15,7 +17,7 @@ const ProcessTimelineNode = ({ stepIndex }: ProcessTimelineNodeProps): React.Rea
         {stepNumber}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProcessTimelineNode;
+export default ProcessTimelineNode

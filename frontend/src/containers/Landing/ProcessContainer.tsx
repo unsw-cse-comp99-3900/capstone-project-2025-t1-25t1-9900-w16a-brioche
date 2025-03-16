@@ -13,7 +13,7 @@ const ProcessContainer: React.FC = () => {
         <ProcessTimeline />
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ProcessContainer;
+export default ProcessContainer

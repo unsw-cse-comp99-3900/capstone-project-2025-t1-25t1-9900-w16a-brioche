@@ -1,5 +1,5 @@
-import React from 'react';
-import { landingProcess } from "@/constants/Landing/landingProcess";
+import React from "react"
+import { landingProcess } from "@/constants/Landing/landingProcess"
 
 const ProcessContent: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const ProcessContent: React.FC = () => {
           {landingProcess.content.tagText}
         </span>
       </div>
-      
+
       <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
         {landingProcess.content.headingText}
       </h2>
@@ -17,8 +17,7 @@ const ProcessContent: React.FC = () => {
         {landingProcess.content.subheadingText}
       </p>
     </div>
-  );
-};
+  )
+}
 
-
-export default ProcessContent;
+export default ProcessContent
