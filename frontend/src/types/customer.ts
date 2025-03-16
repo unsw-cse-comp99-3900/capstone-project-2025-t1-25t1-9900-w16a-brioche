@@ -121,7 +121,6 @@ export const customerFormSchema = z.object({
 
 export type CustomerFormValues = z.infer<typeof customerFormSchema>
 
-
 // Define the response schema for create customer
 export const createCustomerResponseSchema = z.object({
   id: z.string(),
@@ -145,4 +144,6 @@ export const apiRequestSchema = customerFormSchema.transform((data) => ({
   ],
 }))
 
-export type CreateCustomerResponse = z.infer<typeof createCustomerResponseSchema>
+export type CreateCustomerResponse = z.infer<
+  typeof createCustomerResponseSchema
+>
