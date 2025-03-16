@@ -62,7 +62,9 @@ const CreateCustomerPage: React.FC = () => {
       toast.success("Customer created successfully")
       navigate("/customers")
     } catch (error) {
-      toast.error("Failed to create customer")
+      toast.error("Failed to create customer", {
+        description: `Error: ${error}`,
+      })
       console.error("Error creating customer:", error)
     }
   }
