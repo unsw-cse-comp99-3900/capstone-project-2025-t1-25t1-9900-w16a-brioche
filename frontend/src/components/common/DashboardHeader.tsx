@@ -102,18 +102,18 @@ const DashboardHeader = () => {
                         </NavigationMenuLink>
                       </li>
                       <ListItem
-                        href="/products"
-                        title="Products & Services"
-                        icon={<Package className="h-5 w-5 text-primary-600" />}
-                      >
-                        Add items that you can quickly include in your invoices
-                      </ListItem>
-                      <ListItem
                         href="/customers"
                         title="Customers"
                         icon={<Users className="h-5 w-5 text-primary-600" />}
                       >
                         Manage client information for faster invoice creation
+                      </ListItem>
+                      <ListItem
+                        href="/products"
+                        title="Products & Services"
+                        icon={<Package className="h-5 w-5 text-primary-600" />}
+                      >
+                        Add items that you can quickly include in your invoices
                       </ListItem>
                       <ListItem
                         href="/invoices"
