@@ -12,7 +12,7 @@ import { DataTable, type ColumnConfig } from "@/components/ui/data-table"
 import DeleteCustomerDialog from "./DeleteCustomerDialog"
 import { useNavigate } from "react-router-dom"
 
-import useCustomers from "@/hooks/useCustomers"
+import useCustomers from "@/hooks/customer/useCustomers"
 import { type Customer } from "@/types/customer"
 
 const CustomerTableContainer: React.FC = () => {

@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useDeleteCustomer } from "@/hooks/useDeleteCustomer"
+import { useDeleteCustomer } from "@/hooks/customer/useDeleteCustomer"
 import { toast } from "sonner"
 
 interface DeleteCustomerDialogProps {

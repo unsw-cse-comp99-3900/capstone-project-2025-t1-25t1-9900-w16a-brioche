@@ -29,7 +29,7 @@ import {
   Building,
 } from "lucide-react"
 import { customerFormSchema, type CustomerFormValues } from "@/types/customer"
-import { useCreateCustomer } from "@/hooks/useCreateCustomer"
+import { useCreateCustomer } from "@/hooks/customer/useCreateCustomer"
 import { toast } from "sonner"
 
 const CreateCustomerContainer: React.FC = () => {

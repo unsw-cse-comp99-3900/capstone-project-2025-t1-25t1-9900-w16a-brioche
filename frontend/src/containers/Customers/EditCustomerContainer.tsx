@@ -33,8 +33,8 @@ import {
   type CustomerFormValues,
   apiToFormSchema,
 } from "@/types/customer"
-import useEditCustomer from "@/hooks/useEditCustomer"
-import useCustomer from "@/hooks/useCustomer"
+import useEditCustomer from "@/hooks/customer/useEditCustomer"
+import useCustomer from "@/hooks/customer/useCustomer"
 import { toast } from "sonner"
 
 export const EditCustomerContainer: React.FC = () => {
