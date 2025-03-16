@@ -1,5 +1,5 @@
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -28,13 +28,23 @@ import {
   X,
   Building,
 } from "lucide-react"
-import { customerFormSchema, type CustomerFormValues } from "@/types/customer"
-import { useCreateCustomer } from "@/hooks/customer/useCreateCustomer"
+import {
+  customerFormSchema,
+  type CustomerFormValues,
+  apiToFormSchema,
+} from "@/types/customer"
+import useEditCustomer from "@/hooks/customer/useEditCustomer"
+import useCustomer from "@/hooks/customer/useCustomer"
 import { toast } from "sonner"
 
-const CreateCustomerContainer: React.FC = () => {
+export const EditCustomerContainer: React.FC = () => {
   const navigate = useNavigate()
-  const createCustomer = useCreateCustomer()
+  const { id } = useParams<{ id: string }>()
+  console.log("customerId in EditCustomerContainer", id)
+  const { data: customer, isLoading } = useCustomer(id ?? "")
+  const { mutate: editCustomer, isPending: isEditing } = useEditCustomer(
+    id ?? ""
+  )
 
   const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerFormSchema),
@@ -51,19 +61,28 @@ const CreateCustomerContainer: React.FC = () => {
         extension: "",
       },
     },
+    values: customer ? apiToFormSchema.parse(customer) : undefined,
   })
 
   const onSubmit = async (data: CustomerFormValues) => {
     try {
-      await createCustomer.mutateAsync(data)
-      toast.success("Customer created successfully")
+      await editCustomer(data)
+      toast.success("Customer updated successfully")
       navigate("/customers")
     } catch (error) {
-      toast.error("Failed to create customer", {
+      toast.error("Failed to update customer", {
         description: `Error: ${error}`,
       })
-      console.error("Error creating customer:", error)
+      console.error("Error updating customer:", error)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (
@@ -370,11 +389,11 @@ const CreateCustomerContainer: React.FC = () => {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={createCustomer.isPending}
+                  disabled={isEditing}
                   className="ml-3 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center gap-1"
                 >
                   <Save className="h-4 w-4" />
-                  {createCustomer.isPending ? "Creating..." : "Create Customer"}
+                  {isEditing ? "Updating..." : "Update Customer"}
                 </Button>
               </div>
             </div>
@@ -385,4 +404,4 @@ const CreateCustomerContainer: React.FC = () => {
   )
 }
 
-export default CreateCustomerContainer
+export default EditCustomerContainer
