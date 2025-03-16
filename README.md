@@ -1,6 +1,9 @@
 # [Figma Design](https://www.figma.com/design/SruUTfQpmjBHLHvfhX8wvk/InvoiceFlow?node-id=0-1&t=18wcQwIfbpLvfWtK-1)
 
-# [Production Website](https://myinvoiceflow.netlify.app)
+# [Production Website](https://invoice-flow.org)
+
+# [Production Subdomain Website](https://myinvoiceflow.netlify.app)
+
 
 # Frontend Development Guide
 
@@ -18,24 +21,36 @@ This guide provides the initial setup and development instructions for the front
 
 1. Open VS Code and install the above extensions if you haven't already.
 
-2. Open your terminal in VS Code and navigate to the frontend directory using the absolute path:
+2. Open a new terminal tab in VS Code, navigate to the backend directory using the absolute path:
+
+   ```bash
+   cd ./backend/InvoiceBackend
+   dotnet run watch
+   ```
+
+   This starts the backend server and must be running before starting the frontend.
+
+3. Open your terminal in VS Code and navigate to the frontend directory using the absolute path:
 
    ```bash
    cd ./frontend
    ```
+
    This ensures you're in the correct directory.
 
-3. Install the project dependencies using pnpm:
+4. Install the project dependencies using pnpm:
 
    ```bash
    pnpm install
    ```
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    pnpm run dev
    ```
-   The development server will start, and you can access the application at http://localhost:3000 (or the configured port).
+   
+   The development server will start, and you can access the application at http://localhost:5173 (or the configured port).
+   ```
 
 ## Development Guidelines
 
@@ -43,9 +58,7 @@ This guide provides the initial setup and development instructions for the front
 - Adhere to ESLint and Prettier rules for code quality and formatting consistency.
 - Utilize Tailwind CSS classes as documented in the official [Tailwind CSS documentation](https://tailwindcss.com/docs).
 
-
-
-# InvoiceFlow - E-Invoicing API Platform for SMEs 
+# InvoiceFlow - E-Invoicing API Platform for SMEs
 
 ## Project Overview
 
