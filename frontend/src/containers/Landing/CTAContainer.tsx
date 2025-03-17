@@ -1,6 +1,6 @@
-import React from 'react';
-import CTABackground from '@/components/landing/BenefitsPage/CTABackground';
-import CTAContent from '@/components/landing/BenefitsPage/CTAContent';
+import React from "react"
+import CTABackground from "@/components/landing/BenefitsPage/CTABackground"
+import CTAContent from "@/components/landing/BenefitsPage/CTAContent"
 
 const CTASection: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const CTASection: React.FC = () => {
       <CTABackground />
       <CTAContent />
     </section>
-  );
-};
+  )
+}
 
-export default CTASection;
+export default CTASection
