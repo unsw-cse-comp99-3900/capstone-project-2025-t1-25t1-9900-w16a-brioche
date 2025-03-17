@@ -9,7 +9,7 @@ const LandingHeader = () => {
           <LogoTextGroup />
 
           {/* Center Navigation Links */}
-          <nav className="hidden md:flex lg:space-x-6 space-x-1">
+          <nav className="hidden md:flex lg:space-x-6 space-x-1 pr-12">
             <a
               href="#features"
               className="text-secondary-600 hover:text-primary-600 px-3 py-2 text-base font-medium transition-colors"
@@ -23,7 +23,7 @@ const LandingHeader = () => {
               How It Works
             </a>
             <a
-              href="#pricing"
+              href="#faq"
               className="text-secondary-600 hover:text-primary-600 px-3 py-2 text-base font-medium transition-colors"
             >
               FAQ
