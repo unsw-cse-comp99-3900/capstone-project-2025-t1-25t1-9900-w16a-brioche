@@ -5,7 +5,7 @@ import ProcessTimeline from "@/components/landing/ProcessTimeline"
 
 const ProcessContainer: React.FC = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="how-it-works" className="relative py-24 overflow-hidden">
       <ProcessBackground />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
