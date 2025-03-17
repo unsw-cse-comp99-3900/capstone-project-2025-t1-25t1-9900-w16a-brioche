@@ -192,7 +192,7 @@ export const EditCustomerContainer: React.FC = () => {
                       <div className="mt-1 grid grid-cols-12 gap-2">
                         <div className="col-span-3">
                           <Input
-                            placeholder="+1"
+                            placeholder="+61"
                             {...field}
                             value={field.value?.countryCode}
                             onChange={(e) =>
@@ -235,7 +235,7 @@ export const EditCustomerContainer: React.FC = () => {
                       <div className="mt-1 grid grid-cols-12 gap-2">
                         <div className="col-span-3">
                           <Input
-                            placeholder="+1"
+                            placeholder="+61"
                             {...field}
                             value={field.value?.countryCode}
                             onChange={(e) =>
