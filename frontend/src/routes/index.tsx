@@ -21,6 +21,7 @@ import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
 import EditCustomerPage from "@/pages/EditCustomerPage"
+import ProductsPage from "@/pages/ProductsPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -92,6 +93,18 @@ const router = createBrowserRouter([
       {
         path: "/customers/:id/edit",
         element: <EditCustomerPage />,
+      },
+      {
+        path: "/products",
+        element: <ProductsPage />,
+      },
+      {
+        path: "/products/create",
+        element: <ProductsPage />,
+      },
+      {
+        path: "/products/:id/edit",
+        element: <ProductsPage />,
       },
       {
         path: "/api-test",
