@@ -1,5 +1,5 @@
-import React from 'react';
-import { landingFAQ } from '@/constants/Landing/landingFAQ';
+import React from "react"
+import { landingFAQ } from "@/constants/Landing/landingFAQ"
 
 const FAQHeader: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const FAQHeader: React.FC = () => {
           {landingFAQ.content.tagText}
         </span>
       </div>
-      
+
       <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
         {landingFAQ.content.headingText}
       </h2>
@@ -17,7 +17,7 @@ const FAQHeader: React.FC = () => {
         {landingFAQ.content.subheadingText}
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default FAQHeader;
+export default FAQHeader

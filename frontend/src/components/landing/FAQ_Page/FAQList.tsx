@@ -1,6 +1,6 @@
-import React from 'react';
-import FAQItem from '@/components/landing/FAQ_Page/FAQItem';
-import { landingFAQ } from '@/constants/Landing/landingFAQ';
+import React from "react"
+import FAQItem from "@/components/landing/FAQ_Page/FAQItem"
+import { landingFAQ } from "@/constants/Landing/landingFAQ"
 
 const FAQList: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const FAQList: React.FC = () => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default FAQList;
+export default FAQList
