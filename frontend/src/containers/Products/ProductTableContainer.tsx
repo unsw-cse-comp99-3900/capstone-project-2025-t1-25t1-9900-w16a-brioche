@@ -13,7 +13,11 @@ import DeleteProductDialog from "./DeleteProductDialog"
 import { useNavigate } from "react-router-dom"
 
 import useProducts from "@/hooks/product/useProducts"
-import { type Product } from "@/types/product"
+import {
+  type Product,
+  ProductWithPriceGross,
+  productWithPriceGrossSchema,
+} from "@/types/product"
 
 const ProductTableContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -31,6 +35,11 @@ const ProductTableContainer: React.FC = () => {
 
   // Fetch all products
   const { data: products = [], isLoading, error } = useProducts()
+
+  // Make priceGross a top-level property
+  const transformedProducts = products.map((product) =>
+    productWithPriceGrossSchema.parse(product)
+  )
 
   // Update handleEdit to navigate
   const handleEdit = (id: string) => {
@@ -56,7 +65,7 @@ const ProductTableContainer: React.FC = () => {
   }
 
   // Define columns for the DataTable
-  const columns: ColumnConfig<Product>[] = [
+  const columns: ColumnConfig<ProductWithPriceGross>[] = [
     {
       key: "name",
       header: "Name",
@@ -67,7 +76,7 @@ const ProductTableContainer: React.FC = () => {
       minWidth: "180px",
     },
     {
-      key: "Type",
+      key: "itemType",
       header: "Type",
       render: (product) => <div>{product.itemType || "-"}</div>,
       sortable: true,
@@ -89,14 +98,14 @@ const ProductTableContainer: React.FC = () => {
       width: "120px",
     },
     {
-      key: "Gross sale price",
+      key: "priceGross",
       header: "Gross sale price",
       render: (product) => (
         <div>
           {new Intl.NumberFormat("en-AU", {
             style: "currency",
             currency: "AUD",
-          }).format(product.sale?.priceGross || 0)}
+          }).format(product.priceGross)}
         </div>
       ),
       sortable: true,
@@ -150,7 +159,7 @@ const ProductTableContainer: React.FC = () => {
   return (
     <>
       <DataTable
-        data={products}
+        data={transformedProducts}
         columns={columns}
         keyExtractor={(product) => product.id}
         defaultSortField="name"
