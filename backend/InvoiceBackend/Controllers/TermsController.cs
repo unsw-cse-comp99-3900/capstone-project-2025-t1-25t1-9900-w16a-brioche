@@ -18,9 +18,23 @@ namespace InvoiceBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTerms(string bookId)
+        public async Task<IActionResult> GetTerms(string bookId, [FromQuery] int? page, [FromQuery] int? perpage)
         {
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "terms", HttpMethod.Get);
+            var queryParameters = new List<string>();
+            if (page.HasValue)
+            {
+                queryParameters.Add($"page={page.Value}");
+            }
+            if (perpage.HasValue)
+            {
+                queryParameters.Add($"perpage={perpage.Value}");
+            }
+            var endpoint = "terms";
+            if (queryParameters.Any())
+            {
+                endpoint = $"{endpoint}?{string.Join("&", queryParameters)}";
+            }
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, endpoint, HttpMethod.Get);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
