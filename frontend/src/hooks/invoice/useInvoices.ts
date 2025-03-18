@@ -12,7 +12,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @returns The React Query result containing invoices data, loading state, and error
  */
 export const useInvoices = (page = 1, perPage = 9999) => {
-  return useQuery({
+  return useQuery<Invoice[], Error, Invoice[]>({
     queryKey: ["invoices"],
     queryFn: async () => {
       console.log("Fetching invoices from Reckon API...")
