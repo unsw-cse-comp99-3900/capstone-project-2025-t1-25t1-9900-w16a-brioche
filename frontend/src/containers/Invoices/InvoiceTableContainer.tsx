@@ -13,7 +13,11 @@ import DeleteInvoiceDialog from "./DeleteInvoiceDialog"
 import { useNavigate } from "react-router-dom"
 
 import useInvoices from "@/hooks/invoice/useInvoices"
-import { type Invoice } from "@/types/invoice"
+import {
+  type Invoice,
+  invoiceTopLevelSchema,
+  type InvoiceTopLevel,
+} from "@/types/invoice"
 
 const InvoiceTableContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -31,6 +35,11 @@ const InvoiceTableContainer: React.FC = () => {
 
   // Fetch all invoices
   const { data: invoices = [], isLoading, error } = useInvoices()
+
+  // Use the transformed schema to promote nested fields to top-level properties for the table
+  const transformedInvoices = invoices.map((invoice) =>
+    invoiceTopLevelSchema.parse(invoice)
+  ) as InvoiceTopLevel[]
 
   // Update handleEdit to navigate
   const handleEdit = (id: string) => {
@@ -57,7 +66,7 @@ const InvoiceTableContainer: React.FC = () => {
   }
 
   // Define columns for the DataTable
-  const columns: ColumnConfig<Invoice>[] = [
+  const columns: ColumnConfig<InvoiceTopLevel>[] = [
     {
       key: "invoiceNumber",
       header: "Invoice #",
@@ -72,7 +81,7 @@ const InvoiceTableContainer: React.FC = () => {
     {
       key: "customerName",
       header: "Customer",
-      render: (invoice) => <div>{invoice.customer?.name}</div>,
+      render: (invoice) => <div>{invoice.customerName}</div>,
       sortable: true,
       searchable: true,
       align: "left",
@@ -105,7 +114,7 @@ const InvoiceTableContainer: React.FC = () => {
       width: "120px",
     },
     {
-      key: "date",
+      key: "invoiceDate",
       header: "Date",
       render: (invoice) => <div>{invoice.invoiceDate || "-"}</div>,
       sortable: true,
@@ -113,7 +122,7 @@ const InvoiceTableContainer: React.FC = () => {
       width: "120px",
     },
     {
-      key: "amount",
+      key: "totalAmount",
       header: "Amount",
       render: (invoice) => (
         <div>
@@ -179,7 +188,7 @@ const InvoiceTableContainer: React.FC = () => {
   return (
     <>
       <DataTable
-        data={invoices}
+        data={transformedInvoices}
         columns={columns}
         keyExtractor={(invoice) => invoice.id}
         defaultSortField="date"
