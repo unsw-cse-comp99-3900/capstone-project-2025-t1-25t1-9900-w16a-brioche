@@ -56,10 +56,10 @@ export const apiRequestSchema = invoiceSchema
 
 export const createInvoiceResponseSchema = z.object({
   id: z.string().uuid(),
-  status: z.string(),
-  createdDate: z.string(),
-  dueDate: z.string(),
-  totalAmount: z.number(),
+  // status: z.string(),
+  // createdDate: z.string(),
+  // dueDate: z.string(),
+  // totalAmount: z.number(),
 })
 
 export type InvoiceFormData = z.infer<typeof invoiceSchema>

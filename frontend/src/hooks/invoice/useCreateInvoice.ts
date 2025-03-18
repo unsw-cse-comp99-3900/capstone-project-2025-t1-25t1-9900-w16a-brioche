@@ -34,7 +34,7 @@ export const useCreateInvoice = () => {
 
       console.log("Create Invoice Successfully:", response.data)
 
-      return createInvoiceResponseSchema.parse(response.data)
+      return createInvoiceResponseSchema.parse(response)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] })
