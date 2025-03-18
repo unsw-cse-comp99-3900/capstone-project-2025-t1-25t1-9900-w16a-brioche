@@ -243,3 +243,11 @@ export const apiToFormSchema = z
       purchaseOrderNumber: invoice.purchaseOrderNumber || "",
     }
   })
+
+// Add: Elevate some fields to the top level for easy DataTable searching and sorting
+export const invoiceTopLevelSchema = invoiceSchema.transform((data) => ({
+  ...data,
+  customerName: data.customer?.name || "",
+}))
+
+export type InvoiceTopLevel = z.infer<typeof invoiceTopLevelSchema>
