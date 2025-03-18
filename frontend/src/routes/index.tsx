@@ -16,7 +16,7 @@ import InvoiceFormPage from "@/pages/InvoiceFormPage"
 import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
-import InvoiceTestPage from "@/pages/ApiTestPage"
+// import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
@@ -113,10 +113,10 @@ const router = createBrowserRouter([
         path: "/products/:id/edit",
         element: <EditProductPage />,
       },
-      {
-        path: "/api-test",
-        element: <InvoiceTestPage />,
-      },
+      // {
+      //   path: "/api-test",
+      //   element: <InvoiceTestPage />,
+      // },
     ],
   },
 
