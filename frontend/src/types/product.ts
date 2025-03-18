@@ -181,3 +181,11 @@ export const apiToFormSchema = productSchema.transform(
     }
   }
 )
+
+// New transform schema to add priceGross to the top level
+export const productWithPriceGrossSchema = productSchema.transform((data) => ({
+  ...data,
+  priceGross: data.sale?.priceGross ?? 0,
+}))
+
+export type ProductWithPriceGross = z.infer<typeof productWithPriceGrossSchema>
