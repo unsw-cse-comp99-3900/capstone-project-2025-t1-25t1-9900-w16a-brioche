@@ -25,6 +25,7 @@ import ProductsPage from "@/pages/ProductsPage"
 import CreateProductPage from "@/pages/CreateProductPage"
 import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
+import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -74,12 +75,16 @@ const router = createBrowserRouter([
         element: <InvoicesPage />,
       },
       {
+        path: "/invoices/create",
+        element: <CreateInvoicePage />,
+      },
+      {
         path: "/invoice/upload",
         element: <InvoiceUploadPage />,
       },
       {
         path: "/invoice/create",
-        element: <InvoiceFormPage />,
+        element: <CreateInvoicePage />,
       },
       {
         path: "/invoice/validation",
