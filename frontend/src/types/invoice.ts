@@ -185,7 +185,7 @@ export type Invoice = z.infer<typeof invoiceSchema>
 export const invoiceResponseSchema = z.object({
   list: z.array(
     // Use .passthrough() to ignore extra fields and .partial() to make all fields optional
-    invoiceSchema.passthrough().partial()
+    invoiceSchema.passthrough()
   ),
 })
 

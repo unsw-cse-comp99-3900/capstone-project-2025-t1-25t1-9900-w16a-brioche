@@ -12,7 +12,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @returns The React Query result containing invoices data, loading state, and error
  */
 export const useInvoices = (page = 1, perPage = 9999) => {
-  return useQuery<Invoice[], Error, Invoice[]>({
+  return useQuery<Invoice[]>({
     queryKey: ["invoices"],
     queryFn: async () => {
       console.log("Fetching invoices from Reckon API...")
@@ -22,24 +22,17 @@ export const useInvoices = (page = 1, perPage = 9999) => {
         params: {
           page,
           perPage,
-          limit: 9999, // Add explicit limit parameter
         },
       })
 
+      console.log("Raw Reckon API response:", response)
+
       // Parse and validate the response
       const parsedData = invoiceResponseSchema.parse(response)
+      console.log("Parsed and validated invoice data:", parsedData)
 
-      // Map the data to ensure all required fields are present and to add UI convenience fields
-      const processedInvoices: Invoice[] = parsedData.list.map((invoice) => ({
-        // Ensure required fields have default values
-        id: invoice.id || String(Math.random()), // Generate a random ID if not provided
-        invoiceNumber: invoice.invoiceNumber || "Unknown",
-
-        // Include all other fields from the API
-        ...invoice,
-      })) as Invoice[]
-
-      return processedInvoices
+      // Return the list of invoices
+      return parsedData.list
     },
   })
 }
