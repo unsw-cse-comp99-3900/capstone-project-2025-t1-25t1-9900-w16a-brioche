@@ -7,34 +7,26 @@ interface InvoiceFooterProps {
 }
 
 const InvoiceFooter: React.FC<InvoiceFooterProps> = ({ control }) => {
-  // 监听 `lineItems` 和 `amountTaxStatus`
   const lineItems = useWatch({ control, name: "lineItems" }) || []
   const amountTaxStatus =
     useWatch({ control, name: "amountTaxStatus" }) || "NonTaxed"
 
-  // 计算小计（Subtotal）
-  const subtotal = lineItems.reduce(
-    (acc, item) => acc + item.quantity * item.unitPrice,
-    0
-  )
+  const subtotal = lineItems.reduce((acc, item) => {
+    const unitPrice = Number(item.unitPrice) || 0
+    const quantity = Number(item.quantity) || 0
+    return acc + unitPrice * quantity
+  }, 0)
 
-  // 计算税额（Tax Amount）
-  let taxAmount = 0
-  if (amountTaxStatus === "Exclusive") {
-    taxAmount = lineItems.reduce((acc, item) => {
-      const taxRate =
-        item.taxRate === "GST" ? 0.1 : item.taxRate === "VAT" ? 0.05 : 0
-      return acc + item.quantity * item.unitPrice * taxRate
-    }, 0)
-  } else if (amountTaxStatus === "Inclusive") {
-    taxAmount = lineItems.reduce((acc, item) => {
-      const taxRate =
-        item.taxRate === "GST" ? 0.1 : item.taxRate === "VAT" ? 0.05 : 0
-      return acc + (item.quantity * item.unitPrice * taxRate) / (1 + taxRate)
-    }, 0)
-  }
+  const taxAmount = lineItems.reduce((acc, item) => {
+    const unitPrice = Number(item.unitPrice) || 0
+    const quantity = Number(item.quantity) || 0
+    const taxRate = Number(item.taxRate) || 0
 
-  // 计算总金额（Total）
+    return amountTaxStatus === "Inclusive"
+      ? acc + (unitPrice * quantity * taxRate) / (1 + taxRate)
+      : acc + unitPrice * quantity * taxRate
+  }, 0)
+
   const total =
     amountTaxStatus === "Inclusive" ? subtotal : subtotal + taxAmount
 

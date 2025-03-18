@@ -1,16 +1,16 @@
 import React from "react"
 import { format } from "date-fns"
 
-interface InvoiceDateProps {
+interface DueDateProps {
   value: string
   onChange: (value: string) => void
 }
 
-const InvoiceDate: React.FC<InvoiceDateProps> = ({ value, onChange }) => {
+const DueDate: React.FC<DueDateProps> = ({ value, onChange }) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700">
-        Invoice Date <span className="text-red-500">*</span>
+        Due Date <span className="text-red-500">*</span>
       </label>
       <input
         type="date"
@@ -25,4 +25,4 @@ const InvoiceDate: React.FC<InvoiceDateProps> = ({ value, onChange }) => {
   )
 }
 
-export default InvoiceDate
+export default DueDate

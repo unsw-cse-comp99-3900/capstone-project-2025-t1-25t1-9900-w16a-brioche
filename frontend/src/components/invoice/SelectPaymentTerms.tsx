@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
 type SelectPaymentTermsProps = {
   value: string
   onChange: (val: string) => void
+  paymentTermsOptions: { id: string; name: string }[]
 }
 
 const SelectPaymentTerms: React.FC<SelectPaymentTermsProps> = ({
   value,
   onChange,
+  paymentTermsOptions,
 }) => {
-  const [paymentTerms, setPaymentTerms] = useState<
-    { id: string; name: string }[]
-  >([])
-
-  useEffect(() => {
-    setPaymentTerms([
-      { id: "net30", name: "Net 30 Days" },
-      { id: "net60", name: "Net 60 Days" },
-      { id: "dueOnReceipt", name: "Due on Receipt" },
-    ])
-  }, [])
-
   return (
     <div>
       <label
@@ -38,8 +28,8 @@ const SelectPaymentTerms: React.FC<SelectPaymentTermsProps> = ({
           className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-secondary-300 rounded-md p-2"
         >
           <option value="">Select payment terms...</option>
-          {paymentTerms.map((term) => (
-            <option key={term.id} value={term.id}>
+          {paymentTermsOptions.map((term) => (
+            <option key={term.id} value={term.name}>
               {term.name}
             </option>
           ))}

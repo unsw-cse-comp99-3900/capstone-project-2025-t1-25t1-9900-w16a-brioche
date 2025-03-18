@@ -3,9 +3,16 @@ import React from "react"
 interface SelectCustomerProps {
   value: string
   onChange: (value: string) => void
+  customers: { id: string; name: string }[]
+  isLoading: boolean
 }
 
-const SelectCustomer: React.FC<SelectCustomerProps> = ({ value, onChange }) => {
+const SelectCustomer: React.FC<SelectCustomerProps> = ({
+  value,
+  onChange,
+  customers,
+  isLoading,
+}) => {
   return (
     <div>
       <label
@@ -19,13 +26,22 @@ const SelectCustomer: React.FC<SelectCustomerProps> = ({ value, onChange }) => {
           id="customer"
           name="customer"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            const selectedCustomer = customers.find(
+              (c) => c.name === e.target.value
+            )
+            onChange(selectedCustomer ? selectedCustomer.name : "")
+          }}
           required
           className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-secondary-300 rounded-md p-2"
+          disabled={isLoading}
         >
           <option value="">Select a customer</option>
-          <option value="Customer1">ABC Company</option>
-          <option value="Customer2">XYZ Corporation</option>
+          {customers.map((customer) => (
+            <option key={customer.id} value={customer.name}>
+              {customer.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>

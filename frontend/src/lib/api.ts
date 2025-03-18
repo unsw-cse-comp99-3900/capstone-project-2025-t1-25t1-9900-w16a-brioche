@@ -20,6 +20,7 @@ export const useApi = () => {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
+      console.log("📢 正在请求 API:", config.method?.toUpperCase(), config.url)
       return config
     } catch (error) {
       return Promise.reject(error)

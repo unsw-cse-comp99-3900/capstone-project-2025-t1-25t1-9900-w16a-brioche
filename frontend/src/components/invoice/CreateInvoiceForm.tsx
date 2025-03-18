@@ -7,35 +7,81 @@ import InvoiceFooter from "./InvoiceFooter"
 import { invoiceSchema, InvoiceFormData } from "./invoiceSchema"
 
 const CreateInvoiceForm: React.FC<{
-  onSubmit: (data: InvoiceFormData) => void
-}> = ({ onSubmit }) => {
+  onSubmit: (data: InvoiceFormData, reset: () => void) => void
+  paymentTermsOptions: { id: string; name: string }[]
+}> = ({ onSubmit, paymentTermsOptions }) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<InvoiceFormData>({
     resolver: zodResolver(invoiceSchema),
+    defaultValues: {
+      customer: "",
+      invoiceNumber: "",
+      invoiceDate: new Date().toISOString().split("T")[0],
+      dueDate: "",
+      amountTaxStatus: "Inclusive",
+      paymentTerms: "",
+      reference: "",
+      purchaseOrderNumber: "",
+      template: "Professional invoice",
+      notes: "",
+      paymentDetails: "BSB 134-456, Account 987654",
+      lineItems: [],
+    },
   })
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(
+        (data) => {
+          console.log(
+            "📢 Submitted invoice data:",
+            JSON.stringify(data, null, 2)
+          )
+          console.log("📢 Submitted paymentTerms):", data.paymentTerms)
+          data.lineItems.forEach((item, index) => {
+            console.log(`📢 ${index + 1} LineItem:`, item)
+            console.log(
+              `👉 discountPercent:`,
+              typeof item.discountPercent,
+              item.discountPercent
+            )
+            console.log(
+              `👉 discountAmount:`,
+              typeof item.discountAmount,
+              item.discountAmount
+            )
+          })
+          onSubmit(data, reset)
+        },
+        (errors) => {
+          console.error("❌ Form validation failed:", errors)
+        }
+      )}
       className="bg-white shadow-md rounded-lg p-8 space-y-10"
     >
-      {/* basic information part */}
+      {/* Basic Info */}
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Basic Invoice Information
         </h2>
-        <InvoiceFormHeader control={control} errors={errors} />
+        <InvoiceFormHeader
+          control={control}
+          errors={errors}
+          paymentTermsOptions={paymentTermsOptions}
+        />
       </section>
 
-      {/* line item part */}
+      {/* Line Items */}
       <section>
         <InvoiceLineItems control={control} errors={errors} />
         <InvoiceFooter control={control} />
       </section>
 
+      {/* Buttons */}
       <div className="flex justify-end space-x-3">
         <button
           type="button"
