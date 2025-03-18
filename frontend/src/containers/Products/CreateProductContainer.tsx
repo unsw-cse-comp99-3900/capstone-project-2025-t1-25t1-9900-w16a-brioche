@@ -36,10 +36,14 @@ import {
 } from "@/types/product"
 import { useCreateProduct } from "@/hooks/product/useCreateProduct"
 import { toast } from "sonner"
+import useProducts from "@/hooks/product/useProducts"
+import useAccounts from "@/hooks/account/useAccounts"
 
 const CreateProductContainer: React.FC = () => {
   const navigate = useNavigate()
   const createProduct = useCreateProduct()
+  const { data: products = [], isLoading: isLoadingProducts } = useProducts()
+  const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -112,9 +116,14 @@ const CreateProductContainer: React.FC = () => {
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.value)}
+                          disabled={isLoadingProducts}
                         >
                           <option value="">No Parent</option>
-                          <option value="Installation">Installation</option>
+                          {products.map((product) => (
+                            <option key={product.id} value={product.name}>
+                              {product.name}
+                            </option>
+                          ))}
                         </select>
                       </FormControl>
                       <FormMessage />
@@ -294,10 +303,14 @@ const CreateProductContainer: React.FC = () => {
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           value={field.value}
                           onChange={(e) => field.onChange(e.target.value)}
+                          disabled={isLoadingAccounts}
                         >
                           <option value="">Select an account</option>
-                          <option value="Sales">Sales</option>
-                          <option value="Income">Income</option>
+                          {accounts.map((account) => (
+                            <option key={account.id} value={account.name}>
+                              {account.name}
+                            </option>
+                          ))}
                         </select>
                       </FormControl>
                       <FormMessage />
