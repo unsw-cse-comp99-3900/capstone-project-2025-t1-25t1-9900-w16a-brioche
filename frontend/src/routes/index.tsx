@@ -16,13 +16,14 @@ import InvoiceFormPage from "@/pages/InvoiceFormPage"
 import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
-import InvoiceTestPage from "@/pages/ApiTestPage"
+// import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
 import EditCustomerPage from "@/pages/EditCustomerPage"
 import ProductsPage from "@/pages/ProductsPage"
 import CreateProductPage from "@/pages/CreateProductPage"
+import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
 
 // Define routes
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
+        path: "/invoices",
+        element: <InvoicesPage />,
+      },
+      {
         path: "/invoice/upload",
         element: <InvoiceUploadPage />,
       },
@@ -108,10 +113,10 @@ const router = createBrowserRouter([
         path: "/products/:id/edit",
         element: <EditProductPage />,
       },
-      {
-        path: "/api-test",
-        element: <InvoiceTestPage />,
-      },
+      // {
+      //   path: "/api-test",
+      //   element: <InvoiceTestPage />,
+      // },
     ],
   },
 
