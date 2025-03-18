@@ -134,30 +134,18 @@ export type ProductFormValues = z.infer<typeof productFormSchema>
 
 // API Request Schema (transform form values to API format)
 export const apiRequestSchema = productFormSchema.transform((data) => {
-  // Create a clean request object with only the fields expected by API
-  const request: any = {
+  return {
     name: data.name,
     itemType: data.itemType,
     itemCode: data.itemCode || null,
     status: data.status,
     amountTaxStatus: data.amountTaxStatus,
-  }
-
-  if (data.parentItem) {
-    request.parentItem = data.parentItem
-  }
-
-  request.sale = {
-    price: data.price || 0,
-    description: data.description || null,
-    ledgerAccount: data.ledgerAccount || "Income", // Default to Income
-    taxRate: data.taxRate || "GST", // Use selected tax rate or default to GST
-  }
-
-  // Handle purchase object if provided
-  // if (data.purchase) {
-  //   request.purchase = data.purchase
-  // }
-
-  return request
+    parentItem: data.parentItem || undefined,
+    sale: {
+      price: data.price || 0,
+      description: data.description || null,
+      ledgerAccount: data.ledgerAccount || "Income", // Default to Income
+      taxRate: data.taxRate || "GST", // Use selected tax rate or default to GST
+    }
+  };
 })
