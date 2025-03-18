@@ -23,6 +23,7 @@ import LoadingPage from "@/pages/LoadingPage"
 import EditCustomerPage from "@/pages/EditCustomerPage"
 import ProductsPage from "@/pages/ProductsPage"
 import CreateProductPage from "@/pages/CreateProductPage"
+import EditProductPage from "@/pages/EditProductPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/products/:id/edit",
-        element: <CreateProductPage />,
+        element: <EditProductPage />,
       },
       {
         path: "/api-test",

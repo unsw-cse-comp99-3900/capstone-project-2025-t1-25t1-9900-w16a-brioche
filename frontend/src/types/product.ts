@@ -35,6 +35,12 @@ export const itemUseInputSchema = z.object({
 export const productSchema = z.object({
   id: z.string(),
   name: z.string(),
+  parentItem: z
+    .object({
+      id: z.string().nullable(),
+      name: z.string().nullable(),
+    })
+    .optional(),
   fullName: z.string(),
   itemType: z.string(),
   itemCode: z.string().nullable(),
@@ -149,3 +155,29 @@ export const apiRequestSchema = productFormSchema.transform((data) => {
     },
   }
 })
+
+// Transform schema to convert API data to form data
+export const apiToFormSchema = productSchema.transform(
+  (data): ProductFormValues => {
+    // Get sale information with defaults
+    const saleInfo = data.sale || {
+      price: 0,
+      description: null,
+      ledgerAccount: { id: "", name: "" },
+      taxRate: { id: "", name: "", percent: 0 },
+    }
+
+    return {
+      name: data.name,
+      parentItem: data.parentItem?.name || undefined,
+      itemType: data.itemType as keyof typeof ItemType,
+      itemCode: data.itemCode || undefined,
+      status: data.status as keyof typeof ItemStatus,
+      amountTaxStatus: data.amountTaxStatus as keyof typeof ItemAmountTaxStatus,
+      price: saleInfo.price !== null ? saleInfo.price : 0,
+      description: saleInfo.description || undefined,
+      ledgerAccount: saleInfo.ledgerAccount?.name || undefined,
+      taxRate: saleInfo.taxRate?.name || "GST",
+    }
+  }
+)

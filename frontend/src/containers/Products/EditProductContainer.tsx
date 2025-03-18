@@ -1,5 +1,5 @@
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -33,15 +33,20 @@ import {
   ItemType,
   ItemStatus,
   ItemAmountTaxStatus,
+  apiToFormSchema,
 } from "@/types/product"
-import { useCreateProduct } from "@/hooks/product/useCreateProduct"
+import useEditProduct from "@/hooks/product/useEditProduct"
+import useProduct from "@/hooks/product/useProduct"
 import { toast } from "sonner"
 import useProducts from "@/hooks/product/useProducts"
 import useAccounts from "@/hooks/account/useAccounts"
 
-const CreateProductContainer: React.FC = () => {
+export const EditProductContainer: React.FC = () => {
   const navigate = useNavigate()
-  const createProduct = useCreateProduct()
+  const { id } = useParams<{ id: string }>()
+  console.log("productId in EditProductContainer", id)
+  const { data: product, isLoading } = useProduct(id ?? "")
+  const { mutate: editProduct, isPending: isEditing } = useEditProduct(id ?? "")
   const { data: products = [], isLoading: isLoadingProducts } = useProducts()
   const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
@@ -57,21 +62,30 @@ const CreateProductContainer: React.FC = () => {
       price: 0,
       description: "",
       ledgerAccount: "",
-      taxRate: "GST", // Default to GST
+      taxRate: "GST",
     },
+    values: product ? apiToFormSchema.parse(product) : undefined,
   })
 
   const onSubmit = async (data: ProductFormValues) => {
     try {
-      await createProduct.mutateAsync(data)
-      toast.success("Product created successfully")
+      await editProduct(data)
+      toast.success("Product updated successfully")
       navigate("/products")
     } catch (error) {
-      toast.error("Failed to create product", {
+      toast.error("Failed to update product", {
         description: `Error: ${error}`,
       })
-      console.error("Error creating product:", error)
+      console.error("Error updating product:", error)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (
@@ -119,11 +133,13 @@ const CreateProductContainer: React.FC = () => {
                           disabled={isLoadingProducts}
                         >
                           <option value="">No Parent</option>
-                          {products.map((product) => (
-                            <option key={product.id} value={product.name}>
-                              {product.name}
-                            </option>
-                          ))}
+                          {products
+                            .filter((p) => p.id !== id) // Prevent self-reference
+                            .map((product) => (
+                              <option key={product.id} value={product.name}>
+                                {product.name}
+                              </option>
+                            ))}
                         </select>
                       </FormControl>
                       <FormMessage />
@@ -369,11 +385,11 @@ const CreateProductContainer: React.FC = () => {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={createProduct.isPending}
+                  disabled={isEditing}
                   className="ml-3 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center gap-1"
                 >
                   <Save className="h-4 w-4" />
-                  {createProduct.isPending ? "Creating..." : "Create Product"}
+                  {isEditing ? "Updating..." : "Update Product"}
                 </Button>
               </div>
             </div>
@@ -384,4 +400,4 @@ const CreateProductContainer: React.FC = () => {
   )
 }
 
-export default CreateProductContainer
+export default EditProductContainer
