@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
-import GlowHoverEffect from '@/components/common/GlowHoverEffect';
+import React, { ReactNode } from "react"
+import GlowHoverEffect from "@/components/common/GlowHoverEffect"
 
 interface FAQItemProps {
-  icon: ReactNode;
-  question: string;
-  answer: ReactNode;
+  icon: ReactNode
+  question: string
+  answer: ReactNode
 }
 
 const FAQItem: React.FC<FAQItemProps> = ({ icon, question, answer }) => {
@@ -19,12 +19,12 @@ const FAQItem: React.FC<FAQItemProps> = ({ icon, question, answer }) => {
           </div>
           <h3 className="text-lg font-semibold text-gray-900">{question}</h3>
         </div>
-        
+
         <div className="h-px w-full bg-gradient-to-r from-primary-100 to-blue-100 mb-6"></div>
         {answer}
       </div>
     </GlowHoverEffect>
-  );
-};
+  )
+}
 
-export default FAQItem;
+export default FAQItem
