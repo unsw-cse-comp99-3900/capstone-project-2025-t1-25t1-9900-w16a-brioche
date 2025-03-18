@@ -4,7 +4,7 @@ import { productResponseSchema, type Product } from "@/types/product"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
 /**
- * Custom hook to fetch products from the Reckon API
+ * product hook to fetch products from the Reckon API
  * Uses Zod for runtime validation and type inference
  *
  * @param page - The page number to fetch (default: 1)
