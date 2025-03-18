@@ -37,7 +37,7 @@ export const useInvoices = (page = 1, perPage = 9999) => {
 
         // Include all other fields from the API
         ...invoice,
-      }))
+      })) as Invoice[]
 
       return processedInvoices
     },
