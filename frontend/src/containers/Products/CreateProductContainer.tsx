@@ -27,12 +27,12 @@ import {
   BarcodeIcon,
   LucideCircleDot,
 } from "lucide-react"
-import { 
-  productFormSchema, 
+import {
+  productFormSchema,
   type ProductFormValues,
   ItemType,
   ItemStatus,
-  ItemAmountTaxStatus 
+  ItemAmountTaxStatus,
 } from "@/types/product"
 import { useCreateProduct } from "@/hooks/product/useCreateProduct"
 import { toast } from "sonner"
@@ -189,7 +189,11 @@ const CreateProductContainer: React.FC = () => {
                           <Switch
                             checked={field.value === ItemStatus.Active}
                             onCheckedChange={(checked) =>
-                              field.onChange(checked ? ItemStatus.Active : ItemStatus.Inactive)
+                              field.onChange(
+                                checked
+                                  ? ItemStatus.Active
+                                  : ItemStatus.Inactive
+                              )
                             }
                           />
                         </FormControl>
@@ -210,7 +214,8 @@ const CreateProductContainer: React.FC = () => {
                     <FormItem className="sm:col-span-3">
                       <FormLabel className="flex items-center gap-1">
                         <DollarSign className="h-4 w-4 text-secondary-500" />
-                        Amount Tax Status <span className="text-red-500">*</span>
+                        Amount Tax Status{" "}
+                        <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <select
@@ -218,8 +223,12 @@ const CreateProductContainer: React.FC = () => {
                           value={field.value}
                           onChange={(e) => field.onChange(e.target.value)}
                         >
-                          <option value={ItemAmountTaxStatus.Inclusive}>Inclusive (Gross)</option>
-                          <option value={ItemAmountTaxStatus.Exclusive}>Exclusive (Net)</option>
+                          <option value={ItemAmountTaxStatus.Inclusive}>
+                            Inclusive (Gross)
+                          </option>
+                          <option value={ItemAmountTaxStatus.Exclusive}>
+                            Exclusive (Net)
+                          </option>
                         </select>
                       </FormControl>
                       <FormMessage />
@@ -244,17 +253,20 @@ const CreateProductContainer: React.FC = () => {
                         Sale Price
                       </FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
+                        <Input
+                          type="number"
                           step="0.01"
                           min="0"
                           {...field}
-                          onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value) || 0)
+                          }
                           value={field.value}
                         />
                       </FormControl>
                       <FormDescription>
-                        {form.watch("amountTaxStatus") === ItemAmountTaxStatus.Inclusive
+                        {form.watch("amountTaxStatus") ===
+                        ItemAmountTaxStatus.Inclusive
                           ? "Price includes tax (gross)"
                           : "Price excludes tax (net)"}
                       </FormDescription>

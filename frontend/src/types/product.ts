@@ -5,17 +5,17 @@ import { z } from "zod"
  */
 export const ItemType = {
   Product: "Product",
-  Service: "Service"
+  Service: "Service",
 } as const
 
 export const ItemStatus = {
   Active: "Active",
-  Inactive: "Inactive"
+  Inactive: "Inactive",
 } as const
 
 export const ItemAmountTaxStatus = {
   Inclusive: "Inclusive",
-  Exclusive: "Exclusive"
+  Exclusive: "Exclusive",
 } as const
 
 /**
@@ -26,7 +26,7 @@ export const itemUseInputSchema = z.object({
   priceAccuracy: z.number().optional(),
   ledgerAccount: z.string(),
   description: z.string().optional(),
-  taxRate: z.string().optional()
+  taxRate: z.string().optional(),
 })
 
 /**
@@ -40,38 +40,42 @@ export const productSchema = z.object({
   itemCode: z.string().nullable(),
   amountTaxStatus: z.string(),
   status: z.string(),
-  purchase: z.object({
-    price: z.number().nullable(),
-    priceNet: z.number().nullable(),
-    priceGross: z.number().nullable(),
-    priceAccuracy: z.number().nullable(),
-    ledgerAccount: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-    description: z.string().nullable(),
-    taxRate: z.object({
-      id: z.string(),
-      name: z.string(),
-      percent: z.number(),
-    }),
-  }).nullable(),
-  sale: z.object({
-    price: z.number().nullable(),
-    priceNet: z.number().nullable(),
-    priceGross: z.number().nullable(),
-    priceAccuracy: z.number().nullable(),
-    ledgerAccount: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-    description: z.string().nullable(),
-    taxRate: z.object({
-      id: z.string(),
-      name: z.string(),
-      percent: z.number(),
-    }),
-  }).nullable(),
+  purchase: z
+    .object({
+      price: z.number().nullable(),
+      priceNet: z.number().nullable(),
+      priceGross: z.number().nullable(),
+      priceAccuracy: z.number().nullable(),
+      ledgerAccount: z.object({
+        id: z.string(),
+        name: z.string(),
+      }),
+      description: z.string().nullable(),
+      taxRate: z.object({
+        id: z.string(),
+        name: z.string(),
+        percent: z.number(),
+      }),
+    })
+    .nullable(),
+  sale: z
+    .object({
+      price: z.number().nullable(),
+      priceNet: z.number().nullable(),
+      priceGross: z.number().nullable(),
+      priceAccuracy: z.number().nullable(),
+      ledgerAccount: z.object({
+        id: z.string(),
+        name: z.string(),
+      }),
+      description: z.string().nullable(),
+      taxRate: z.object({
+        id: z.string(),
+        name: z.string(),
+        percent: z.number(),
+      }),
+    })
+    .nullable(),
   createdDateTime: z.string(),
   lastModifiedDateTime: z.string(),
 })
@@ -81,8 +85,8 @@ export type Product = z.infer<typeof productSchema>
 
 // Define the response schema for the API based on actual response
 export const productResponseSchema = z.object({
-    list: z.array(productSchema),
-  })
+  list: z.array(productSchema),
+})
 
 export type ProductResponse = z.infer<typeof productResponseSchema>
 
@@ -97,26 +101,32 @@ export interface ProductQueryParams {
 
 export const productFormSchema = z.object({
   // Basic information
-  name: z.string().min(2, { 
-    message: "Product name must be at least 2 characters." 
+  name: z.string().min(2, {
+    message: "Product name must be at least 2 characters.",
   }),
 
   parentItem: z.string().optional(),
-  itemType: z.enum([ItemType.Product, ItemType.Service]).default(ItemType.Product),
+  itemType: z
+    .enum([ItemType.Product, ItemType.Service])
+    .default(ItemType.Product),
   itemCode: z.string().optional(),
-  status: z.enum([ItemStatus.Active, ItemStatus.Inactive]).default(ItemStatus.Active),
-  
-  amountTaxStatus: z.enum([
-    ItemAmountTaxStatus.Inclusive, 
-    ItemAmountTaxStatus.Exclusive
-  ]).default(ItemAmountTaxStatus.Inclusive),
-  
+  status: z
+    .enum([ItemStatus.Active, ItemStatus.Inactive])
+    .default(ItemStatus.Active),
+
+  amountTaxStatus: z
+    .enum([ItemAmountTaxStatus.Inclusive, ItemAmountTaxStatus.Exclusive])
+    .default(ItemAmountTaxStatus.Inclusive),
+
   // purchase: itemUseInputSchema.optional(),
   // sale: itemUseInputSchema.optional(),
-  
+
   price: z.number().min(0).optional(),
   description: z.string().optional(),
-  ledgerAccount: z.string().min(1, {message: "Ledger account is required"}).optional(),
+  ledgerAccount: z
+    .string()
+    .min(1, { message: "Ledger account is required" })
+    .optional(),
   taxRate: z.string().default("GST"), // Default to GST
 })
 
@@ -130,24 +140,24 @@ export const apiRequestSchema = productFormSchema.transform((data) => {
     itemType: data.itemType,
     itemCode: data.itemCode || null,
     status: data.status,
-    amountTaxStatus: data.amountTaxStatus
+    amountTaxStatus: data.amountTaxStatus,
   }
-  
+
   if (data.parentItem) {
     request.parentItem = data.parentItem
   }
-  
+
   request.sale = {
     price: data.price || 0,
     description: data.description || null,
     ledgerAccount: data.ledgerAccount || "Income", // Default to Income
-    taxRate: data.taxRate || "GST" // Use selected tax rate or default to GST
+    taxRate: data.taxRate || "GST", // Use selected tax rate or default to GST
   }
-  
+
   // Handle purchase object if provided
   // if (data.purchase) {
   //   request.purchase = data.purchase
   // }
-  
+
   return request
 })
