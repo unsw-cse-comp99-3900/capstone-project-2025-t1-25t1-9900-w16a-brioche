@@ -23,6 +23,7 @@ import LoadingPage from "@/pages/LoadingPage"
 import EditCustomerPage from "@/pages/EditCustomerPage"
 import ProductsPage from "@/pages/ProductsPage"
 import CreateProductPage from "@/pages/CreateProductPage"
+import InvoicesPage from "@/pages/invoices/InvoicesPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <DashboardPage />,
+      },
+      {
+        path: "/invoices",
+        element: <InvoicesPage />,
       },
       {
         path: "/invoice/upload",
