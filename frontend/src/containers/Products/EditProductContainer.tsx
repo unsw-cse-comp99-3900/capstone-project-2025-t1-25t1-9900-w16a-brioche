@@ -62,7 +62,7 @@ export const EditProductContainer: React.FC = () => {
       price: 0,
       description: "",
       ledgerAccount: "",
-      taxRate: "GST", 
+      taxRate: "GST",
     },
     values: product ? apiToFormSchema.parse(product) : undefined,
   })
@@ -308,6 +308,9 @@ export const EditProductContainer: React.FC = () => {
                           onChange={(e) => field.onChange(e.target.value)}
                         >
                           <option value="GST">GST (10%)</option>
+                          <option value="FRE">FRE (0%)</option>
+                          <option value="WET">WET (29%)</option>
+                          <option value="WGST">WGST (12.9%)</option>
                           <option value="">None</option>
                         </select>
                       </FormControl>
