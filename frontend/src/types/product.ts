@@ -146,6 +146,6 @@ export const apiRequestSchema = productFormSchema.transform((data) => {
       description: data.description || null,
       ledgerAccount: data.ledgerAccount || "Income", // Default to Income
       taxRate: data.taxRate || "GST", // Use selected tax rate or default to GST
-    }
-  };
+    },
+  }
 })
