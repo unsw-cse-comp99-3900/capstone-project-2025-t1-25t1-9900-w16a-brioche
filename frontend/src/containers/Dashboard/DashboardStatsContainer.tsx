@@ -435,10 +435,12 @@ const DashboardStatsContainer: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Top Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-all hover:shadow-xl">
+        <Card className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50 dark:hover:from-slate-800 dark:hover:to-blue-900/20 group">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-primary" />
+              <div className="p-2 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                <Wallet className="h-5 w-5" />
+              </div>
               Total Revenue
             </CardTitle>
             <CardDescription>All time revenue</CardDescription>
@@ -457,10 +459,12 @@ const DashboardStatsContainer: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-all hover:shadow-xl">
+        <Card className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-amber-50 dark:hover:from-slate-800 dark:hover:to-amber-900/20 group">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Clock className="h-5 w-5 text-amber-500" />
+              <div className="p-2 rounded-full bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                <Clock className="h-5 w-5" />
+              </div>
               Pending Revenue
             </CardTitle>
             <CardDescription>From pending invoices</CardDescription>
@@ -479,10 +483,12 @@ const DashboardStatsContainer: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-all hover:shadow-xl">
+        <Card className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50 dark:hover:from-slate-800 dark:hover:to-blue-900/20 group">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Users className="h-5 w-5 text-blue-500" />
+              <div className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300">
+                <Users className="h-5 w-5" />
+              </div>
               Active Customers
             </CardTitle>
             <CardDescription>With invoices</CardDescription>
@@ -506,10 +512,12 @@ const DashboardStatsContainer: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-all hover:shadow-xl">
+        <Card className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-emerald-50 dark:hover:from-slate-800 dark:hover:to-emerald-900/20 group">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-emerald-500" />
+              <div className="p-2 rounded-full bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                <DollarSign className="h-5 w-5" />
+              </div>
               Avg. Invoice Value
             </CardTitle>
             <CardDescription>Per invoice</CardDescription>
@@ -553,10 +561,12 @@ const DashboardStatsContainer: React.FC = () => {
         {/* Business Overview Tab */}
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-              <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+            <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+              <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
                 <CardTitle className="flex items-center gap-2">
-                  <PieChartIcon className="h-5 w-5 text-primary" />
+                  <div className="p-1.5 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <PieChartIcon className="h-5 w-5" />
+                  </div>
                   Invoice Status Distribution
                 </CardTitle>
                 <CardDescription>
@@ -593,10 +603,12 @@ const DashboardStatsContainer: React.FC = () => {
             </Card>
 
             {/* Monthly Revenue & Invoices */}
-            <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-              <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+            <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+              <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
                 <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5 text-primary" />
+                  <div className="p-1.5 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <BarChart3 className="h-5 w-5" />
+                  </div>
                   Monthly Business Overview
                 </CardTitle>
                 <CardDescription>
