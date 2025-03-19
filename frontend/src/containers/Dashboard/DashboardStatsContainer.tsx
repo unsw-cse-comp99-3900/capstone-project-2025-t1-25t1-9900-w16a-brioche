@@ -539,27 +539,50 @@ const DashboardStatsContainer: React.FC = () => {
 
       {/* Charts */}
       <Tabs defaultValue="overview" className="mb-8">
-        <TabsList className="mb-4 w-full md:w-auto border bg-background p-1 rounded-lg shadow-sm">
-          <TabsTrigger value="overview" className="flex items-center gap-1.5">
-            <PieChartIcon className="h-4 w-4" />
-            Business Overview
+        <TabsList className="mb-6 w-full md:w-auto bg-transparent border-0 p-1.5 rounded-xl backdrop-blur-sm flex flex-wrap justify-center gap-1">
+          <TabsTrigger
+            value="overview"
+            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-primary"
+          >
+            <div className="p-1.5 rounded-full bg-primary/10 text-primary">
+              <PieChartIcon className="h-4 w-4" />
+            </div>
+            <span>Business Overview</span>
           </TabsTrigger>
-          <TabsTrigger value="customers" className="flex items-center gap-1.5">
-            <Users className="h-4 w-4" />
-            Customer Insights
+          <TabsTrigger
+            value="customers"
+            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-blue-500"
+          >
+            <div className="p-1.5 rounded-full bg-blue-500/10 text-blue-500">
+              <Users className="h-4 w-4" />
+            </div>
+            <span>Customer Insights</span>
           </TabsTrigger>
-          <TabsTrigger value="products" className="flex items-center gap-1.5">
-            <ShoppingCart className="h-4 w-4" />
-            Product Performance
+          <TabsTrigger
+            value="products"
+            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-amber-500"
+          >
+            <div className="p-1.5 rounded-full bg-amber-500/10 text-amber-500">
+              <ShoppingCart className="h-4 w-4" />
+            </div>
+            <span>Product Performance</span>
           </TabsTrigger>
-          <TabsTrigger value="trends" className="flex items-center gap-1.5">
-            <Activity className="h-4 w-4" />
-            Trends & Forecasts
+          <TabsTrigger
+            value="trends"
+            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-emerald-500"
+          >
+            <div className="p-1.5 rounded-full bg-emerald-500/10 text-emerald-500">
+              <Activity className="h-4 w-4" />
+            </div>
+            <span>Trends & Forecasts</span>
           </TabsTrigger>
         </TabsList>
 
         {/* Business Overview Tab */}
-        <TabsContent value="overview" className="space-y-4">
+        <TabsContent
+          value="overview"
+          className="animate-in fade-in-50 duration-300"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
               <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
@@ -651,7 +674,10 @@ const DashboardStatsContainer: React.FC = () => {
         </TabsContent>
 
         {/* Customer Insights Tab */}
-        <TabsContent value="customers">
+        <TabsContent
+          value="customers"
+          className="animate-in fade-in-50 duration-300"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
               <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
@@ -730,7 +756,10 @@ const DashboardStatsContainer: React.FC = () => {
         </TabsContent>
 
         {/* Product Performance Tab */}
-        <TabsContent value="products">
+        <TabsContent
+          value="products"
+          className="animate-in fade-in-50 duration-300"
+        >
           <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
             <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
               <CardTitle className="flex items-center gap-2">
@@ -773,7 +802,10 @@ const DashboardStatsContainer: React.FC = () => {
         </TabsContent>
 
         {/* Trends Tab */}
-        <TabsContent value="trends">
+        <TabsContent
+          value="trends"
+          className="animate-in fade-in-50 duration-300"
+        >
           <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
             <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
               <CardTitle className="flex items-center gap-2">
