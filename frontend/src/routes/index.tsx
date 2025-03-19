@@ -12,7 +12,6 @@ import LoginPage from "@/pages/LoginPage"
 import RegistrationPage from "@/pages/RegistrationPage"
 import DashboardPage from "@/pages/DashboardPage"
 import InvoiceUploadPage from "@/pages/InvoiceCsvUploadPage"
-import InvoiceFormPage from "@/pages/InvoiceFormPage"
 import ValidationResultsPage from "@/pages/ValidationResultsPage"
 import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
@@ -25,6 +24,7 @@ import ProductsPage from "@/pages/ProductsPage"
 import CreateProductPage from "@/pages/CreateProductPage"
 import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
+import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -74,12 +74,16 @@ const router = createBrowserRouter([
         element: <InvoicesPage />,
       },
       {
+        path: "/invoices/create",
+        element: <CreateInvoicePage />,
+      },
+      {
         path: "/invoice/upload",
         element: <InvoiceUploadPage />,
       },
       {
         path: "/invoice/create",
-        element: <InvoiceFormPage />,
+        element: <CreateInvoicePage />,
       },
       {
         path: "/invoice/validation",

@@ -200,50 +200,152 @@ export interface InvoiceQueryParams {
   select?: string
 }
 
-// Simplified Invoice Form Schema for Create/Edit
+// Updated InvoiceFormLineItem schema for form input
+export const invoiceFormLineItemSchema = z.object({
+  project: z.string().optional(),
+  item: z.string().optional(),
+  itemPrice: z.string().optional(),
+  account: z.string().optional(),
+  description: z.string().optional(),
+  qty: z.string().optional(),
+  discount: z.string().optional(),
+  taxCode: z.string().optional(),
+  tax: z.string().optional(),
+  amount: z.string().optional(),
+})
+
+export type InvoiceFormLineItem = z.infer<typeof invoiceFormLineItemSchema>
+
+// Updated Invoice Form Schema for Create/Edit based on the form
 export const invoiceFormSchema = z.object({
-  // Basic information
-  invoiceNumber: z.string().optional(),
-  customerId: z.string().optional(),
-  customerName: z.string().optional(),
-  status: z.string().default(InvoiceStatus.Draft),
+  // Basic customer information
+  customer: z.string().min(1, { message: "Customer is required" }),
 
   // Dates
-  invoiceDate: z.string().optional(),
-  dueDate: z.string().optional(),
+  invoiceDate: z.date(),
+  dueDate: z.date().optional(),
 
-  // Amounts
-  totalAmount: z.number().min(0).default(0),
-  balance: z.number().min(0).optional(),
+  // Invoice information
+  paymentTerms: z.string().optional(),
+  referenceCode: z.string().optional(),
+  classification: z.string().optional(),
+
+  // Pricing information
+  invoiceDiscount: z.string().optional(),
+
+  // Line items
+  items: z.array(invoiceFormLineItemSchema),
 
   // Additional information
-  notes: z.string().optional(),
-  reference: z.string().optional(),
-  purchaseOrderNumber: z.string().optional(),
-
-  // Line items would typically be handled separately in a more complex form
+  note: z.string().optional(),
 })
 
 export type InvoiceFormValues = z.infer<typeof invoiceFormSchema>
 
-// Transform schema to convert API data to form data
-export const apiToFormSchema = z
-  .function()
-  .args(invoiceSchema)
-  .returns(invoiceFormSchema)
-  .implement((invoice) => {
+// Helper function to convert form data to API model
+export const formToApiSchema = (formData: InvoiceFormValues) => {
+  // Parse invoice discount to get amount or percentage
+  // let invoiceDiscountAmount: number | null = null
+  // let invoiceDiscountPercent: number | null = null
+
+  // if (formData.invoiceDiscount) {
+  //   if (formData.invoiceDiscount.includes('%')) {
+  //     invoiceDiscountPercent = parseFloat(formData.invoiceDiscount.replace('%', ''))
+  //   } else if (formData.invoiceDiscount.includes('$')) {
+  //     invoiceDiscountAmount = parseFloat(formData.invoiceDiscount.replace('$', ''))
+  //   } else {
+  //     // Assume it's an amount if no symbol
+  //     invoiceDiscountAmount = parseFloat(formData.invoiceDiscount)
+  //   }
+  // }
+
+  // Calculate totals from line items
+  const lineItems = formData.items.map((item, index) => {
     return {
-      invoiceNumber: invoice.invoiceNumber || "",
-      customerId: invoice.customer?.id,
-      status: invoice.status || InvoiceStatus.Draft,
-      dueDate: invoice.dueDate || "",
-      balance: invoice.balance || 0,
-      notes: invoice.notes || "",
-      reference: invoice.reference || "",
-      purchaseOrderNumber: invoice.purchaseOrderNumber || "",
+      lineNumber: index + 1,
+      itemDetails: {
+        item: item.item,
+        price: item.itemPrice,
+        quantity: item.qty,
+      },
+      description: item.description,
     }
   })
 
+  return {
+    customer: formData.customer,
+    invoiceDate: formData.invoiceDate.toISOString().split("T")[0],
+    dueDate: formData.dueDate
+      ? formData.dueDate.toISOString().split("T")[0]
+      : null,
+    lineItems,
+    notes: formData.note,
+    amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
+  }
+}
+
+// Helper function to convert API data to form data
+export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
+  // Format invoice discount
+  let invoiceDiscount = ""
+  if (invoice.invoiceDiscountPercent) {
+    invoiceDiscount = `${invoice.invoiceDiscountPercent}%`
+  } else if (invoice.invoiceDiscountAmount) {
+    invoiceDiscount = `$${invoice.invoiceDiscountAmount}`
+  }
+
+  // Convert line items
+  const items =
+    invoice.lineItems?.map((lineItem) => {
+      return {
+        project: lineItem?.project?.id || "",
+        item: lineItem?.itemDetails?.item?.id || "",
+        itemPrice: lineItem?.itemDetails?.price?.toString() || "",
+        account: lineItem?.accountDetails?.ledgerAccount?.id || "",
+        description: lineItem?.description || "",
+        qty: lineItem?.itemDetails?.quantity?.toString() || "",
+        discount: lineItem?.itemDetails?.discountAmount?.toString() || "",
+        taxCode: lineItem?.taxRate?.id || "",
+        tax: lineItem?.taxAmount?.toString() || "",
+        amount:
+          lineItem?.itemDetails?.price && lineItem?.itemDetails?.quantity
+            ? (
+                lineItem.itemDetails.price * lineItem.itemDetails.quantity
+              ).toString()
+            : "",
+      }
+    }) || []
+
+  return {
+    customer: invoice.customer?.id || "",
+    invoiceDate: invoice.invoiceDate
+      ? new Date(invoice.invoiceDate)
+      : new Date(),
+    dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
+    paymentTerms: invoice.paymentTerms?.id || "",
+    referenceCode: invoice.reference || "",
+    classification: invoice.classification?.id || "",
+    invoiceDiscount,
+    items:
+      items.length > 0
+        ? items
+        : [
+            {
+              project: "",
+              item: "",
+              itemPrice: "",
+              account: "",
+              description: "",
+              qty: "",
+              discount: "",
+              taxCode: "",
+              tax: "",
+              amount: "",
+            },
+          ],
+    note: invoice.notes || "",
+  }
+}
 // Add: Elevate some fields to the top level for easy DataTable searching and sorting
 export const invoiceTopLevelSchema = invoiceSchema.transform((data) => ({
   ...data,
