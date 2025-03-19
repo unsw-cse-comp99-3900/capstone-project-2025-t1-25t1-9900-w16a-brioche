@@ -59,8 +59,17 @@ const InvoiceTableContainer: React.FC = () => {
     const styles = {
       Paid: "bg-green-100 text-green-800",
       Draft: "bg-gray-100 text-gray-800",
-      Overdue: "bg-red-100 text-red-800",
-      Pending: "bg-yellow-100 text-yellow-800",
+      // Overdue: "bg-red-100 text-red-800",
+      Approved: "bg-yellow-100 text-yellow-800",
+    }
+    return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
+  }
+
+  //email status badge styles
+  const getEmailStatusBadge = (status: string) => {
+    const styles = {
+      Sent: "bg-green-100 text-green-800",
+      Unsent: "bg-orange-100 text-orange-800",
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
   }
@@ -104,7 +113,7 @@ const InvoiceTableContainer: React.FC = () => {
       key: "emailStatus",
       header: "Email Status",
       render: (invoice) => (
-        <Badge className={getStatusBadge(invoice.emailStatus || "-")}>
+        <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
           {invoice.emailStatus}
         </Badge>
       ),
