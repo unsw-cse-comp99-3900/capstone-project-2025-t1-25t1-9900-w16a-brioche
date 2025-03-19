@@ -10,7 +10,7 @@ import { invoiceResponseSchema, type Invoice } from "@/types/invoice"
  */
 export const useInvoices = () => {
   return useQuery<Invoice[]>({
-    queryKey: ["invoices"],
+    queryKey: ["invoicesTest"],
     queryFn: async () => {
       console.log("Fetching invoices from API...")
       const response = await api.get("/api/invoices/test")
