@@ -449,8 +449,10 @@ const DashboardStatsContainer: React.FC = () => {
             </div>
             <p className="text-sm text-muted-foreground mt-2 flex items-center">
               <TrendingUp className="h-4 w-4 mr-1 text-emerald-500" />
-              <span className="text-emerald-500 font-medium">12%</span> from
-              last month
+              <span className="text-emerald-500 font-medium mr-1">
+                12%
+              </span>{" "}
+              from last month
             </p>
           </CardContent>
         </Card>
@@ -469,7 +471,7 @@ const DashboardStatsContainer: React.FC = () => {
             </div>
             <p className="text-sm text-muted-foreground mt-2 flex items-center">
               <ArrowUpCircle className="h-4 w-4 mr-1 text-amber-500" />
-              <span className="text-amber-500 font-medium">
+              <span className="text-amber-500 font-medium mr-1">
                 {insights.metrics.pendingInvoices} invoices
               </span>{" "}
               pending
@@ -491,7 +493,7 @@ const DashboardStatsContainer: React.FC = () => {
             </div>
             <p className="text-sm text-muted-foreground mt-2 flex items-center">
               <TrendingUp className="h-4 w-4 mr-1 text-emerald-500" />
-              <span className="text-emerald-500 font-medium">
+              <span className="text-emerald-500 font-medium mr-1">
                 {Math.round(
                   (insights.metrics.activeCustomers /
                     insights.metrics.totalCustomers) *
@@ -518,8 +520,10 @@ const DashboardStatsContainer: React.FC = () => {
             </div>
             <p className="text-sm text-muted-foreground mt-2 flex items-center">
               <TrendingUp className="h-4 w-4 mr-1 text-emerald-500" />
-              <span className="text-emerald-500 font-medium">18%</span> from
-              last month
+              <span className="text-emerald-500 font-medium mr-1">
+                18%
+              </span>{" "}
+              from last month
             </p>
           </CardContent>
         </Card>
