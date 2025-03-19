@@ -5,7 +5,7 @@ import FAQList from "@/components/landing/FAQ_Page/FAQList"
 
 const FAQSection: React.FC = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="faq" className="relative py-24 overflow-hidden">
       <FAQBackground />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
