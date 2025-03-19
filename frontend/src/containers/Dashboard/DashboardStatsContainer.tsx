@@ -653,10 +653,12 @@ const DashboardStatsContainer: React.FC = () => {
         {/* Customer Insights Tab */}
         <TabsContent value="customers">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-              <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+            <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+              <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
                 <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" />
+                  <div className="p-1.5 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300">
+                    <Users className="h-5 w-5" />
+                  </div>
                   Customer Segments
                 </CardTitle>
                 <CardDescription>
@@ -692,10 +694,12 @@ const DashboardStatsContainer: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-              <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+            <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+              <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
                 <CardTitle className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-primary" />
+                  <div className="p-1.5 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <Activity className="h-5 w-5" />
+                  </div>
                   Customer Activity
                 </CardTitle>
                 <CardDescription>Monthly active customers</CardDescription>
@@ -727,10 +731,12 @@ const DashboardStatsContainer: React.FC = () => {
 
         {/* Product Performance Tab */}
         <TabsContent value="products">
-          <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-            <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+          <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+            <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
               <CardTitle className="flex items-center gap-2">
-                <ShoppingCart className="h-5 w-5 text-primary" />
+                <div className="p-1.5 rounded-full bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                  <ShoppingCart className="h-5 w-5" />
+                </div>
                 Top Products Performance
               </CardTitle>
               <CardDescription>
@@ -768,10 +774,12 @@ const DashboardStatsContainer: React.FC = () => {
 
         {/* Trends Tab */}
         <TabsContent value="trends">
-          <Card className="shadow-lg border-0 overflow-hidden bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
-            <CardHeader className="bg-slate-50/50 dark:bg-slate-800/50 border-b">
+          <Card className="shadow-xl border-0 overflow-hidden bg-gradient-to-br from-white/80 to-slate-100 dark:from-slate-800 dark:to-slate-700/90 transition-all hover:shadow-2xl group">
+            <CardHeader className="bg-slate-50/70 dark:bg-slate-800/70 border-b">
               <CardTitle className="flex items-center gap-2">
-                <LineChartIcon className="h-5 w-5 text-primary" />
+                <div className="p-1.5 rounded-full bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                  <LineChartIcon className="h-5 w-5" />
+                </div>
                 Business Growth Trends
               </CardTitle>
               <CardDescription>
