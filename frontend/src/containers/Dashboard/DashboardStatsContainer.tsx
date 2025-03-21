@@ -539,44 +539,54 @@ const DashboardStatsContainer: React.FC = () => {
 
       {/* Charts */}
       <Tabs defaultValue="overview" className="mb-8">
-        <TabsList className="mb-6 w-full md:w-auto bg-transparent border-0 p-1.5 rounded-xl backdrop-blur-sm flex flex-wrap justify-center gap-1">
-          <TabsTrigger
-            value="overview"
-            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-primary"
-          >
-            <div className="p-1.5 rounded-full bg-primary/10 text-primary">
-              <PieChartIcon className="h-4 w-4" />
-            </div>
-            <span>Business Overview</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="customers"
-            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-blue-500"
-          >
-            <div className="p-1.5 rounded-full bg-blue-500/10 text-blue-500">
-              <Users className="h-4 w-4" />
-            </div>
-            <span>Customer Insights</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="products"
-            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-amber-500"
-          >
-            <div className="p-1.5 rounded-full bg-amber-500/10 text-amber-500">
-              <ShoppingCart className="h-4 w-4" />
-            </div>
-            <span>Product Performance</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="trends"
-            className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-emerald-500"
-          >
-            <div className="p-1.5 rounded-full bg-emerald-500/10 text-emerald-500">
-              <Activity className="h-4 w-4" />
-            </div>
-            <span>Trends & Forecasts</span>
-          </TabsTrigger>
-        </TabsList>
+        <div className="relative overflow-x-auto -mx-4 px-4 md:overflow-visible md:px-0 md:mx-0">
+          <TabsList className="mb-6 w-max min-w-full md:min-w-0 md:w-auto bg-transparent border-0 p-1.5 rounded-xl backdrop-blur-sm flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-1.5">
+            <TabsTrigger
+              value="overview"
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-primary"
+            >
+              <div className="p-1.5 rounded-full bg-primary/10 text-primary">
+                <PieChartIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </div>
+              <span className="whitespace-nowrap text-xs md:text-sm">
+                Business Overview
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="customers"
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-blue-500"
+            >
+              <div className="p-1.5 rounded-full bg-blue-500/10 text-blue-500">
+                <Users className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </div>
+              <span className="whitespace-nowrap text-xs md:text-sm">
+                Customer Insights
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="products"
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-amber-500"
+            >
+              <div className="p-1.5 rounded-full bg-amber-500/10 text-amber-500">
+                <ShoppingCart className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </div>
+              <span className="whitespace-nowrap text-xs md:text-sm">
+                Product Performance
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="trends"
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-md rounded-lg transition-all duration-200 data-[state=active]:scale-105 data-[state=active]:text-emerald-500"
+            >
+              <div className="p-1.5 rounded-full bg-emerald-500/10 text-emerald-500">
+                <Activity className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </div>
+              <span className="whitespace-nowrap text-xs md:text-sm">
+                Trends & Forecasts
+              </span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Business Overview Tab */}
         <TabsContent
