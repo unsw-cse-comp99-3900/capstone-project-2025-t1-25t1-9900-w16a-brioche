@@ -221,6 +221,7 @@ export const invoiceFormLineItemSchema = z.object({
   taxCode: z.string().optional(),
   tax: z.string().optional(),
   amount: z.string().optional(),
+  calculatedDiscountAmount: z.string().optional(),
 })
 
 export type InvoiceFormLineItem = z.infer<typeof invoiceFormLineItemSchema>

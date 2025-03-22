@@ -73,7 +73,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
   // Use the createInvoice mutation hook
   const createInvoice = useCreateInvoice()
 
-  const [totals] = useState({
+  const [totals, setTotals] = useState({
     subtotal: "0.00",
     discount: "0.00",
     totalExclTax: "0.00",
@@ -129,6 +129,56 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     form.setValue("dueDate", new Date(dueDateData.dueDate))
     console.log("📆 Due Date updated:", new Date(dueDateData.dueDate))
   }, [dueDateData, form])
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      const items = value.items || []
+      const discountInput = value.invoiceDiscount || ""
+  
+      let subtotal = 0
+      let totalTax = 0
+  
+      items.forEach((item, index) => {
+        if (!item) return
+        const qty = parseFloat(item.qty || "0")
+        const price = parseFloat(item.itemPrice || "0")
+        const tax = parseFloat(item.tax || "0")
+        const discountPercent = parseFloat(item.discount || "0")
+  
+        const baseAmount = qty * price
+        const discountAmount = baseAmount * discountPercent / 100
+        const discountedAmount = baseAmount - discountAmount
+        subtotal += discountedAmount
+        totalTax += tax
+        form.setValue(`items.${index}.calculatedDiscountAmount`, discountAmount.toFixed(2))
+      })
+  
+      // Parse invoice-level discount (like "10%" or "$12")
+      let invoiceDiscount = 0
+      if (discountInput.includes("%")) {
+        invoiceDiscount = subtotal * parseFloat(discountInput.replace("%", "")) / 100
+      } else if (discountInput.includes("$")) {
+        invoiceDiscount = parseFloat(discountInput.replace("$", ""))
+      } else {
+        invoiceDiscount = parseFloat(discountInput || "0")
+      }
+  
+      const totalExclTax = subtotal - invoiceDiscount
+      const grandTotal = totalExclTax + totalTax
+  
+      setTotals({
+        subtotal: subtotal.toFixed(2),
+        discount: invoiceDiscount.toFixed(2),
+        totalExclTax: totalExclTax.toFixed(2),
+        tax: totalTax.toFixed(2),
+        total: grandTotal.toFixed(2),
+      })
+    })
+  
+    return () => subscription.unsubscribe()
+  }, [form])
+  
+  
 
   const { fields, append } = useFieldArray({
     name: "items",
