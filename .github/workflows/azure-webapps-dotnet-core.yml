@@ -1,6 +1,6 @@
 name: Build and deploy ASP.Net Core app to an Azure Web App
 env:
-  AZURE_WEBAPP_NAME: your-app-name
+  AZURE_WEBAPP_NAME: invoice-backend
   AZURE_WEBAPP_PACKAGE_PATH: './publish'
   DOTNET_VERSION: '8.0.x'
 on:
