@@ -87,6 +87,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       customer: "",
       invoiceDate: new Date(),
       dueDate: undefined,
+      referenceCode: "",
       items: [
         {
           project: "",

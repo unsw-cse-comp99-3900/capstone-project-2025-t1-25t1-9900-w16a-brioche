@@ -56,13 +56,13 @@ const projectRefSchema = referenceSchema
 const itemRefSchema = referenceSchema
 
 // PaymentTermRef
-// PaymentTermRef Schema (更新)
+// PaymentTermRef Schema (update)
 const paymentTermRefSchema = z
   .object({
     id: z.string(), // Payment Term ID
     name: z.string(), // Payment Term Name
-    description: z.string().optional(), // 描述信息
-    netDueDay: z.number().optional(), // 账期（例如 15, 30 天）
+    description: z.string().optional(),
+    netDueDay: z.number().optional(),
   })
   .nullable()
   .optional()
@@ -270,13 +270,12 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
 
   // Calculate totals from line items
   const lineItems = formData.items.map((item, index) => {
-    const hasItem = !!item.item // 是否有 item
-    const hasAccount = !!item.account // 是否有 account
+    const hasItem = !!item.item
+    const hasAccount = !!item.account
 
     return {
       lineNumber: index + 1,
 
-      // ✅ 如果有 `item`，优先使用 itemDetails
       ...(hasItem && {
         itemDetails: {
           item: item.item,
@@ -284,17 +283,16 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
           quantity: Number(item.qty) || undefined,
           discountPercent: item.discount
             ? parseFloat(item.discount)
-            : undefined, // ✅ 添加 discountAmount
+            : undefined,
         },
       }),
 
-      // ✅ 只有当没有 `item` 时，才传 `accountDetails`
       ...(hasAccount &&
         !hasItem && {
           accountDetails: {
             ledgerAccount: item.account,
-            quantity: Number(item.qty) || undefined, // ✅ 让 quantity 归 accountDetails
-            amount: (Number(item.itemPrice) || 0) * (Number(item.qty) || 0), // ✅ 让 price 归 accountDetails
+            quantity: Number(item.qty) || undefined,
+            amount: (Number(item.itemPrice) || 0) * (Number(item.qty) || 0),
           },
         }),
 
@@ -309,6 +307,7 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
       ? formData.dueDate.toISOString().split("T")[0]
       : null,
     paymentTerms: formData.paymentTerms,
+    reference: formData.referenceCode || null,
     lineItems,
     notes: formData.note,
     amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
