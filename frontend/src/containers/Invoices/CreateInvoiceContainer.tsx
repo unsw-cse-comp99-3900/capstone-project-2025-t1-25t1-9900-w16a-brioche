@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -51,6 +51,8 @@ import { invoiceFormSchema, InvoiceFormValues } from "@/types/invoice"
 import useAccounts from "@/hooks/account/useAccounts"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
+import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
+import { getDueDateFromAPI } from "@/hooks/payment/usePaymentTerms"
 
 interface CreateInvoiceContainerProps {
   initialData?: InvoiceFormValues
@@ -65,6 +67,8 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
   const { data: products = [], isLoading: isLoadingProducts } = useProducts()
   const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
+  const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
+    usePaymentTerms()
 
   // Use the createInvoice mutation hook
   const createInvoice = useCreateInvoice()
@@ -82,6 +86,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     defaultValues: initialData || {
       customer: "",
       invoiceDate: new Date(),
+      dueDate: undefined,
       items: [
         {
           project: "",
@@ -98,6 +103,62 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       ],
     },
   })
+
+  const paymentTerm = useWatch({ control: form.control, name: "paymentTerms" })
+  const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
+
+  console.log("👀 Live watch:", {
+    invoiceDate: form.watch("invoiceDate"),
+    paymentTerms: form.watch("paymentTerms"),
+  })
+
+  useEffect(() => {
+    if (!paymentTerm || !invoiceDate) {
+      console.log("⏸️ Waiting for paymentTerm and invoiceDate...")
+      return
+    }
+
+    console.log("🔄 useEffect triggered for updateDueDate")
+
+    const updateDueDate = async () => {
+      console.log("🚀 Calling updateDueDate function...")
+      console.log("📌 Term ID:", paymentTerm)
+      console.log("📅 Raw Invoice Date:", invoiceDate)
+
+      if (!paymentTerm || !invoiceDate) {
+        console.warn("⚠️ Missing required values: paymentTermId or invoiceDate")
+        return
+      }
+
+      const formattedInvoiceDate = format(new Date(invoiceDate), "yyyy-MM-dd")
+      console.log("📆 Formatted Invoice Date:", formattedInvoiceDate)
+
+      try {
+        console.log("🔍 Fetching Due Date from API...")
+        const calculatedDueDate = await getDueDateFromAPI(
+          paymentTerm,
+          formattedInvoiceDate
+        )
+
+        console.log("✅ API returned Due Date:", calculatedDueDate)
+
+        if (calculatedDueDate) {
+          form.setValue("dueDate", new Date(calculatedDueDate))
+          console.log("📆 Due Date updated:", new Date(calculatedDueDate))
+        } else {
+          console.warn(
+            "⚠️ API did not return a valid dueDate, using invoiceDate."
+          )
+          form.setValue("dueDate", new Date(formattedInvoiceDate))
+        }
+      } catch (error) {
+        console.error("❌ Error fetching due date from API:", error)
+        form.setValue("dueDate", new Date(formattedInvoiceDate))
+      }
+    }
+
+    updateDueDate()
+  }, [paymentTerm, invoiceDate, form])
 
   const { fields, append } = useFieldArray({
     name: "items",
@@ -253,21 +314,21 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                         <Clock className="h-4 w-4 text-secondary-500" />
                         Payment terms
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select payment term..." />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="net30">Net 30</SelectItem>
-                          <SelectItem value="net60">Net 60</SelectItem>
-                          <SelectItem value="net90">Net 90</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          disabled={isLoadingPaymentTerms}
+                        >
+                          <option value="">None</option>
+                          {paymentTerms.map((term) => (
+                            <option key={term.id} value={term.id}>
+                              {term.name}
+                            </option>
+                          ))}
+                        </select>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -288,10 +349,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                           <FormControl>
                             <Button
                               variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
+                              className="w-full pl-3 text-left font-normal"
                             >
                               {field.value ? (
                                 format(field.value, "dd/MM/yyyy")
@@ -529,7 +587,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                       {accounts.map((account) => (
                                         <option
                                           key={account.id}
-                                          value={account.name}
+                                          value={account.id}
                                         >
                                           {account.name}
                                         </option>
@@ -615,7 +673,28 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-24" />
+                                    <Input
+                                      {...field}
+                                      className="w-24"
+                                      value={(
+                                        Number(
+                                          form.watch(`items.${index}.qty`) || 0
+                                        ) *
+                                        Number(
+                                          form.watch(
+                                            `items.${index}.itemPrice`
+                                          ) || 0
+                                        ) *
+                                        (1 -
+                                          Number(
+                                            form.watch(
+                                              `items.${index}.discount`
+                                            ) || 0
+                                          ) /
+                                            100)
+                                      ).toFixed(2)}
+                                      readOnly // 让它是只读的，防止用户手动输入
+                                    />
                                   </FormControl>
                                 </FormItem>
                               )}
