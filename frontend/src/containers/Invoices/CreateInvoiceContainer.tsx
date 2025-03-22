@@ -52,7 +52,7 @@ import useAccounts from "@/hooks/account/useAccounts"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
-import { getDueDateFromAPI } from "@/hooks/payment/usePaymentTerms"
+import { useDueDate } from "@/hooks/payment/useDueDate"
 
 interface CreateInvoiceContainerProps {
   initialData?: InvoiceFormValues
@@ -104,61 +104,30 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     },
   })
 
-  const paymentTerm = useWatch({ control: form.control, name: "paymentTerms" })
+  const paymentTermId = useWatch({
+    control: form.control,
+    name: "paymentTerms",
+  })
   const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
 
-  console.log("👀 Live watch:", {
-    invoiceDate: form.watch("invoiceDate"),
-    paymentTerms: form.watch("paymentTerms"),
-  })
+  const formattedInvoiceDate = invoiceDate
+    ? format(new Date(invoiceDate), "yyyy-MM-dd")
+    : ""
+
+  const { data: dueDateData } = useDueDate(
+    paymentTermId || "",
+    formattedInvoiceDate
+  )
 
   useEffect(() => {
-    if (!paymentTerm || !invoiceDate) {
-      console.log("⏸️ Waiting for paymentTerm and invoiceDate...")
+    if (!dueDateData?.dueDate) {
+      console.log("⚠️ API did not return a valid dueDate, using invoiceDate.")
       return
     }
 
-    console.log("🔄 useEffect triggered for updateDueDate")
-
-    const updateDueDate = async () => {
-      console.log("🚀 Calling updateDueDate function...")
-      console.log("📌 Term ID:", paymentTerm)
-      console.log("📅 Raw Invoice Date:", invoiceDate)
-
-      if (!paymentTerm || !invoiceDate) {
-        console.warn("⚠️ Missing required values: paymentTermId or invoiceDate")
-        return
-      }
-
-      const formattedInvoiceDate = format(new Date(invoiceDate), "yyyy-MM-dd")
-      console.log("📆 Formatted Invoice Date:", formattedInvoiceDate)
-
-      try {
-        console.log("🔍 Fetching Due Date from API...")
-        const calculatedDueDate = await getDueDateFromAPI(
-          paymentTerm,
-          formattedInvoiceDate
-        )
-
-        console.log("✅ API returned Due Date:", calculatedDueDate)
-
-        if (calculatedDueDate) {
-          form.setValue("dueDate", new Date(calculatedDueDate))
-          console.log("📆 Due Date updated:", new Date(calculatedDueDate))
-        } else {
-          console.warn(
-            "⚠️ API did not return a valid dueDate, using invoiceDate."
-          )
-          form.setValue("dueDate", new Date(formattedInvoiceDate))
-        }
-      } catch (error) {
-        console.error("❌ Error fetching due date from API:", error)
-        form.setValue("dueDate", new Date(formattedInvoiceDate))
-      }
-    }
-
-    updateDueDate()
-  }, [paymentTerm, invoiceDate, form])
+    form.setValue("dueDate", new Date(dueDateData.dueDate))
+    console.log("📆 Due Date updated:", new Date(dueDateData.dueDate))
+  }, [dueDateData, form])
 
   const { fields, append } = useFieldArray({
     name: "items",
