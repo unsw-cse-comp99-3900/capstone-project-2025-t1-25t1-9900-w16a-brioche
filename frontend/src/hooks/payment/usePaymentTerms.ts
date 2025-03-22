@@ -1,27 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import api from "@/lib/axios"
-import { z } from "zod"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
-
-const paymentTermSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  status: z.string(),
-  isDefault: z.boolean(),
-  useForInvoice: z.boolean(),
-  netDueDay: z.number(),
-  netDueDaySelection: z.string(),
-  isDueDateWeekend: z.boolean(),
-  isIssuedWithinDays: z.boolean(),
-  issuedWithinDays: z.number(),
-})
-
-const paymentTermsResponseSchema = z.object({
-  list: z.array(paymentTermSchema),
-})
-
-export type PaymentTerm = z.infer<typeof paymentTermSchema>
+import { PaymentTerm } from "@/types/payment"
+import { paymentTermsResponseSchema } from "@/types/payment"
 
 export const usePaymentTerms = () => {
   return useQuery<PaymentTerm[]>({
@@ -64,29 +45,6 @@ export const getPaymentTermById = async (termId: string) => {
     return response.data
   } catch (error) {
     console.error("❌ Error fetching Payment Term:", error)
-    return null
-  }
-}
-
-export const getDueDateFromAPI = async (
-  termId: string,
-  invoiceDate: string
-) => {
-  try {
-    const url = `/${Demo_RECKON_BOOK_ID}/terms/${termId}/duedate/basedate/${invoiceDate}`
-    console.log("🧩 Full API URL:", url)
-
-    const response = await api.get(url)
-    console.log("📡 API Full Response:", response.data)
-
-    if (response.data && response.data.dueDate) {
-      return response.data.dueDate
-    } else {
-      console.warn("⚠️ API response missing dueDate:", response.data)
-      return null
-    }
-  } catch (error) {
-    console.error("❌ API Error:", error)
     return null
   }
 }
