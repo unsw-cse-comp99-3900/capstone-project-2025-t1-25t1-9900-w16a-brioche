@@ -138,19 +138,22 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       let subtotal = 0
       let totalTax = 0
   
-      items.forEach((item, index) => {
+      items.forEach((item) => {
         if (!item) return
+  
         const qty = parseFloat(item.qty || "0")
         const price = parseFloat(item.itemPrice || "0")
         const tax = parseFloat(item.tax || "0")
         const discountPercent = parseFloat(item.discount || "0")
   
         const baseAmount = qty * price
-        const discountAmount = baseAmount * discountPercent / 100
-        const discountedAmount = baseAmount - discountAmount
+        const discountedAmount = baseAmount * (1 - discountPercent / 100)
+  
         subtotal += discountedAmount
         totalTax += tax
-        form.setValue(`items.${index}.calculatedDiscountAmount`, discountAmount.toFixed(2))
+  
+        // ❌ 不要在 watch 中 setValue，会导致无限递归
+        // ✅ 如果后面真的需要显示 discount amount，可用 useMemo 或计算字段方式展示
       })
   
       // Parse invoice-level discount (like "10%" or "$12")
