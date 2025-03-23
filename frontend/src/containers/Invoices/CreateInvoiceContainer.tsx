@@ -88,6 +88,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       invoiceDate: new Date(),
       dueDate: undefined,
       referenceCode: "",
+      invoiceDiscount: "",
       items: [
         {
           project: "",
@@ -152,8 +153,6 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
         subtotal += discountedAmount
         totalTax += tax
   
-        // ❌ 不要在 watch 中 setValue，会导致无限递归
-        // ✅ 如果后面真的需要显示 discount amount，可用 useMemo 或计算字段方式展示
       })
   
       // Parse invoice-level discount (like "10%" or "$12")
@@ -716,7 +715,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                           ) /
                                             100)
                                       ).toFixed(2)}
-                                      readOnly // 让它是只读的，防止用户手动输入
+                                      readOnly
                                     />
                                   </FormControl>
                                 </FormItem>

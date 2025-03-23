@@ -269,6 +269,19 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
   //   }
   // }
 
+  let invoiceDiscountAmount: number | null = null
+  let invoiceDiscountPercent: number | null = null
+
+  if (formData.invoiceDiscount) {
+    if (formData.invoiceDiscount.includes('%')) {
+      invoiceDiscountPercent = parseFloat(formData.invoiceDiscount.replace('%', ''))
+    } else if (formData.invoiceDiscount.includes('$')) {
+      invoiceDiscountAmount = parseFloat(formData.invoiceDiscount.replace('$', ''))
+    } else {
+      invoiceDiscountAmount = parseFloat(formData.invoiceDiscount)
+    }
+  }
+
   // Calculate totals from line items
   const lineItems = formData.items.map((item, index) => {
     const hasItem = !!item.item
@@ -312,6 +325,8 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
     lineItems,
     notes: formData.note,
     amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
+    ...(invoiceDiscountAmount !== null && { invoiceDiscountAmount }),
+    ...(invoiceDiscountPercent !== null && { invoiceDiscountPercent }),
   }
 }
 
