@@ -238,6 +238,7 @@ export const invoiceFormSchema = z.object({
 
   // Additional information
   note: z.string().optional(),
+  paymentDetails: z.string().optional(),
 })
 
 export type InvoiceFormValues = z.infer<typeof invoiceFormSchema>
@@ -320,6 +321,7 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
     reference: formData.referenceCode || null,
     lineItems,
     notes: formData.note,
+    paymentDetails: formData.paymentDetails,
     amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
     ...(invoiceDiscountAmount !== null && { invoiceDiscountAmount }),
     ...(invoiceDiscountPercent !== null && { invoiceDiscountPercent }),
@@ -382,6 +384,7 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
             },
           ],
     note: invoice.notes || "",
+    paymentDetails: invoice.paymentDetails || "",
   }
 }
 // Add: Elevate some fields to the top level for easy DataTable searching and sorting
