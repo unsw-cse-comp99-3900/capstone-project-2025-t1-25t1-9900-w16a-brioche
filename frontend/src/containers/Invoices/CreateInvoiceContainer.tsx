@@ -36,6 +36,7 @@ import {
   FileText,
 } from "lucide-react"
 import { toast } from "sonner"
+import { Trash } from "lucide-react"
 import useCreateInvoice from "@/hooks/invoice/useCreateInvoice"
 
 // Import types from invoice.ts
@@ -55,7 +56,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
   const navigate = useNavigate()
   const [isSending] = useState(false)
 
-  const { data: products = [], isLoading: isLoadingProducts } = useProducts()
+  const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
@@ -132,17 +133,21 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
 
         const qty = parseFloat(item.qty || "0")
         const price = parseFloat(item.itemPrice || "0")
-        const tax = parseFloat(item.tax || "0")
         const discountPercent = parseFloat(item.discount || "0")
+        const taxPercent = (() => {
+          const selected = products.find((p) => p.id === item.item)
+          return selected?.sale?.taxRate?.percent || 0
+        })()
 
-        const baseAmount = qty * price
-        const discountedAmount = baseAmount * (1 - discountPercent / 100)
+        const lineGross = qty * price
+        const lineDiscounted = lineGross * (1 - discountPercent / 100)
+        const tax = lineDiscounted - lineDiscounted / (1 + taxPercent / 100)
 
-        subtotal += discountedAmount
+        subtotal += lineDiscounted
         totalTax += tax
       })
 
-      // Parse invoice-level discount (like "10%" or "$12")
+      // Invoice-level discount
       let invoiceDiscount = 0
       if (discountInput.includes("%")) {
         invoiceDiscount =
@@ -153,8 +158,8 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
         invoiceDiscount = parseFloat(discountInput || "0")
       }
 
-      const totalExclTax = subtotal - invoiceDiscount
-      const grandTotal = totalExclTax + totalTax
+      const totalExclTax = subtotal - invoiceDiscount - totalTax
+      const grandTotal = subtotal - invoiceDiscount
 
       setTotals({
         subtotal: subtotal.toFixed(2),
@@ -166,9 +171,34 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     })
 
     return () => subscription.unsubscribe()
-  }, [form])
+  }, [form, products])
 
-  const { fields, append } = useFieldArray({
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (!name?.includes("items")) return
+
+      const indexMatch = name.match(/^items\.(\d+)\.qty$/)
+      if (!indexMatch) return
+
+      const index = Number(indexMatch[1])
+      const itemId = value.items?.[index]?.item
+      const qty = Number(value.items?.[index]?.qty || 0)
+
+      const selected = products.find((p) => p.id === itemId)
+      const price = selected?.sale?.price || 0
+      const percent = selected?.sale?.taxRate?.percent || 0
+
+      if (qty && price && percent) {
+        const gross = qty * price
+        const taxAmount = gross - gross / (1 + percent / 100)
+        form.setValue(`items.${index}.tax`, taxAmount.toFixed(2))
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [form, products])
+
+  const { fields, append, remove } = useFieldArray({
     name: "items",
     control: form.control,
   })
@@ -445,7 +475,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                           Qty
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Discount
+                          Discount(%)
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Tax code
@@ -455,6 +485,9 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Amount
+                        </th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          Action
                         </th>
                       </tr>
                     </thead>
@@ -469,18 +502,62 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                 <FormItem>
                                   <FormControl>
                                     <select
-                                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                      className="w-48 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                       value={field.value || ""}
-                                      onChange={(e) =>
-                                        field.onChange(e.target.value)
-                                      }
-                                      disabled={isLoadingProducts}
+                                      onChange={(e) => {
+                                        const selectedProductId = e.target.value
+                                        field.onChange(selectedProductId)
+
+                                        const selectedProduct = products.find(
+                                          (p) => p.id === selectedProductId
+                                        )
+                                        console.log(
+                                          "🎯 selectedProduct",
+                                          selectedProduct
+                                        )
+
+                                        if (selectedProduct?.sale) {
+                                          const price =
+                                            selectedProduct.sale.price || 0
+                                          const taxPercent =
+                                            selectedProduct.sale.taxRate
+                                              ?.percent || 0
+
+                                          form.setValue(
+                                            `items.${index}.itemPrice`,
+                                            price.toString()
+                                          )
+                                          form.setValue(
+                                            `items.${index}.taxCode`,
+                                            selectedProduct.sale.taxRate?.id ||
+                                              ""
+                                          )
+
+                                          const qty = Number(
+                                            form.getValues(
+                                              `items.${index}.qty`
+                                            ) || 0
+                                          )
+
+                                          if (qty && price && taxPercent) {
+                                            const grossTotal = price * qty
+                                            const taxAmount =
+                                              grossTotal -
+                                              grossTotal /
+                                                (1 + taxPercent / 100)
+                                            form.setValue(
+                                              `items.${index}.tax`,
+                                              taxAmount.toFixed(2)
+                                            )
+                                          }
+                                        }
+                                      }}
                                     >
                                       <option value="">None</option>
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.name}
+                                          value={product.id}
                                         >
                                           {product.name}
                                         </option>
@@ -498,7 +575,11 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-24" />
+                                    <Input
+                                      {...field}
+                                      className="w-24"
+                                      readOnly
+                                    />
                                   </FormControl>
                                 </FormItem>
                               )}
@@ -553,7 +634,38 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-20" />
+                                    <select
+                                      className="w-24 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                      value={field.value || ""}
+                                      onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                      }
+                                    >
+                                      <option value="">None</option>
+                                      {Array.from(
+                                        new Map(
+                                          products
+                                            .map((p) => p.sale?.taxRate)
+                                            .filter(
+                                              (
+                                                tr
+                                              ): tr is NonNullable<typeof tr> =>
+                                                !!tr?.id
+                                            )
+                                            .map((taxRate) => [
+                                              taxRate.id,
+                                              taxRate,
+                                            ])
+                                        ).values()
+                                      ).map((taxRate) => (
+                                        <option
+                                          key={taxRate.id}
+                                          value={taxRate.id}
+                                        >
+                                          {taxRate.name}
+                                        </option>
+                                      ))}
+                                    </select>
                                   </FormControl>
                                 </FormItem>
                               )}
@@ -605,6 +717,16 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                 </FormItem>
                               )}
                             />
+                          </td>
+                          <td className="px-1 py-2 text-center">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => remove(index)}
+                            >
+                              <Trash className="w-4 h-4 text-red-500" />
+                            </Button>
                           </td>
                         </tr>
                       ))}

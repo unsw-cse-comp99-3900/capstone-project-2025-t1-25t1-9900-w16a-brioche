@@ -305,6 +305,8 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
       //   }),
 
       description: item.description,
+      taxRate: item.taxCode || undefined,
+      taxAmount: item.tax ? parseFloat(item.tax) : undefined,
     }
   })
 
