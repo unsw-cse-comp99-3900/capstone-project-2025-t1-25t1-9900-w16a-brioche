@@ -25,6 +25,7 @@ import CreateProductPage from "@/pages/CreateProductPage"
 import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
 import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
+import ChooseBookPage from "@/pages/ChooseBookPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:id/edit",
         element: <EditProductPage />,
+      },
+      {
+        path: "/books",
+        element: <ChooseBookPage />,
       },
       // {
       //   path: "/api-test",
