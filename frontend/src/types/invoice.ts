@@ -41,22 +41,25 @@ const referenceSchema = z
 const contactRefSchema = referenceSchema
 
 // LedgerAccountRef
-const ledgerAccountRefSchema = referenceSchema
-
-// ClassificationRef
-const classificationRefSchema = referenceSchema
+// const ledgerAccountRefSchema = referenceSchema
 
 // TemplateRef
 const templateRefSchema = referenceSchema
-
-// ProjectRef
-const projectRefSchema = referenceSchema
 
 // ItemRef
 const itemRefSchema = referenceSchema
 
 // PaymentTermRef
-const paymentTermRefSchema = referenceSchema
+// PaymentTermRef Schema (update)
+const paymentTermRefSchema = z
+  .object({
+    id: z.string(), // Payment Term ID
+    name: z.string(), // Payment Term Name
+    description: z.string().optional(),
+    netDueDay: z.number().optional(),
+  })
+  .nullable()
+  .optional()
 
 // RecurringTemplateRef
 const recurringTemplateRefSchema = referenceSchema
@@ -100,14 +103,14 @@ const transactionLinkSchema = z
   .optional()
 
 // Invoice line item account details
-const invoiceLineItemAccountDetailsSchema = z
-  .object({
-    ledgerAccount: ledgerAccountRefSchema,
-    quantity: z.number().nullable().optional(),
-    amount: z.number().nullable().optional(),
-  })
-  .nullable()
-  .optional()
+// const invoiceLineItemAccountDetailsSchema = z
+//   .object({
+//     ledgerAccount: ledgerAccountRefSchema,
+//     quantity: z.number().nullable().optional(),
+//     amount: z.number().nullable().optional(),
+//   })
+//   .nullable()
+//   .optional()
 
 // Invoice line item item details
 const invoiceLineItemItemDetailsSchema = z
@@ -128,9 +131,8 @@ const invoiceLineItemSchema = z
     lineId: z.string().nullable().optional(),
     parentLineId: z.string().nullable().optional(),
     serviceDate: z.string().nullable().optional(),
-    project: projectRefSchema,
     itemDetails: invoiceLineItemItemDetailsSchema,
-    accountDetails: invoiceLineItemAccountDetailsSchema,
+    // accountDetails: invoiceLineItemAccountDetailsSchema,
     description: z.string().nullable().optional(),
     taxRate: taxRateRefSchema,
     taxAmount: z.number().nullable().optional(),
@@ -162,8 +164,7 @@ export const invoiceSchema = z.object({
   paymentTerms: paymentTermRefSchema,
   reference: z.string().nullable().optional(),
   purchaseOrderNumber: z.string().nullable().optional(),
-  accountsReceivableLedgerAccount: ledgerAccountRefSchema,
-  classification: classificationRefSchema,
+  // accountsReceivableLedgerAccount: ledgerAccountRefSchema,
   template: templateRefSchema,
   recurringTemplate: recurringTemplateRefSchema,
   transactionLinks: z.array(transactionLinkSchema).nullable().optional(),
@@ -202,16 +203,16 @@ export interface InvoiceQueryParams {
 
 // Updated InvoiceFormLineItem schema for form input
 export const invoiceFormLineItemSchema = z.object({
-  project: z.string().optional(),
   item: z.string().optional(),
   itemPrice: z.string().optional(),
-  account: z.string().optional(),
+  // account: z.string().optional(),
   description: z.string().optional(),
   qty: z.string().optional(),
   discount: z.string().optional(),
   taxCode: z.string().optional(),
   tax: z.string().optional(),
   amount: z.string().optional(),
+  calculatedDiscountAmount: z.string().optional(),
 })
 
 export type InvoiceFormLineItem = z.infer<typeof invoiceFormLineItemSchema>
@@ -228,7 +229,6 @@ export const invoiceFormSchema = z.object({
   // Invoice information
   paymentTerms: z.string().optional(),
   referenceCode: z.string().optional(),
-  classification: z.string().optional(),
 
   // Pricing information
   invoiceDiscount: z.string().optional(),
@@ -238,6 +238,7 @@ export const invoiceFormSchema = z.object({
 
   // Additional information
   note: z.string().optional(),
+  paymentDetails: z.string().optional(),
 })
 
 export type InvoiceFormValues = z.infer<typeof invoiceFormSchema>
@@ -259,16 +260,54 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
   //   }
   // }
 
+  let invoiceDiscountAmount: number | null = null
+  let invoiceDiscountPercent: number | null = null
+
+  if (formData.invoiceDiscount) {
+    if (formData.invoiceDiscount.includes("%")) {
+      invoiceDiscountPercent = parseFloat(
+        formData.invoiceDiscount.replace("%", "")
+      )
+    } else if (formData.invoiceDiscount.includes("$")) {
+      invoiceDiscountAmount = parseFloat(
+        formData.invoiceDiscount.replace("$", "")
+      )
+    } else {
+      invoiceDiscountAmount = parseFloat(formData.invoiceDiscount)
+    }
+  }
+
   // Calculate totals from line items
   const lineItems = formData.items.map((item, index) => {
+    const hasItem = !!item.item
+    // const hasAccount = !!item.account
+
     return {
       lineNumber: index + 1,
-      itemDetails: {
-        item: item.item,
-        price: item.itemPrice,
-        quantity: item.qty,
-      },
+
+      ...(hasItem && {
+        itemDetails: {
+          item: item.item,
+          price: Number(item.itemPrice) || undefined,
+          quantity: Number(item.qty) || undefined,
+          discountPercent: item.discount
+            ? parseFloat(item.discount)
+            : undefined,
+        },
+      }),
+
+      // ...(hasAccount &&
+      //   !hasItem && {
+      //     accountDetails: {
+      //       ledgerAccount: item.account,
+      //       quantity: Number(item.qty) || undefined,
+      //       amount: (Number(item.itemPrice) || 0) * (Number(item.qty) || 0),
+      //     },
+      //   }),
+
       description: item.description,
+      taxRate: item.taxCode || undefined,
+      taxAmount: item.tax ? parseFloat(item.tax) : undefined,
     }
   })
 
@@ -278,9 +317,14 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
     dueDate: formData.dueDate
       ? formData.dueDate.toISOString().split("T")[0]
       : null,
+    paymentTerms: formData.paymentTerms,
+    reference: formData.referenceCode || null,
     lineItems,
     notes: formData.note,
+    paymentDetails: formData.paymentDetails,
     amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
+    ...(invoiceDiscountAmount !== null && { invoiceDiscountAmount }),
+    ...(invoiceDiscountPercent !== null && { invoiceDiscountPercent }),
   }
 }
 
@@ -298,10 +342,9 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
   const items =
     invoice.lineItems?.map((lineItem) => {
       return {
-        project: lineItem?.project?.id || "",
         item: lineItem?.itemDetails?.item?.id || "",
         itemPrice: lineItem?.itemDetails?.price?.toString() || "",
-        account: lineItem?.accountDetails?.ledgerAccount?.id || "",
+        // account: lineItem?.accountDetails?.ledgerAccount?.id || "",
         description: lineItem?.description || "",
         qty: lineItem?.itemDetails?.quantity?.toString() || "",
         discount: lineItem?.itemDetails?.discountAmount?.toString() || "",
@@ -324,17 +367,14 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
     dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
     paymentTerms: invoice.paymentTerms?.id || "",
     referenceCode: invoice.reference || "",
-    classification: invoice.classification?.id || "",
     invoiceDiscount,
     items:
       items.length > 0
         ? items
         : [
             {
-              project: "",
               item: "",
               itemPrice: "",
-              account: "",
               description: "",
               qty: "",
               discount: "",
@@ -344,6 +384,7 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
             },
           ],
     note: invoice.notes || "",
+    paymentDetails: invoice.paymentDetails || "",
   }
 }
 // Add: Elevate some fields to the top level for easy DataTable searching and sorting
