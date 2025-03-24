@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Card,
@@ -9,11 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-interface User {
-  id: number
-  name: string
-}
+import useCustomers from "@/hooks/customer/useCustomers"
 
 const CustomerBookContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -21,38 +17,38 @@ const CustomerBookContainer: React.FC = () => {
     navigate("/dashboard")
   }
 
-  //初始默认
-  const [users, setUsers] = useState<User[]>([
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Alice" },
-    { id: 3, name: "Alice" },
-    { id: 4, name: "Alice" },
-    { id: 5, name: "Alice" },
-  ])
+  // 使用 useCustomers 钩子获取客户数据
+  const { data: customers = [], isLoading, error } = useCustomers()
 
-  // 获取用户数据
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("") // 替换为你的API
-        const data = await response.json()
-        if (data.length > 0) {
-          setUsers(data) // 只有当API返回数据时才更新状态
-        }
-      } catch (error) {
-        console.error("Failed to fetch users:", error)
-      }
-    }
+  //console.log("Customers Data:", customers)
 
-    fetchUsers()
-  }, []) // 组件挂载时调用
+  // 加载状态或错误处理
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-red-600 text-center">
+          <h3 className="text-lg font-semibold">Error loading customers</h3>
+          <p className="text-sm">{error.message}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {users.map((user) => (
+        {customers?.map((customer) => (
           <Card
-            key={user.id}
+            key={customer.id}
             className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 
             dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl 
             hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50 
@@ -66,13 +62,13 @@ const CustomerBookContainer: React.FC = () => {
                 >
                   <Users className="h-5 w-5" />
                 </div>
-                User: {user.name}
+                Customer:
               </CardTitle>
               <CardDescription>view details</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary">{user.name}</div>
-              <div className="mt-4">
+            <CardContent className="flex flex-col justify-between min-h-[200px]"> {/* 设置最小高度 */}
+              <div className="text-3xl font-bold text-primary">{customer.name}</div>
+              <div className="mt-auto flex justify-center">
                 <Button
                   type="button"
                   onClick={handleNavigate}
