@@ -66,8 +66,12 @@ const CustomerBookContainer: React.FC = () => {
               </CardTitle>
               <CardDescription>view details</CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col justify-between min-h-[200px]"> {/* 设置最小高度 */}
-              <div className="text-3xl font-bold text-primary">{customer.name}</div>
+            <CardContent className="flex flex-col justify-between min-h-[200px]">
+              {" "}
+              {/* 设置最小高度 */}
+              <div className="text-3xl font-bold text-primary">
+                {customer.name}
+              </div>
               <div className="mt-auto flex justify-center">
                 <Button
                   type="button"
