@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -13,13 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
@@ -38,19 +31,20 @@ import {
   CalendarDays,
   Clock,
   Hash,
-  Tags,
   Percent,
   Send,
   FileText,
 } from "lucide-react"
 import { toast } from "sonner"
+import { Trash } from "lucide-react"
 import useCreateInvoice from "@/hooks/invoice/useCreateInvoice"
 
 // Import types from invoice.ts
 import { invoiceFormSchema, InvoiceFormValues } from "@/types/invoice"
-import useAccounts from "@/hooks/account/useAccounts"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
+import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
+import { useDueDate } from "@/hooks/payment/useDueDate"
 
 interface CreateInvoiceContainerProps {
   initialData?: InvoiceFormValues
@@ -62,14 +56,15 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
   const navigate = useNavigate()
   const [isSending] = useState(false)
 
-  const { data: products = [], isLoading: isLoadingProducts } = useProducts()
-  const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
+  const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
+  const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
+    usePaymentTerms()
 
   // Use the createInvoice mutation hook
   const createInvoice = useCreateInvoice()
 
-  const [totals] = useState({
+  const [totals, setTotals] = useState({
     subtotal: "0.00",
     discount: "0.00",
     totalExclTax: "0.00",
@@ -82,12 +77,13 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     defaultValues: initialData || {
       customer: "",
       invoiceDate: new Date(),
+      dueDate: undefined,
+      referenceCode: "",
+      invoiceDiscount: "",
       items: [
         {
-          project: "",
           item: "",
           itemPrice: "",
-          account: "",
           description: "",
           qty: "",
           discount: "",
@@ -99,7 +95,110 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     },
   })
 
-  const { fields, append } = useFieldArray({
+  const paymentTermId = useWatch({
+    control: form.control,
+    name: "paymentTerms",
+  })
+  const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
+
+  const formattedInvoiceDate = invoiceDate
+    ? format(new Date(invoiceDate), "yyyy-MM-dd")
+    : ""
+
+  const { data: dueDateData } = useDueDate(
+    paymentTermId || "",
+    formattedInvoiceDate
+  )
+
+  useEffect(() => {
+    if (!dueDateData?.dueDate) {
+      console.log("⚠️ API did not return a valid dueDate, using invoiceDate.")
+      return
+    }
+
+    form.setValue("dueDate", new Date(dueDateData.dueDate))
+    console.log("📆 Due Date updated:", new Date(dueDateData.dueDate))
+  }, [dueDateData, form])
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      const items = value.items || []
+      const discountInput = value.invoiceDiscount || ""
+
+      let subtotal = 0
+      let totalTax = 0
+
+      items.forEach((item) => {
+        if (!item) return
+
+        const qty = parseFloat(item.qty || "0")
+        const price = parseFloat(item.itemPrice || "0")
+        const discountPercent = parseFloat(item.discount || "0")
+        const taxPercent = (() => {
+          const selected = products.find((p) => p.id === item.item)
+          return selected?.sale?.taxRate?.percent || 0
+        })()
+
+        const lineGross = qty * price
+        const lineDiscounted = lineGross * (1 - discountPercent / 100)
+        const tax = lineDiscounted - lineDiscounted / (1 + taxPercent / 100)
+
+        subtotal += lineDiscounted
+        totalTax += tax
+      })
+
+      // Invoice-level discount
+      let invoiceDiscount = 0
+      if (discountInput.includes("%")) {
+        invoiceDiscount =
+          (subtotal * parseFloat(discountInput.replace("%", ""))) / 100
+      } else if (discountInput.includes("$")) {
+        invoiceDiscount = parseFloat(discountInput.replace("$", ""))
+      } else {
+        invoiceDiscount = parseFloat(discountInput || "0")
+      }
+
+      const totalExclTax = subtotal - invoiceDiscount - totalTax
+      const grandTotal = subtotal - invoiceDiscount
+
+      setTotals({
+        subtotal: subtotal.toFixed(2),
+        discount: invoiceDiscount.toFixed(2),
+        totalExclTax: totalExclTax.toFixed(2),
+        tax: totalTax.toFixed(2),
+        total: grandTotal.toFixed(2),
+      })
+    })
+
+    return () => subscription.unsubscribe()
+  }, [form, products])
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (!name?.includes("items")) return
+
+      const indexMatch = name.match(/^items\.(\d+)\.qty$/)
+      if (!indexMatch) return
+
+      const index = Number(indexMatch[1])
+      const itemId = value.items?.[index]?.item
+      const qty = Number(value.items?.[index]?.qty || 0)
+
+      const selected = products.find((p) => p.id === itemId)
+      const price = selected?.sale?.price || 0
+      const percent = selected?.sale?.taxRate?.percent || 0
+
+      if (qty && price && percent) {
+        const gross = qty * price
+        const taxAmount = gross - gross / (1 + percent / 100)
+        form.setValue(`items.${index}.tax`, taxAmount.toFixed(2))
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [form, products])
+
+  const { fields, append, remove } = useFieldArray({
     name: "items",
     control: form.control,
   })
@@ -126,10 +225,8 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
 
   const addNewRow = () => {
     append({
-      project: "",
       item: "",
       itemPrice: "",
-      account: "",
       description: "",
       qty: "",
       discount: "",
@@ -253,21 +350,21 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                         <Clock className="h-4 w-4 text-secondary-500" />
                         Payment terms
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select payment term..." />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="net30">Net 30</SelectItem>
-                          <SelectItem value="net60">Net 60</SelectItem>
-                          <SelectItem value="net90">Net 90</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          disabled={isLoadingPaymentTerms}
+                        >
+                          <option value="">None</option>
+                          {paymentTerms.map((term) => (
+                            <option key={term.id} value={term.id}>
+                              {term.name}
+                            </option>
+                          ))}
+                        </select>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -288,10 +385,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                           <FormControl>
                             <Button
                               variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
+                              className="w-full pl-3 text-left font-normal"
                             >
                               {field.value ? (
                                 format(field.value, "dd/MM/yyyy")
@@ -339,42 +433,6 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                     </FormItem>
                   )}
                 />
-                {/* Classification */}
-                <FormField
-                  control={form.control}
-                  name="classification"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-2">
-                      <FormLabel className="flex items-center gap-1">
-                        <Tags className="h-4 w-4 text-secondary-500" />
-                        Classification
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select classification..." />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="class1">
-                            Classification 1
-                          </SelectItem>
-                          <SelectItem value="class2">
-                            Classification 2
-                          </SelectItem>
-                          <SelectItem value="class3">
-                            Classification 3
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
                 {/* Invoice Discount */}
                 <FormField
                   control={form.control}
@@ -405,16 +463,10 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                     <thead className="bg-gray-200">
                       <tr>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Project
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Item
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Item price
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Account
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Description
@@ -423,7 +475,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                           Qty
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Discount
+                          Discount(%)
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Tax code
@@ -434,6 +486,9 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Amount
                         </th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -442,51 +497,67 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                           <td className="px-1 py-2">
                             <FormField
                               control={form.control}
-                              name={`items.${index}.project`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Select
-                                      onValueChange={field.onChange}
-                                      defaultValue={field.value}
-                                    >
-                                      <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select project" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="project1">
-                                          Project 1
-                                        </SelectItem>
-                                        <SelectItem value="project2">
-                                          Project 2
-                                        </SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
                               name={`items.${index}.item`}
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
                                     <select
-                                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                      className="w-48 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                       value={field.value || ""}
-                                      onChange={(e) =>
-                                        field.onChange(e.target.value)
-                                      }
-                                      disabled={isLoadingProducts}
+                                      onChange={(e) => {
+                                        const selectedProductId = e.target.value
+                                        field.onChange(selectedProductId)
+
+                                        const selectedProduct = products.find(
+                                          (p) => p.id === selectedProductId
+                                        )
+                                        console.log(
+                                          "🎯 selectedProduct",
+                                          selectedProduct
+                                        )
+
+                                        if (selectedProduct?.sale) {
+                                          const price =
+                                            selectedProduct.sale.price || 0
+                                          const taxPercent =
+                                            selectedProduct.sale.taxRate
+                                              ?.percent || 0
+
+                                          form.setValue(
+                                            `items.${index}.itemPrice`,
+                                            price.toString()
+                                          )
+                                          form.setValue(
+                                            `items.${index}.taxCode`,
+                                            selectedProduct.sale.taxRate?.id ||
+                                              ""
+                                          )
+
+                                          const qty = Number(
+                                            form.getValues(
+                                              `items.${index}.qty`
+                                            ) || 0
+                                          )
+
+                                          if (qty && price && taxPercent) {
+                                            const grossTotal = price * qty
+                                            const taxAmount =
+                                              grossTotal -
+                                              grossTotal /
+                                                (1 + taxPercent / 100)
+                                            form.setValue(
+                                              `items.${index}.tax`,
+                                              taxAmount.toFixed(2)
+                                            )
+                                          }
+                                        }
+                                      }}
                                     >
                                       <option value="">None</option>
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.name}
+                                          value={product.id}
                                         >
                                           {product.name}
                                         </option>
@@ -504,37 +575,11 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-24" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.account`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <select
-                                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                      value={field.value || ""}
-                                      onChange={(e) =>
-                                        field.onChange(e.target.value)
-                                      }
-                                      disabled={isLoadingAccounts}
-                                    >
-                                      <option value="">None</option>
-                                      {accounts.map((account) => (
-                                        <option
-                                          key={account.id}
-                                          value={account.name}
-                                        >
-                                          {account.name}
-                                        </option>
-                                      ))}
-                                    </select>
+                                    <Input
+                                      {...field}
+                                      className="w-24"
+                                      readOnly
+                                    />
                                   </FormControl>
                                 </FormItem>
                               )}
@@ -589,7 +634,38 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-20" />
+                                    <select
+                                      className="w-24 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                      value={field.value || ""}
+                                      onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                      }
+                                    >
+                                      <option value="">None</option>
+                                      {Array.from(
+                                        new Map(
+                                          products
+                                            .map((p) => p.sale?.taxRate)
+                                            .filter(
+                                              (
+                                                tr
+                                              ): tr is NonNullable<typeof tr> =>
+                                                !!tr?.id
+                                            )
+                                            .map((taxRate) => [
+                                              taxRate.id,
+                                              taxRate,
+                                            ])
+                                        ).values()
+                                      ).map((taxRate) => (
+                                        <option
+                                          key={taxRate.id}
+                                          value={taxRate.id}
+                                        >
+                                          {taxRate.name}
+                                        </option>
+                                      ))}
+                                    </select>
                                   </FormControl>
                                 </FormItem>
                               )}
@@ -615,11 +691,42 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} className="w-24" />
+                                    <Input
+                                      {...field}
+                                      className="w-24"
+                                      value={(
+                                        Number(
+                                          form.watch(`items.${index}.qty`) || 0
+                                        ) *
+                                        Number(
+                                          form.watch(
+                                            `items.${index}.itemPrice`
+                                          ) || 0
+                                        ) *
+                                        (1 -
+                                          Number(
+                                            form.watch(
+                                              `items.${index}.discount`
+                                            ) || 0
+                                          ) /
+                                            100)
+                                      ).toFixed(2)}
+                                      readOnly
+                                    />
                                   </FormControl>
                                 </FormItem>
                               )}
                             />
+                          </td>
+                          <td className="px-1 py-2 text-center">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => remove(index)}
+                            >
+                              <Trash className="w-4 h-4 text-red-500" />
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -655,6 +762,25 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                         <Textarea
                           {...field}
                           placeholder="Note to customer"
+                          className="min-h-24"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="paymentDetails"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-bold">
+                        PAYMENT DETAILS:
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Payment details"
                           className="min-h-24"
                         />
                       </FormControl>
