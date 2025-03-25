@@ -1,8 +1,10 @@
+using InvoiceBackend.Services.ClerkAuthService;
 using InvoiceBackend.Services.ReckonApiService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IReckonApiService, ReckonApiService>();
+builder.Services.AddScoped<IClerkAuthService, ClerkAuthService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -16,6 +18,10 @@ builder.Services.AddCors(options =>
             policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
+            //policy.WithOrigins("http://localhost:5173")
+            //      .AllowAnyHeader()
+            //      .AllowAnyMethod()
+            //      .AllowCredentials();
         });
 });
 
