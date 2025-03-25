@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import useCustomers from "@/hooks/customer/useCustomers"
+import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
 
 const CustomerBookContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -18,11 +18,9 @@ const CustomerBookContainer: React.FC = () => {
   }
 
   // 使用 useCustomers 钩子获取客户数据
-  const { data: customers = [], isLoading, error } = useCustomers()
+  const { data: customers = [], isLoading, error } = useBookCustomer()
 
   //console.log("Customers Data:", customers)
-
-  // 加载状态或错误处理
 
   if (isLoading) {
     return (
