@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { productSchema, type Product } from "@/types/product"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
@@ -11,6 +11,8 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @returns The React Query result containing product data, loading state, and error
  */
 const useProduct = (productId: string) => {
+  const authApi = useAuthApi()
+
   return useQuery<Product>({
     queryKey: ["products", productId] as const,
     queryFn: async () => {
@@ -18,7 +20,7 @@ const useProduct = (productId: string) => {
 
       console.log("Fetching product from Reckon API...", productId)
 
-      const response = await api.get(
+      const response = await authApi.get(
         `/${Demo_RECKON_BOOK_ID}/items/${productId}`
       )
 
