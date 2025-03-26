@@ -31,7 +31,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 30000, // 30 seconds
+  timeout: 10000, // 10 seconds
 })
 
 // Define API error type
@@ -76,7 +76,7 @@ export const useAuthApi = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    timeout: 30000,
+    timeout: 10000, // 10 seconds
   })
 
   // Clone the response interceptor from the main api instance
@@ -108,6 +108,7 @@ export const useAuthApi = () => {
         const token = await getToken()
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`
+          // console.log("Token added to request headers:", config.headers.Authorization)
         }
         return config
       } catch (error) {
