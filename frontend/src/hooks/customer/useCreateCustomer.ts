@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import {
   type CreateCustomerResponse,
   type CustomerFormValues,
@@ -14,6 +14,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  */
 export const useCreateCustomer = () => {
   const queryClient = useQueryClient()
+  const authApi = useAuthApi()
 
   return useMutation<CreateCustomerResponse, Error, CustomerFormValues>({
     mutationFn: async (data: CustomerFormValues) => {
@@ -22,7 +23,7 @@ export const useCreateCustomer = () => {
       // Transform form data to API structure using Zod
       const apiData = apiRequestSchema.parse(data)
 
-      const response = await api.post(
+      const response = await authApi.post(
         `/${Demo_RECKON_BOOK_ID}/customers`,
         apiData
       )
