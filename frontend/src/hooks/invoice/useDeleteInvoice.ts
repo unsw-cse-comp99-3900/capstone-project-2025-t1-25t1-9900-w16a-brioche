@@ -5,7 +5,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 export const useDeleteInvoice = () => {
   const queryClient = useQueryClient()
   const authApi = useAuthApi()
-  
+
   return useMutation({
     mutationFn: async (invoiceId: string) => {
       const response = await authApi.delete(
