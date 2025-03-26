@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { type CustomerFormValues, apiRequestSchema } from "@/types/customer"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
@@ -9,6 +9,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  */
 export const useEditCustomer = (customerId: string) => {
   const queryClient = useQueryClient()
+  const authApi = useAuthApi()
 
   return useMutation<void, Error, CustomerFormValues>({
     mutationFn: async (data: CustomerFormValues) => {
@@ -17,7 +18,7 @@ export const useEditCustomer = (customerId: string) => {
       // Transform form data to API structure using Zod
       const apiData = apiRequestSchema.parse(data)
 
-      const response = await api.put(
+      const response = await authApi.put(
         `/${Demo_RECKON_BOOK_ID}/customers/${customerId}`,
         apiData
       )
