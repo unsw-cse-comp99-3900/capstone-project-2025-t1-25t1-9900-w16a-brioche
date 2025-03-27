@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { type ProductFormValues, apiRequestSchema } from "@/types/product"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
@@ -9,6 +9,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  */
 export const useCreateProduct = () => {
   const queryClient = useQueryClient()
+  const authApi = useAuthApi()
 
   return useMutation({
     mutationFn: async (data: ProductFormValues) => {
@@ -17,7 +18,10 @@ export const useCreateProduct = () => {
       // Transform form data to API structure
       const apiData = apiRequestSchema.parse(data)
 
-      const response = await api.post(`/${Demo_RECKON_BOOK_ID}/items`, apiData)
+      const response = await authApi.post(
+        `/${Demo_RECKON_BOOK_ID}/items`,
+        apiData
+      )
 
       console.log("Create product response:", response)
 

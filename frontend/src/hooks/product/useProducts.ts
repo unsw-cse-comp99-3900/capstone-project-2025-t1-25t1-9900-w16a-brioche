@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { productResponseSchema, type Product } from "@/types/product"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
@@ -12,13 +12,15 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @returns The React Query result containing products data, loading state, and error
  */
 export const useProducts = (page = 1, perPage = 9999) => {
+  const authApi = useAuthApi()
+
   return useQuery<Product[]>({
     queryKey: ["products"],
     queryFn: async () => {
       console.log("Fetching products from Reckon API...")
 
       // Include the bookId in the endpoint path
-      const response = await api.get(`/${Demo_RECKON_BOOK_ID}/items`, {
+      const response = await authApi.get(`/${Demo_RECKON_BOOK_ID}/items`, {
         params: {
           page,
           perPage,

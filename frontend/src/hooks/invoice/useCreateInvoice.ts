@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import {
   type Invoice,
   type InvoiceFormValues,
@@ -13,6 +13,7 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  */
 export const useCreateInvoice = () => {
   const queryClient = useQueryClient()
+  const authApi = useAuthApi()
 
   return useMutation<Invoice, Error, InvoiceFormValues>({
     mutationFn: async (data: InvoiceFormValues) => {
@@ -23,7 +24,7 @@ export const useCreateInvoice = () => {
 
       console.log("API request data:", apiData)
 
-      const response = await api.post(
+      const response = await authApi.post(
         `/${Demo_RECKON_BOOK_ID}/invoices`,
         apiData
       )

@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 
 export const useDeleteInvoice = () => {
   const queryClient = useQueryClient()
+  const authApi = useAuthApi()
 
   return useMutation({
     mutationFn: async (invoiceId: string) => {
-      const response = await api.delete(
+      const response = await authApi.delete(
         `/${Demo_RECKON_BOOK_ID}/invoices/${invoiceId}`
       )
       return response.status === 204
