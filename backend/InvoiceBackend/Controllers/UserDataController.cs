@@ -20,12 +20,12 @@ public class UserDataController : ControllerBase
             return Unauthorized();
         }
 
-        string userId = await _authService.GetUserIdAsync(Request);
+        //string userId = await _authService.GetUserIdAsync(Request);
 
         return Ok(new
         {
             Message = "ok",
-            UserId = userId
+            //UserId = userId
         });
     }
 }

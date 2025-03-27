@@ -3,6 +3,7 @@
     public interface IClerkAuthService
     {
         Task<bool> VerifyTokenAsync(HttpRequest request);
-        Task<string?> GetUserIdAsync(HttpRequest request);
+
+        //GetUserIdAsync
     }
 }

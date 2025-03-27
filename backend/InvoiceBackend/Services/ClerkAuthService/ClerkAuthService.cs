@@ -23,23 +23,5 @@ namespace InvoiceBackend.Services.ClerkAuthService
 
                 return requestState.IsSignedIn();
         }
-
-        // doesnt work
-        public async Task<string?> GetUserIdAsync(HttpRequest request)
-        {
-            var options = new AuthenticateRequestOptions(
-                secretKey: _secretKey,
-                authorizedParties: new string[] { "http://localhost:5173" }
-            );
-
-            var requestState = await AuthenticateRequest.AuthenticateRequestAsync(request, options);
-
-            if (!requestState.IsSignedIn())
-            {
-                return null;
-            }
-            var userId = requestState.Claims?.FindFirst("sub")?.Value;
-            return requestState.Claims.FindFirst("sub")?.Value; // wrong way
-        }
     }
 }
