@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { Demo_RECKON_BOOK_ID } from "@/constants/config"
 import { PaymentTerm } from "@/types/payment"
 import { paymentTermsResponseSchema } from "@/types/payment"
 
 export const usePaymentTerms = () => {
+  const authApi = useAuthApi()
+
   return useQuery<PaymentTerm[]>({
     queryKey: ["payment-terms"],
     queryFn: async () => {
       console.log("Fetching payment terms from API...")
 
-      const response = await api.get(`/${Demo_RECKON_BOOK_ID}/terms`)
+      const response = await authApi.get(`/${Demo_RECKON_BOOK_ID}/terms`)
 
       console.log("🚀 API Full Response:", response)
       console.log("📌 API response.data:", response.data)
@@ -36,17 +38,6 @@ export const usePaymentTerms = () => {
       )
     },
   })
-}
-
-export const getPaymentTermById = async (termId: string) => {
-  try {
-    const response = await api.get(`/${Demo_RECKON_BOOK_ID}/terms/${termId}`)
-    console.log("📌 API Response for Payment Term:", response.data)
-    return response.data
-  } catch (error) {
-    console.error("❌ Error fetching Payment Term:", error)
-    return null
-  }
 }
 
 export default usePaymentTerms
