@@ -164,7 +164,8 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       }
 
       const grandTotal = subtotal - invoiceDiscount
-      const finalTotalTax = subtotal !== 0 ? lineItemTotalTax * (grandTotal / subtotal) : 0
+      const finalTotalTax =
+        subtotal !== 0 ? lineItemTotalTax * (grandTotal / subtotal) : 0
       const totalExclTax = subtotal - invoiceDiscount - lineItemTotalTax
 
       setTotals({
