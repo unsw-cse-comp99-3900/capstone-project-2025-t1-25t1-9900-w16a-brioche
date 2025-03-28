@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom" //
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -37,32 +37,34 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 import { Trash } from "lucide-react"
-import useCreateInvoice from "@/hooks/invoice/useCreateInvoice"
+import useEditInvoice from "@/hooks/invoice/useEditInvoice" //
+import useInvoice from "@/hooks/invoice/useInvoice"
 
 // Import types from invoice.ts
-import { invoiceFormSchema, InvoiceFormValues } from "@/types/invoice"
+import {
+  invoiceFormSchema,
+  InvoiceFormValues,
+  apiToFormSchema,
+} from "@/types/invoice"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
 
-interface CreateInvoiceContainerProps {
-  initialData?: InvoiceFormValues
-}
-
-const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
-  initialData,
-}) => {
+const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
   const [isSending] = useState(false)
+
+  // Fetch the invoice data
+  const { data: invoice, isLoading } = useInvoice(id ?? "")
 
   const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
 
-  // Use the createInvoice mutation hook
-  const createInvoice = useCreateInvoice()
+  const { mutate: editInvoice, isPending: isEditing } = useEditInvoice(id ?? "")
 
   const [totals, setTotals] = useState({
     subtotal: "0.00",
@@ -74,7 +76,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceFormSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       customer: "",
       invoiceDate: new Date(),
       dueDate: undefined,
@@ -93,6 +95,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
         },
       ],
     },
+    values: invoice ? apiToFormSchema(invoice) : undefined,
   })
 
   const paymentTermId = useWatch({
@@ -207,15 +210,15 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     try {
       // Use the mutation to create the invoice
       console.log(data)
-      await createInvoice.mutateAsync(data)
+      await editInvoice(data)
 
-      toast.success("Invoice created successfully")
+      toast.success("Invoice updated successfully")
       navigate("/invoices")
     } catch (error) {
-      toast.error("Failed to create invoice", {
+      toast.error("Failed to update invoice", {
         description: `Error: ${error}`,
       })
-      console.error("Error creating invoice:", error)
+      console.error("Error updating invoice:", error)
     }
   }
 
@@ -236,6 +239,14 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     })
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
       <div className="px-4 py-5 sm:p-6">
@@ -253,11 +264,11 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
           <Button
             type="button"
             onClick={() => form.handleSubmit(onSubmit)()}
-            disabled={createInvoice.isPending}
+            disabled={isEditing}
             className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
           >
             <Save className="h-4 w-4" />
-            {createInvoice.isPending ? "Saving..." : "Save"}
+            {isEditing ? "Updating..." : "Update"}
           </Button>
         </div>
 
@@ -512,7 +523,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                           (p) => p.id === selectedProductId
                                         )
                                         console.log(
-                                          "🎯 selectedProduct",
+                                          "selectedProduct",
                                           selectedProduct
                                         )
 
@@ -849,11 +860,11 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                 </Button>
                 <Button
                   type="submit"
-                  disabled={createInvoice.isPending}
+                  disabled={isEditing}
                   className="ml-3 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center gap-1"
                 >
                   <Save className="h-4 w-4" />
-                  {createInvoice.isPending ? "Creating..." : "Create Invoice"}
+                  {isEditing ? "Creating..." : "Update Invoice"}
                 </Button>
               </div>
             </div>
@@ -864,4 +875,4 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
   )
 }
 
-export default CreateInvoiceContainer
+export default EditInvoiceContainer
