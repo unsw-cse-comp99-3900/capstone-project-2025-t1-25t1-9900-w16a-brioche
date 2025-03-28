@@ -322,6 +322,7 @@ export const formToApiSchema = (formData: InvoiceFormValues) => {
     lineItems,
     notes: formData.note,
     paymentDetails: formData.paymentDetails,
+    template: "Professional invoice", // required in update
     amountTaxStatus: AmountTaxStatus.Inclusive, // Default to inclusive tax
     ...(invoiceDiscountAmount !== null && { invoiceDiscountAmount }),
     ...(invoiceDiscountPercent !== null && { invoiceDiscountPercent }),
@@ -360,7 +361,7 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
     }) || []
 
   return {
-    customer: invoice.customer?.id || "",
+    customer: invoice.customer?.name || "",
     invoiceDate: invoice.invoiceDate
       ? new Date(invoice.invoiceDate)
       : new Date(),
