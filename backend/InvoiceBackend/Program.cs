@@ -1,10 +1,22 @@
+using InvoiceBackend.DataAccess;
+using InvoiceBackend.DataAccess.ReckonTokenRepository;
 using InvoiceBackend.Services.ClerkAuthService;
 using InvoiceBackend.Services.ReckonApiService;
+using InvoiceBackend.Services.ReckonTokenService;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// EF Core
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddScoped<IReckonApiService, ReckonApiService>();
 builder.Services.AddScoped<IClerkAuthService, ClerkAuthService>();
+builder.Services.AddScoped<IReckonTokenRepository, ReckonTokenRepository>();
+builder.Services.AddScoped<IReckonTokenService, ReckonTokenService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
