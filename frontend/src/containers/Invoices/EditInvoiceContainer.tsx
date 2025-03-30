@@ -124,14 +124,14 @@ const EditInvoiceContainer: React.FC = () => {
   }, [dueDateData, form])
 
   useEffect(() => {
-    const subscription = form.watch((value) => {
+    const subscription = form.watch((value, { name }) => {
       const items = value.items || []
       const discountInput = value.invoiceDiscount || ""
 
       let subtotal = 0
-      let totalTax = 0
+      let lineItemTotalTax = 0
 
-      items.forEach((item) => {
+      items.forEach((item, index) => {
         if (!item) return
 
         const qty = parseFloat(item.qty || "0")
@@ -146,8 +146,12 @@ const EditInvoiceContainer: React.FC = () => {
         const lineDiscounted = lineGross * (1 - discountPercent / 100)
         const tax = lineDiscounted - lineDiscounted / (1 + taxPercent / 100)
 
+        if (name?.includes(`items.${index}.discount`)) {
+          form.setValue(`items.${index}.tax`, tax.toFixed(2))
+        }
+
         subtotal += lineDiscounted
-        totalTax += tax
+        lineItemTotalTax += tax
       })
 
       // Invoice-level discount
@@ -161,14 +165,16 @@ const EditInvoiceContainer: React.FC = () => {
         invoiceDiscount = parseFloat(discountInput || "0")
       }
 
-      const totalExclTax = subtotal - invoiceDiscount - totalTax
       const grandTotal = subtotal - invoiceDiscount
+      const finalTotalTax =
+        subtotal !== 0 ? lineItemTotalTax * (grandTotal / subtotal) : 0
+      const totalExclTax = subtotal - invoiceDiscount - lineItemTotalTax
 
       setTotals({
         subtotal: subtotal.toFixed(2),
         discount: invoiceDiscount.toFixed(2),
         totalExclTax: totalExclTax.toFixed(2),
-        tax: totalTax.toFixed(2),
+        tax: finalTotalTax.toFixed(2),
         total: grandTotal.toFixed(2),
       })
     })
@@ -193,7 +199,11 @@ const EditInvoiceContainer: React.FC = () => {
 
       if (qty && price && percent) {
         const gross = qty * price
-        const taxAmount = gross - gross / (1 + percent / 100)
+        const discountPercent = parseFloat(
+          value.items?.[index]?.discount || "0"
+        )
+        const discounted = gross * (1 - discountPercent / 100)
+        const taxAmount = discounted - discounted / (1 + percent / 100)
         form.setValue(`items.${index}.tax`, taxAmount.toFixed(2))
       }
     })
