@@ -58,6 +58,38 @@ This guide provides the initial setup and development instructions for the front
 - Adhere to ESLint and Prettier rules for code quality and formatting consistency.
 - Utilize Tailwind CSS classes as documented in the official [Tailwind CSS documentation](https://tailwindcss.com/docs).
 
+# Backend Development Guide
+
+This guide provides setup and development instructions for the backend portion of the InvoiceFlow project.
+
+## Prerequisites
+- .NET 8
+
+- SQL Server (Recommended: SQL Server Management Studio (SSMS))
+
+- Postman or swapper for testing API endpoints
+
+## Initial Setup
+1. Open your terminal or VS Code and navigate to the backend project directory:
+
+   ```bash
+   cd ./backend/InvoiceBackend
+   ```
+2. Apply database migrations using Entity Framework Core:
+
+   ```bash
+   dotnet ef database update
+   ```
+   if doesnt work:
+   Update the connection string in appsettings.json, add your userid and password.
+   ```bash
+   "DefaultConnection": "Server=localhost;Database=InvoiceFlow_Db;User Id=your_user;Password=your_password;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=false;Integrated Security=True;"
+   ```
+3. Run the backend server with hot reload:
+   ```bash
+   dotnet watch run
+   ```
+
 # InvoiceFlow - E-Invoicing API Platform for SMEs
 
 ## Project Overview
