@@ -1,7 +1,20 @@
+/**
+ * @file Footer.tsx - Defines the Footer component, a common footer for the application.
+ * It includes quick links, resources, company information, and copyright details.
+ */
+
 import { Link } from "react-router-dom"
 import { FaGithub } from "react-icons/fa"
 import Logo from "./Logo"
 
+/**
+ * Footer Component
+ *
+ * A footer component for the application, providing quick links, resources,
+ * company information, and copyright details.
+ *
+ * @returns {JSX.Element} A footer element with links, a logo, and copyright information.
+ */
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-white py-12 mt-auto">
