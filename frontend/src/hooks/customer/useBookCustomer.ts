@@ -1,34 +1,46 @@
 import { useQuery } from "@tanstack/react-query"
-import api from "@/lib/axios"
-//import { customerResponseSchema } from "@/types/customer" // 直接复用已有的 schema
+import { useAuthApi } from "@/lib/axios"
+import { apiToBookCustomer } from "@/types/customer" // 假设你的 zod schema 位于这个路径
 
-/**
- * Custom hook to fetch customer names and IDs from the API
- * @param page - The page number to fetch (default: 1)
- * @param perPage - The number of customers per page (default: 0 to get all customers)
- * @returns The React Query result containing all customer data, loading state, and error
- */
+
+// Define the schema for the API response
+interface BookCustomerResponse {
+  list: Array<{
+    id: string
+    name: string
+  }>
+}
+
 export const useBookCustomer = (page = 1, perPage = 9999) => {
-  return useQuery({
+  const authApi = useAuthApi()
+
+  return useQuery<BookCustomerResponse["list"]>({
     queryKey: ["books"],
     queryFn: async () => {
       console.log("Fetching book customer from API...")
 
-      const response = await api.get(`/books`, {
+      // Fetch API response
+      const response = await authApi.get("/books", {
         params: {
           page,
           perPage,
         },
       })
 
-      console.log("Raw API response:", response)
+      console.log("Full response:", response)
+      console.log("response.data:", response.data)
 
-      // Parse and validate the response
-      //const parsedData = customerResponseSchema.parse(response.data)
-      console.log("Parsed and validated customer data:", response)
+      // Ensure that response.list is an array, even if it's undefined
+      const list = response.list ?? []
 
-      // Return the list of book customers
-      return response.list
+      console.log("response.list:", list)
+
+      // 使用 apiToBookCustomer 转换数据，只保留 id 和 name
+      const extractedData = apiToBookCustomer.parse(list)
+
+      console.log("Extracted data:", extractedData)
+
+      return extractedData 
     },
   })
 }
