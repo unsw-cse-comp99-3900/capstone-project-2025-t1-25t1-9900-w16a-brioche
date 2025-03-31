@@ -98,6 +98,13 @@ const EditInvoiceContainer: React.FC = () => {
     values: invoice ? apiToFormSchema(invoice) : undefined,
   })
 
+  useEffect(() => {
+    if (invoice && invoice.lineItems) {
+      // Ensure that the items data is fully loaded
+      form.setValue("items", apiToFormSchema(invoice).items)
+    }
+  }, [invoice, form])
+
   const paymentTermId = useWatch({
     control: form.control,
     name: "paymentTerms",
