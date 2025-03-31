@@ -1,3 +1,7 @@
+/**
+ * @file Logo.tsx - Defines the Logo component, which renders the application's logo.
+ */
+
 const Logo = () => {
   return (
     <div className="relative h-10 w-10">
