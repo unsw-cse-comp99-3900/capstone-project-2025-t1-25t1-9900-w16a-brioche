@@ -1,3 +1,7 @@
+/**
+ * @file DashboardHeader.tsx - Defines the DashboardHeader component, which is the main header for the dashboard layout.
+ * It includes navigation links, a mobile menu, and user authentication features.
+ */
 import React, { useState } from "react"
 import Logo from "./Logo"
 import { useLocation, Link } from "react-router-dom"
@@ -30,11 +34,25 @@ import {
 } from "@/components/ui/collapsible"
 import LogoTextGroup from "./LogoTextGroup"
 
+/**
+ * DashboardHeader Component
+ *
+ * This component renders the header for the dashboard, including the logo, navigation links,
+ * mobile menu, and user authentication button. It handles navigation state and active link styling.
+ *
+ * @returns {JSX.Element} The dashboard header.
+ */
 const DashboardHeader = () => {
   const location = useLocation()
   const currentPath = location.pathname
   const [isManagementOpen, setIsManagementOpen] = useState(false)
 
+  /**
+   * isActive - Checks if a given path is currently active based on the current URL.
+   *
+   * @param   {string} path - The path to check for activity.
+   * @returns {boolean} - True if the path is active, false otherwise.
+   */
   const isActive = (path: string) => {
     if (path === "/dashboard" && currentPath === "/dashboard") {
       return true
@@ -325,7 +343,11 @@ const DashboardHeader = () => {
   )
 }
 
-// ListItem component for consistent styling
+/**
+ * ListItem Component
+ *
+ * A styled list item for use within the NavigationMenu.
+ */
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a"> & { icon?: React.ReactNode }
