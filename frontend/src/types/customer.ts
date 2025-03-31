@@ -227,3 +227,19 @@ export const apiToFormSchema = customerSchema.transform(
     }
   }
 )
+
+
+export const apiToBookCustomer = z.array(
+  z.object({
+    id: z.string(),
+    name: z.string(),
+  })
+).transform((data) => {
+  // 提取 id 和 name
+  return data.map((customer) => ({
+    id: customer.id,  // 提取 id
+    name: customer.name,  // 提取 name
+  }));
+});
+
+export type ExtractedCustomerData = z.infer<typeof apiToBookCustomer>;

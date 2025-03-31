@@ -13,15 +13,11 @@ import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
 
 const CustomerBookContainer: React.FC = () => {
   const navigate = useNavigate()
-  const handleNavigate = () => {
-    navigate("/dashboard")
-  }
 
-  // 使用 useCustomers 钩子获取客户数据
+  // 使用 useBookCustomer 钩子获取客户数据
   const { data: customers = [], isLoading, error } = useBookCustomer()
 
-  //console.log("Customers Data:", customers)
-
+  // 加载状态
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -30,21 +26,27 @@ const CustomerBookContainer: React.FC = () => {
     )
   }
 
+  // 错误处理
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-red-600 text-center">
           <h3 className="text-lg font-semibold">Error loading customers</h3>
-          <p className="text-sm">{error.message}</p>
+          <p className="text-sm">{(error as Error).message}</p>
         </div>
       </div>
     )
   }
 
+  // 处理客户卡片点击事件，跳转到客户详情
+  const handleNavigate = (customerId: string) => {
+    navigate(`/customer/${customerId}`)
+  }
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {customers?.map((customer) => (
+        {customers.map((customer) => (
           <Card
             key={customer.id}
             className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 
@@ -65,7 +67,6 @@ const CustomerBookContainer: React.FC = () => {
               <CardDescription>view details</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col justify-between min-h-[200px]">
-              {" "}
               {/* 设置最小高度 */}
               <div className="text-3xl font-bold text-primary">
                 {customer.name}
@@ -73,7 +74,7 @@ const CustomerBookContainer: React.FC = () => {
               <div className="mt-auto flex justify-center">
                 <Button
                   type="button"
-                  onClick={handleNavigate}
+                  onClick={() => handleNavigate(customer.id)}  // 传递客户ID进行导航
                   className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   Open
