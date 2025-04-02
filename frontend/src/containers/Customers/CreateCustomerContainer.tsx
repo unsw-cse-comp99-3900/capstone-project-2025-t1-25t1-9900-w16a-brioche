@@ -173,8 +173,9 @@ const CreateCustomerContainer: React.FC = () => {
                       <div className="mt-1 grid grid-cols-12 gap-2">
                         <div className="col-span-3">
                           <Input
+                            name="ignore_autofill_countryCode"
+                            autoComplete="off"
                             placeholder="+61"
-                            {...field}
                             value={field.value?.countryCode}
                             onChange={(e) =>
                               field.onChange({
@@ -216,8 +217,9 @@ const CreateCustomerContainer: React.FC = () => {
                       <div className="mt-1 grid grid-cols-12 gap-2">
                         <div className="col-span-3">
                           <Input
+                            name="ignore_autofill_countryCode"
+                            autoComplete="off"
                             placeholder="+61"
-                            {...field}
                             value={field.value?.countryCode}
                             onChange={(e) =>
                               field.onChange({
@@ -229,8 +231,9 @@ const CreateCustomerContainer: React.FC = () => {
                         </div>
                         <div className="col-span-3">
                           <Input
+                            name="ignore_autofill_area"
+                            autoComplete="off"
                             placeholder="Area"
-                            {...field}
                             value={field.value?.areaCode}
                             onChange={(e) =>
                               field.onChange({
