@@ -1,3 +1,6 @@
+/**
+ * @file PageHeader.tsx - Defines the PageHeader component, a reusable header for pages.
+ */
 import React, { ReactNode } from "react"
 import { LucideIcon } from "lucide-react"
 
@@ -9,6 +12,19 @@ interface PageHeaderProps {
   children?: ReactNode
 }
 
+/**
+ * PageHeader Component
+ *
+ * A reusable header component for pages, including a title, description, optional icon, and optional gradient effect.
+ *
+ * @param {PageHeaderProps} props - The component props.
+ * @param {string} props.title - The title of the page.
+ * @param {string} [props.description] - An optional description for the page.
+ * @param {LucideIcon} [props.icon] - An optional icon to display next to the title.
+ * @param {boolean} [props.gradient=true] - Whether to apply a gradient effect to the title.
+ * @param {ReactNode} [props.children] - Optional content to display in the header.
+ * @returns {JSX.Element} A div containing the title, description, and optional content.
+ */
 const PageHeader: React.FC<PageHeaderProps> = ({
   title,
   description,

@@ -1,6 +1,16 @@
+/**
+ * @file LogoTextGroup.tsx - Defines the LogoTextGroup component, which combines the Logo component with the "InvoiceFlow" text.
+ */
 import { Link } from "react-router-dom"
 import Logo from "./Logo"
 
+/**
+ * LogoTextGroup Component
+ *
+ * This component renders the application's logo alongside the "InvoiceFlow" text, creating a cohesive branding element.
+ *
+ * @returns {JSX.Element} A link containing the logo and text.
+ */
 const LogoTextGroup: React.FC = () => {
   return (
     <Link

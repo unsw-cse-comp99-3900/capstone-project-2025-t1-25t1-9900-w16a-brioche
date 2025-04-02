@@ -1,6 +1,17 @@
+/**
+ * @file LandingHeader.tsx - Defines the LandingHeader component, which is the header for the landing page.
+ * It includes the logo, navigation links, and authentication button group.
+ */
 import AuthButtonGroup from "@/components/auth/AuthButtonGroup"
 import LogoTextGroup from "./LogoTextGroup"
 
+/**
+ * LandingHeader Component
+ *
+ * This component renders the header for the landing page, including the logo, navigation links, and authentication button group.
+ *
+ * @returns {JSX.Element} The landing header.
+ */
 const LandingHeader = () => {
   return (
     <header className=" bg-white/90 backdrop-blur-sm z-50 border-b border-secondary-200">
