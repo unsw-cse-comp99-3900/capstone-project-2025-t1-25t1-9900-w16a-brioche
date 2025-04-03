@@ -47,7 +47,6 @@ const useInvoicePdf = () => {
         const blobUrl = window.URL.createObjectURL(blob)
 
         if (action === "download") {
-          // 下载PDF
           const link = document.createElement("a")
           link.href = blobUrl
           link.download = filename
@@ -61,12 +60,11 @@ const useInvoicePdf = () => {
 
           return { success: true, action: "download" }
         } else {
-          // 返回URL用于预览
           return {
             success: true,
             action: "preview",
             url: blobUrl,
-            cleanup: () => window.URL.revokeObjectURL(blobUrl), // 提供清理函数
+            cleanup: () => window.URL.revokeObjectURL(blobUrl),
           }
         }
       } catch (error) {
