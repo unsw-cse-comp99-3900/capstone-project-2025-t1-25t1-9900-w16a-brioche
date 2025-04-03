@@ -228,18 +228,13 @@ export const apiToFormSchema = customerSchema.transform(
   }
 )
 
+export const customBook = z.object({
+  id: z.string(),
+  name: z.string(),
+})
 
-export const apiToBookCustomer = z.array(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-  })
-).transform((data) => {
-  // 提取 id 和 name
-  return data.map((customer) => ({
-    id: customer.id,  // 提取 id
-    name: customer.name,  // 提取 name
-  }));
-});
+export const customerBooksResponseSchema = z.object({
+  list: z.array(customBook),
+})
 
-export type ExtractedCustomerData = z.infer<typeof apiToBookCustomer>;
+export type CustomerBook = z.infer<typeof customBook>

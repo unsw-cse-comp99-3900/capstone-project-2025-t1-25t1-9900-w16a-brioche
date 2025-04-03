@@ -74,7 +74,7 @@ const CustomerBookContainer: React.FC = () => {
               <div className="mt-auto flex justify-center">
                 <Button
                   type="button"
-                  onClick={() => handleNavigate(customer.id)}  // 传递客户ID进行导航
+                  onClick={() => handleNavigate(customer.id)} // 传递客户ID进行导航
                   className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   Open
