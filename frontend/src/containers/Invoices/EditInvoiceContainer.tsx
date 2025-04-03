@@ -39,7 +39,6 @@ import { toast } from "sonner"
 import { Trash } from "lucide-react"
 import useEditInvoice from "@/hooks/invoice/useEditInvoice" //
 import useInvoice from "@/hooks/invoice/useInvoice"
-import useSendInvoice from "@/hooks/invoice/useSendInvoice"
 
 // Import types from invoice.ts
 import {
@@ -51,6 +50,7 @@ import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
+import SendInvoiceModal from "@/components/invoice/SendInvoiceModal"
 
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -234,30 +234,6 @@ const EditInvoiceContainer: React.FC = () => {
     control: form.control,
   })
 
-  const { mutate: sendInvoiceEmail, isPending: isSending } = useSendInvoice(
-    id ?? ""
-  )
-  const handleSendInvoice = () => {
-    if (!emailData.toAddresses[0]) {
-      toast.error("Recipient email is required")
-      return
-    }
-
-    console.log("Sending Invoice Email with Data:", emailData)
-
-    sendInvoiceEmail(emailData, {
-      onSuccess: () => {
-        toast.success("Invoice sent successfully")
-        setIsModalOpen(false)
-        navigate("/invoices")
-      },
-      onError: (error) => {
-        toast.error(`Failed to send invoice: ${error.message}`)
-        console.error("Error Details:", error)
-      },
-    })
-  }
-
   const openSendInvoiceModal = async () => {
     if (invoice?.customer?.id) {
       let customer = customers.find((c) => c.id === invoice.customer?.id)
@@ -266,18 +242,9 @@ const EditInvoiceContainer: React.FC = () => {
         customer = customers.find((c) => c.id === invoice.customer?.id)
       }
 
-      console.log("Retrieved Customer Object:", customer)
-
       const customerEmail =
         customer?.electronicAddresses?.find((ea) => ea.type.name === "Email")
           ?.address || ""
-      console.log("Retrieved Customer Email:", customerEmail)
-
-      if (!customerEmail) {
-        toast.error("Unable to retrieve customer email.")
-        return
-      }
-
       const invoiceNumber = invoice.invoiceNumber || "Unknown"
       const totalAmount = totals.total
       const dueDate = invoice.dueDate
@@ -287,10 +254,7 @@ const EditInvoiceContainer: React.FC = () => {
       setEmailData({
         toAddresses: [customerEmail],
         subject: `Invoice ${invoiceNumber} from Your Company`,
-        body:
-          `Dear ${customer?.name || "Customer"},\n\n` +
-          `Please find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\n` +
-          `Best regards,\nYour Company`,
+        body: `Dear ${customer?.name || "Customer"},\n\nPlease find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\nBest regards,\nYour Company`,
       })
       setIsModalOpen(true)
     } else {
@@ -341,11 +305,10 @@ const EditInvoiceContainer: React.FC = () => {
           <Button
             type="button"
             onClick={openSendInvoiceModal}
-            disabled={isSending}
             className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
           >
             <Send className="h-4 w-4" />
-            {isSending ? "Sending..." : "Send"}
+            Send
           </Button>
           <Button
             type="button"
@@ -359,52 +322,20 @@ const EditInvoiceContainer: React.FC = () => {
         </div>
 
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg w-96 shadow-lg">
-              <h2 className="text-xl font-bold mb-4">Send Invoice via Email</h2>
-              <div className="mb-4">
-                <label className="block text-gray-700">To *</label>
-                <Input
-                  placeholder="Recipient Email"
-                  className="w-full p-2 border rounded-md"
-                  value={emailData.toAddresses[0]}
-                  onChange={(e) =>
-                    setEmailData({
-                      ...emailData,
-                      toAddresses: [e.target.value],
-                    })
-                  }
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Message *</label>
-                <Textarea
-                  placeholder="Email message"
-                  className="w-full p-2 border rounded-md min-h-[100px]"
-                  value={emailData.body}
-                  onChange={(e) =>
-                    setEmailData({ ...emailData, body: e.target.value })
-                  }
-                />
-              </div>
-              <div className="flex justify-end space-x-4">
-                <Button
-                  variant="outline"
-                  onClick={closeSendInvoiceModal}
-                  className="px-4 py-2 bg-gray-200 rounded-md"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleSendInvoice}
-                  disabled={isSending}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md"
-                >
-                  {isSending ? "Sending..." : "Send"}
-                </Button>
-              </div>
-            </div>
-          </div>
+          <SendInvoiceModal
+            invoiceId={id ?? ""}
+            customerEmail={emailData.toAddresses[0]}
+            customerName={invoice?.customer?.name || "Customer"}
+            invoiceNumber={invoice?.invoiceNumber || "Unknown"}
+            totalAmount={totals.total}
+            dueDate={
+              invoice?.dueDate
+                ? format(new Date(invoice.dueDate), "dd MMM yyyy")
+                : "Unknown"
+            }
+            onClose={closeSendInvoiceModal}
+            onSuccess={() => navigate("/invoices")}
+          />
         )}
 
         <Form {...form}>
