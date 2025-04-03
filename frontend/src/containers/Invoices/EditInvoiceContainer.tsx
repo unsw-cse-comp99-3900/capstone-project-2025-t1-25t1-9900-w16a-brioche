@@ -338,7 +338,9 @@ const EditInvoiceContainer: React.FC = () => {
                 : "Unknown"
             }
             onClose={closeSendInvoiceModal}
-            onSuccess={() => navigate("/invoices")}
+            onSuccess={() => {
+              navigate("/invoices")
+            }}
           />
         )}
 
