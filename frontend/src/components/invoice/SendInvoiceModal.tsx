@@ -41,9 +41,13 @@ const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
       return
     }
 
+    if (!emailData.body.trim()) {
+      toast.error("Message cannot be empty")
+      return
+    }
+
     sendInvoiceEmail(emailData, {
       onSuccess: () => {
-        toast.success("Invoice sent successfully")
         onSuccess()
         onClose()
       },
