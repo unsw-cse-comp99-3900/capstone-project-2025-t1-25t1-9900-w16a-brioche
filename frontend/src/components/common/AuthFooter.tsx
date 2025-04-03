@@ -1,6 +1,19 @@
+/**
+ * @file AuthFooter.tsx - Defines the AuthFooter component, a common footer for authentication-related pages.
+ * It includes links to privacy policy, terms of service, cookie policy, and the project's GitHub repository.
+ */
+
 import { Link } from "react-router-dom"
 import { FaGithub } from "react-icons/fa"
 
+/**
+ * AuthFooter Component
+ *
+ * A footer component for authentication-related pages, providing links to privacy policy, terms of service, and cookie policy,
+ * as well as a link to the project's GitHub repository.
+ *
+ * @returns {JSX.Element} A footer element with copyright information, links, and a GitHub icon.
+ */
 const AuthFooter = () => {
   return (
     <footer className="bg-slate-900 text-gray-400 py-6 mt-auto">

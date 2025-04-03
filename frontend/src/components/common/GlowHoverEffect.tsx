@@ -1,9 +1,21 @@
+/**
+ * @file GlowHoverEffect.tsx - Defines the GlowHoverEffect component, which adds a glow effect on hover to its children.
+ */
 import React from "react"
 
 interface GlowHoverEffectProps {
   children: React.ReactNode
 }
 
+/**
+ * GlowHoverEffect Component
+ *
+ * This component wraps its children with a div that applies a glow effect on hover.
+ *
+ * @param {GlowHoverEffectProps} props - The component props.
+ * @param {React.ReactNode} props.children - The content to which the hover effect will be applied.
+ * @returns {JSX.Element} A div element with the hover effect applied to its children.
+ */
 const GlowHoverEffect: React.FC<GlowHoverEffectProps> = ({ children }) => {
   return (
     <div className="group relative" data-aos="fade-up">
