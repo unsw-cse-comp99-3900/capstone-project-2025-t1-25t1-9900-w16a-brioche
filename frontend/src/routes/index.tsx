@@ -11,11 +11,7 @@ import LandingPage from "@/pages/LandingPage"
 import LoginPage from "@/pages/LoginPage"
 import RegistrationPage from "@/pages/RegistrationPage"
 import DashboardPage from "@/pages/DashboardPage"
-import InvoiceUploadPage from "@/pages/InvoiceCsvUploadPage"
-import ValidationResultsPage from "@/pages/ValidationResultsPage"
-import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
-// import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
@@ -27,6 +23,7 @@ import EditProductPage from "@/pages/EditProductPage"
 import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
 import CustomerBookPage from "@/pages/CustomerBookPage"
 import EditInvoicePage from "@/pages/invoices/EditInvoicePage"
+import InvoicePdfUploadPage from "@/pages/InvoicePdfUploadPage"
 import ViewInvoicePage from "@/pages/invoices/ViewInvoicePage"
 
 // Define routes
@@ -89,20 +86,8 @@ const router = createBrowserRouter([
         element: <ViewInvoicePage />,
       },
       {
-        path: "/invoice/upload",
-        element: <InvoiceUploadPage />,
-      },
-      {
-        path: "/invoice/create",
-        element: <CreateInvoicePage />,
-      },
-      {
-        path: "/invoice/validation",
-        element: <ValidationResultsPage />,
-      },
-      {
-        path: "/invoice/:id",
-        element: <InvoiceDetailPage />,
+        path: "/invoices/upload",
+        element: <InvoicePdfUploadPage />,
       },
       {
         path: "/customers",
@@ -132,10 +117,6 @@ const router = createBrowserRouter([
         path: "/customerbook",
         element: <CustomerBookPage />,
       },
-      // {
-      //   path: "/api-test",
-      //   element: <InvoiceTestPage />,
-      // },
     ],
   },
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -32,29 +32,28 @@ import {
   Clock,
   Hash,
   Percent,
-  Send,
   FileText,
+  FileUp,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Trash } from "lucide-react"
 import useCreateInvoice from "@/hooks/invoice/useCreateInvoice"
-
-// Import types from invoice.ts
 import { invoiceFormSchema, InvoiceFormValues } from "@/types/invoice"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
+import { useExtractedPdfData } from "@/hooks/invoice/useProcessInvoicePdf"
 
-interface CreateInvoiceContainerProps {
-  initialData?: InvoiceFormValues
-}
-
-const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
-  initialData,
-}) => {
+const CreateInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
-  const [isSending] = useState(false)
+  const location = useLocation()
+
+  // Enable query only when navigating from the PDF upload page
+  const isFromPdfUpload = location.state?.from === "/invoices/upload"
+  const { data: pdfData } = useExtractedPdfData({
+    enabled: isFromPdfUpload,
+  })
 
   const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
@@ -74,7 +73,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceFormSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       customer: "",
       invoiceDate: new Date(),
       dueDate: undefined,
@@ -245,10 +244,6 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     }
   }
 
-  const sendInvoice = async () => {
-    console.log("e")
-  }
-
   const addNewRow = () => {
     append({
       item: "",
@@ -262,20 +257,30 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
     })
   }
 
+  // Remove clearInitialFormData related code
+  useEffect(() => {
+    if (isFromPdfUpload && pdfData) {
+      // If from PDF upload page and has data, set the form data
+      Object.entries(pdfData).forEach(([key, value]) =>
+        form.setValue(key as keyof InvoiceFormValues, value)
+      )
+    }
+  }, [isFromPdfUpload, pdfData, form])
+
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
       <div className="px-4 py-5 sm:p-6">
         {/* Top Action Buttons */}
         <div className="flex justify-end mb-4 space-x-2">
-          <Button
-            type="button"
-            onClick={sendInvoice}
-            disabled={isSending}
-            className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
-          >
-            <Send className="h-4 w-4" />
-            {isSending ? "Sending..." : "Send"}
-          </Button>
+          <Link to="/invoices/upload">
+            <Button
+              type="button"
+              className="bg-secondary-500 hover:bg-secondary-600 text-white flex items-center gap-1"
+            >
+              <FileUp className="h-4 w-4" />
+              Upload PDF
+            </Button>
+          </Link>
           <Button
             type="button"
             onClick={() => form.handleSubmit(onSubmit)()}
@@ -597,7 +602,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.id}
+                                          value={product.name}
                                         >
                                           {product.name}
                                         </option>
@@ -700,7 +705,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                       ).map((taxRate) => (
                                         <option
                                           key={taxRate.id}
-                                          value={taxRate.id}
+                                          value={taxRate.name}
                                         >
                                           {taxRate.name}
                                         </option>
