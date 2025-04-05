@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 import axios from "axios"
 
 /**
@@ -24,7 +24,8 @@ const useInvoicePdf = () => {
       }
 
       try {
-        const bookId = Demo_RECKON_BOOK_ID
+        // Dynamically get the bookId
+        const bookId = getBookId();
         console.log(
           `Requesting PDF for invoice ${invoiceId} from book ${bookId}`
         )

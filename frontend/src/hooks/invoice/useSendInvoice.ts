@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { toast } from "sonner"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 interface SendInvoiceEmailData {
   toAddresses: string[]
@@ -24,13 +24,12 @@ const useSendInvoice = (invoiceId: string) => {
       }
 
       console.log("Sending invoice email with data:", emailData)
-      console.log(
-        "Sending invoice email to URL:",
-        `/${Demo_RECKON_BOOK_ID}/invoices/${invoiceId}/email`
-      )
+
+      // Dynamically get the bookId
+      const bookId = getBookId();
 
       const response = await authApi.post(
-        `/${Demo_RECKON_BOOK_ID}/invoices/${invoiceId}/email`,
+        `/${bookId}/invoices/${invoiceId}/email`,
         emailData
       )
 

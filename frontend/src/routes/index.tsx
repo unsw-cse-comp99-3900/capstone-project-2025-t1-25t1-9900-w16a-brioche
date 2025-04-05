@@ -25,6 +25,9 @@ import CustomerBookPage from "@/pages/CustomerBookPage"
 import EditInvoicePage from "@/pages/invoices/EditInvoicePage"
 import InvoicePdfUploadPage from "@/pages/InvoicePdfUploadPage"
 import ViewInvoicePage from "@/pages/invoices/ViewInvoicePage"
+import SelectIntegrationPage from "@/pages/SelectIntegrationPage"
+import SelectLayout from "@/components/layout/SelectLayout"
+import ProtectedWithBookidRoute from "@/components/auth/ProtectedWithBookidRoute"
 
 // Define routes
 const router = createBrowserRouter([
@@ -60,9 +63,9 @@ const router = createBrowserRouter([
     path: "/",
     // for clerk protect route
     element: (
-      <ProtectedRoute>
+      <ProtectedWithBookidRoute>
         <DashboardLayout />
-      </ProtectedRoute>
+      </ProtectedWithBookidRoute>
     ),
     children: [
       {
@@ -116,6 +119,21 @@ const router = createBrowserRouter([
       {
         path: "/customerbook",
         element: <CustomerBookPage />,
+      }
+    ],
+  },
+
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <SelectLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "/select",
+        element: <SelectIntegrationPage />,
       },
     ],
   },

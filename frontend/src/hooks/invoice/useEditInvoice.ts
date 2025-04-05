@@ -5,7 +5,7 @@ import {
   type InvoiceFormValues,
   formToApiSchema,
 } from "@/types/invoice"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 /**
  * Custom hook to edit an existing invoice using the Reckon API
@@ -24,8 +24,11 @@ const useEditInvoice = (invoiceId: string) => {
 
       console.log("API request data:", apiData)
 
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
       const response = await authApi.put(
-        `/${Demo_RECKON_BOOK_ID}/invoices/${invoiceId}`,
+        `/${bookId}/invoices/${invoiceId}`,
         apiData
       )
 

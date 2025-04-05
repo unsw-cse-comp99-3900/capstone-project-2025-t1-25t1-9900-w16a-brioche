@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type ProductFormValues, apiRequestSchema } from "@/types/product"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 /**
  * product hook to create a product using the Reckon API
@@ -18,8 +18,11 @@ export const useCreateProduct = () => {
       // Transform form data to API structure
       const apiData = apiRequestSchema.parse(data)
 
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
       const response = await authApi.post(
-        `/${Demo_RECKON_BOOK_ID}/items`,
+        `/${bookId}/items`,
         apiData
       )
 

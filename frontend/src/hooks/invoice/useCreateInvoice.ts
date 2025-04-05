@@ -5,7 +5,7 @@ import {
   type InvoiceFormValues,
   formToApiSchema,
 } from "@/types/invoice"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 /**
  * Custom hook to create an invoice using the Reckon API
@@ -24,8 +24,11 @@ export const useCreateInvoice = () => {
 
       console.log("API request data:", apiData)
 
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
       const response = await authApi.post(
-        `/${Demo_RECKON_BOOK_ID}/invoices`,
+        `/${bookId}/invoices`,
         apiData
       )
 

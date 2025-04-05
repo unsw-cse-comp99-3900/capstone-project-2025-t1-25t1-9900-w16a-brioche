@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 import { PaymentTerm } from "@/types/payment"
 import { paymentTermsResponseSchema } from "@/types/payment"
 
@@ -12,7 +12,10 @@ export const usePaymentTerms = () => {
     queryFn: async () => {
       console.log("Fetching payment terms from API...")
 
-      const response = await authApi.get(`/${Demo_RECKON_BOOK_ID}/terms`)
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
+      const response = await authApi.get(`/${bookId}/terms`)
 
       console.log(" API Full Response:", response)
       console.log(" API response.data:", response.data)
