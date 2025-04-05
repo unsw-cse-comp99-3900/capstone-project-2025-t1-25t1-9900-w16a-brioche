@@ -73,28 +73,6 @@ const CreateInvoiceContainer: React.FC = () => {
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceFormSchema),
-    // defaultValues:
-    //   isFromPdfUpload && pdfData
-    //     ? pdfData
-    //     : {
-    //         customer: "",
-    //         invoiceDate: new Date(),
-    //         dueDate: undefined,
-    //         referenceCode: "",
-    //         invoiceDiscount: "",
-    //         items: [
-    //           {
-    //             item: "",
-    //             itemPrice: "",
-    //             description: "",
-    //             qty: "",
-    //             discount: "",
-    //             taxCode: "",
-    //             tax: "",
-    //             amount: "",
-    //           },
-    //         ],
-    //       },
     defaultValues: {
       customer: "",
       invoiceDate: new Date(),
