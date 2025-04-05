@@ -43,21 +43,39 @@ const CustomerBookContainer: React.FC = () => {
     navigate(`/dashboard`)
   }
 
+  if (customers.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 space-y-4 text-center">
+        <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300">
+          There are no books here
+        </h2>
+        <div className="flex space-x-4">
+          <Button className="bg-blue-600 text-white hover:bg-blue-700">
+            Add Book
+          </Button>
+          <Button className="bg-gray-600 text-white hover:bg-gray-700">
+            Refresh
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {customers.map((customer) => (
           <Card
             key={customer.id}
-            className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100 
-            dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl 
-            hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50 
+            className="shadow-md border-0 bg-gradient-to-br from-white/80 to-slate-100
+            dark:from-slate-800 dark:to-slate-700/90 transition-all duration-300 hover:shadow-xl
+            hover:translate-y-[-3px] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50
             dark:hover:from-slate-800 dark:hover:to-blue-900/20 group"
           >
             <CardHeader className="pb-2">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <div
-                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 
+                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500
                   group-hover:text-white transition-colors duration-300"
                 >
                   <Users className="h-5 w-5" />
