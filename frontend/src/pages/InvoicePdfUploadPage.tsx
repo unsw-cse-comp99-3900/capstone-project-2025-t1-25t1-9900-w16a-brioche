@@ -1,6 +1,6 @@
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
-import InvoicePdfUploadContainer from "@/containers/Invoice/InvoicePdfUploadContainer"
+import InvoicePdfUploadContainer from "@/containers/Invoices/InvoicePdfUploadContainer"
 
 const InvoicePdfUploadPage: React.FC = () => {
   return (
