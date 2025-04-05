@@ -536,10 +536,11 @@ const CreateInvoiceContainer: React.FC = () => {
                                       className="w-48 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                       value={field.value || ""}
                                       onChange={(e) => {
-                                        const selectedProductId = e.target.value
-                                        field.onChange(selectedProductId)
+                                        const selectedProductName =
+                                          e.target.value
+                                        field.onChange(selectedProductName)
                                         const selectedProduct = products.find(
-                                          (p) => p.id === selectedProductId
+                                          (p) => p.name === selectedProductName
                                         )
                                         console.log(
                                           "🎯 selectedProduct",
@@ -601,7 +602,7 @@ const CreateInvoiceContainer: React.FC = () => {
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.id}
+                                          value={product.name}
                                         >
                                           {product.name}
                                         </option>
