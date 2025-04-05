@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type ProductFormValues, apiRequestSchema } from "@/types/product"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 /**
  * Custom hook to edit a product using the Reckon API
@@ -18,8 +18,11 @@ const useEditProduct = (productId: string) => {
       // Transform form data to API structure using Zod
       const apiData = apiRequestSchema.parse(data)
 
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
       const response = await authApi.put(
-        `/${Demo_RECKON_BOOK_ID}/items/${productId}`,
+        `/${bookId}/items/${productId}`,
         apiData
       )
 

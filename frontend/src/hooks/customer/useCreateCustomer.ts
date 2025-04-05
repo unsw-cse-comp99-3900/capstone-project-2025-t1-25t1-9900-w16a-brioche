@@ -6,7 +6,7 @@ import {
   apiRequestSchema,
   createCustomerResponseSchema,
 } from "@/types/customer"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/constants/config"
 
 /**
  * Custom hook to create a customer using the Reckon API
@@ -23,8 +23,11 @@ export const useCreateCustomer = () => {
       // Transform form data to API structure using Zod
       const apiData = apiRequestSchema.parse(data)
 
+      // Dynamically get the bookId
+      const bookId = getBookId();
+
       const response = await authApi.post(
-        `/${Demo_RECKON_BOOK_ID}/customers`,
+        `/${bookId}/customers`,
         apiData
       )
 
