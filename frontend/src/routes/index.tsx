@@ -90,10 +90,6 @@ const router = createBrowserRouter([
         element: <InvoicePdfUploadPage />,
       },
       {
-        path: "/invoice/create",
-        element: <CreateInvoicePage />,
-      },
-      {
         path: "/customers",
         element: <CustomersPage />,
       },
