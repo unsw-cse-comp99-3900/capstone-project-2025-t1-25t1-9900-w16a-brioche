@@ -227,3 +227,14 @@ export const apiToFormSchema = customerSchema.transform(
     }
   }
 )
+
+export const customBook = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
+export const customerBooksResponseSchema = z.object({
+  list: z.array(customBook),
+})
+
+export type CustomerBook = z.infer<typeof customBook>
