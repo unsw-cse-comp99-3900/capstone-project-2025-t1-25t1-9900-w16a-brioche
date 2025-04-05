@@ -32,7 +32,6 @@ import {
   Clock,
   Hash,
   Percent,
-  Send,
   FileText,
   FileUp,
 } from "lucide-react"
@@ -49,7 +48,6 @@ import { useExtractedPdfData } from "@/hooks/invoice/useProcessInvoicePdf"
 const CreateInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [isSending] = useState(false)
 
   // Enable query only when navigating from the PDF upload page
   const isFromPdfUpload = location.state?.from === "/invoices/upload"
@@ -251,10 +249,6 @@ const CreateInvoiceContainer: React.FC = () => {
       })
       console.error("Error creating invoice:", error)
     }
-  }
-
-  const sendInvoice = async () => {
-    console.log("e")
   }
 
   const addNewRow = () => {
