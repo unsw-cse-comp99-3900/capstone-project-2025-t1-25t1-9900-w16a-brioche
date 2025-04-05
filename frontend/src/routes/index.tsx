@@ -21,6 +21,7 @@ import CreateProductPage from "@/pages/CreateProductPage"
 import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
 import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
+import CustomerBookPage from "@/pages/CustomerBookPage"
 import EditInvoicePage from "@/pages/invoices/EditInvoicePage"
 import InvoicePdfUploadPage from "@/pages/InvoicePdfUploadPage"
 import ViewInvoicePage from "@/pages/invoices/ViewInvoicePage"
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:id/edit",
         element: <EditProductPage />,
+      },
+      {
+        path: "/customerbook",
+        element: <CustomerBookPage />,
       },
     ],
   },

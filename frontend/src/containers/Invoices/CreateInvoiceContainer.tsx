@@ -221,9 +221,24 @@ const CreateInvoiceContainer: React.FC = () => {
 
       toast.success("Invoice created successfully")
       navigate("/invoices")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to create invoice."
+
+      if (error?.response?.data?.message) {
+        const backendMessage = error.response.data.message
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      }
+
       toast.error("Failed to create invoice", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error creating invoice:", error)
     }
