@@ -86,7 +86,7 @@ const router = createBrowserRouter([
         element: <ViewInvoicePage />,
       },
       {
-        path: "/invoice/upload",
+        path: "/invoices/upload",
         element: <InvoicePdfUploadPage />,
       },
       {
