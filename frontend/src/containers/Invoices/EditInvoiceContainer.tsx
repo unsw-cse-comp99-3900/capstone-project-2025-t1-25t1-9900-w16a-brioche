@@ -50,21 +50,32 @@ import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
+import SendInvoiceModal from "@/components/invoice/SendInvoiceModal"
 
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [isSending] = useState(false)
 
   // Fetch the invoice data
-  const { data: invoice, isLoading } = useInvoice(id ?? "")
+  const { data: invoice, isLoading: isLoadingInvoice } = useInvoice(id ?? "")
 
   const { data: products = [] } = useProducts()
-  const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
+  const {
+    data: customers = [],
+    isLoading: isLoadingCustomers,
+    refetch,
+  } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
 
   const { mutate: editInvoice, isPending: isEditing } = useEditInvoice(id ?? "")
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [emailData, setEmailData] = useState({
+    toAddresses: [""],
+    subject: "Invoice from Your Company",
+    body: "Dear Customer,\n\nPlease find the attached invoice.\n\nBest regards,\nYour Company",
+  })
 
   const [totals, setTotals] = useState({
     subtotal: "0.00",
@@ -223,6 +234,36 @@ const EditInvoiceContainer: React.FC = () => {
     control: form.control,
   })
 
+  const openSendInvoiceModal = async () => {
+    if (invoice?.customer?.id) {
+      let customer = customers.find((c) => c.id === invoice.customer?.id)
+      if (!customer) {
+        await refetch()
+        customer = customers.find((c) => c.id === invoice.customer?.id)
+      }
+
+      const customerEmail =
+        customer?.electronicAddresses?.find((ea) => ea.type.name === "Email")
+          ?.address || ""
+      const invoiceNumber = invoice.invoiceNumber || "Unknown"
+      const totalAmount = totals.total
+      const dueDate = invoice.dueDate
+        ? format(new Date(invoice.dueDate), "dd MMM yyyy")
+        : "Unknown"
+
+      setEmailData({
+        toAddresses: [customerEmail],
+        subject: `Invoice ${invoiceNumber} from Your Company`,
+        body: `Dear ${customer?.name || "Customer"},\n\nPlease find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\nBest regards,\nYour Company`,
+      })
+      setIsModalOpen(true)
+    } else {
+      toast.error("Customer information is missing. Cannot send invoice.")
+    }
+  }
+
+  const closeSendInvoiceModal = () => setIsModalOpen(false)
+
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
       // Use the mutation to create the invoice
@@ -239,10 +280,6 @@ const EditInvoiceContainer: React.FC = () => {
     }
   }
 
-  const sendInvoice = async () => {
-    console.log("e")
-  }
-
   const addNewRow = () => {
     append({
       item: "",
@@ -256,7 +293,7 @@ const EditInvoiceContainer: React.FC = () => {
     })
   }
 
-  if (isLoading) {
+  if (isLoadingInvoice) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
@@ -271,12 +308,11 @@ const EditInvoiceContainer: React.FC = () => {
         <div className="flex justify-end mb-4 space-x-2">
           <Button
             type="button"
-            onClick={sendInvoice}
-            disabled={isSending}
+            onClick={openSendInvoiceModal}
             className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
           >
             <Send className="h-4 w-4" />
-            {isSending ? "Sending..." : "Send"}
+            Send
           </Button>
           <Button
             type="button"
@@ -288,6 +324,25 @@ const EditInvoiceContainer: React.FC = () => {
             {isEditing ? "Updating..." : "Update"}
           </Button>
         </div>
+
+        {isModalOpen && (
+          <SendInvoiceModal
+            invoiceId={id ?? ""}
+            customerEmail={emailData.toAddresses[0]}
+            customerName={invoice?.customer?.name || "Customer"}
+            invoiceNumber={invoice?.invoiceNumber || "Unknown"}
+            totalAmount={totals.total}
+            dueDate={
+              invoice?.dueDate
+                ? format(new Date(invoice.dueDate), "dd MMM yyyy")
+                : "Unknown"
+            }
+            onClose={closeSendInvoiceModal}
+            onSuccess={() => {
+              navigate("/invoices")
+            }}
+          />
+        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
