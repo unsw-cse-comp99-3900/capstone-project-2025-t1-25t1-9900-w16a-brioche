@@ -3,15 +3,31 @@ import { FileText } from "lucide-react";
 import GridPatternOverlay from "@/components/common/GridPatternOverlay";
 import PageHeader from "@/components/common/PageHeader";
 import { useNavigate } from "react-router-dom";
+import { useConnectReckon } from "@/hooks/reckon/useConnectReckon";
 import { Demo_RECKON_BOOK_ID } from "@/constants";
 
 const SelectIntegrationPage: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<"reckon" | "other" | null>(null);
   const navigate = useNavigate();
+  const connectReckon = useConnectReckon();
 
   const handleUseDemoAccount = () => {
     localStorage.setItem("bookId", Demo_RECKON_BOOK_ID); // Set bookId in localStorage
     navigate("/dashboard"); // Redirect to the dashboard
+  };
+
+  const handleConnectReckon = async () => {
+    try {
+      const userId = "your-user-id"; // Replace with the actual user ID
+      const redirectUrl = await connectReckon.mutateAsync(userId);
+      window.location.href = redirectUrl; // Redirect to the Reckon authentication URL
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Failed to connect to Reckon:", error.message);
+      } else {
+        console.error("Unknown error:", error);
+      }
+    }
   };
 
   return (
@@ -56,12 +72,15 @@ const SelectIntegrationPage: React.FC = () => {
                   <div>
                     <h2 className="text-lg font-semibold mb-4">Reckon One Integration</h2>
                     <div className="space-x-4">
-                      <button className="bg-green-500 text-white py-2 px-4 rounded-lg">
+                      <button
+                        className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                        onClick={handleConnectReckon} // Connect button handler
+                      >
                         Connect
                       </button>
                       <button
                         className="bg-blue-500 text-white py-2 px-4 rounded-lg"
-                        onClick={handleUseDemoAccount} // Add click handler here
+                        onClick={handleUseDemoAccount} // Use Demo Account button handler
                       >
                         Use Demo Account
                       </button>
@@ -70,7 +89,7 @@ const SelectIntegrationPage: React.FC = () => {
                 ) : selectedOption === "other" ? (
                   <div>
                     <h2 className="text-lg font-semibold mb-4">Other API Integration</h2>
-                    <p className="text-gray-600">Other APIs are under development</p>
+                    <p className="text-gray-600">Other APIs are under development...</p>
                   </div>
                 ) : (
                   <p className="text-gray-600">Please select the invoice API you wish to use.</p>
