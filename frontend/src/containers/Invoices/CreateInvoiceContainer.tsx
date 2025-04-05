@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -34,6 +34,7 @@ import {
   Percent,
   Send,
   FileText,
+  FileUp,
 } from "lucide-react"
 import { toast } from "sonner"
 import { Trash } from "lucide-react"
@@ -284,15 +285,15 @@ const CreateInvoiceContainer: React.FC = () => {
       <div className="px-4 py-5 sm:p-6">
         {/* Top Action Buttons */}
         <div className="flex justify-end mb-4 space-x-2">
-          <Button
-            type="button"
-            onClick={sendInvoice}
-            disabled={isSending}
-            className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
-          >
-            <Send className="h-4 w-4" />
-            {isSending ? "Sending..." : "Send"}
-          </Button>
+          <Link to="/invoices/upload">
+            <Button
+              type="button"
+              className="bg-secondary-500 hover:bg-secondary-600 text-white flex items-center gap-1"
+            >
+              <FileUp className="h-4 w-4" />
+              Upload PDF
+            </Button>
+          </Link>
           <Button
             type="button"
             onClick={() => form.handleSubmit(onSubmit)()}
