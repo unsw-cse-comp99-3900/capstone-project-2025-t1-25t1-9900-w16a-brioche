@@ -12,7 +12,6 @@ import LoginPage from "@/pages/LoginPage"
 import RegistrationPage from "@/pages/RegistrationPage"
 import DashboardPage from "@/pages/DashboardPage"
 import NotFoundPage from "@/pages/NotFoundPage"
-// import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
 import LoadingPage from "@/pages/LoadingPage"
@@ -24,6 +23,7 @@ import EditProductPage from "@/pages/EditProductPage"
 import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
 import EditInvoicePage from "@/pages/invoices/EditInvoicePage"
 import InvoicePdfUploadPage from "@/pages/InvoicePdfUploadPage"
+import ViewInvoicePage from "@/pages/invoices/ViewInvoicePage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -81,8 +81,16 @@ const router = createBrowserRouter([
         element: <EditInvoicePage />,
       },
       {
-        path: "/invoices/upload",
+        path: "/invoices/:id/view",
+        element: <ViewInvoicePage />,
+      },
+      {
+        path: "/invoice/upload",
         element: <InvoicePdfUploadPage />,
+      },
+      {
+        path: "/invoice/create",
+        element: <CreateInvoicePage />,
       },
       {
         path: "/customers",
@@ -108,10 +116,6 @@ const router = createBrowserRouter([
         path: "/products/:id/edit",
         element: <EditProductPage />,
       },
-      // {
-      //   path: "/api-test",
-      //   element: <InvoiceTestPage />,
-      // },
     ],
   },
 

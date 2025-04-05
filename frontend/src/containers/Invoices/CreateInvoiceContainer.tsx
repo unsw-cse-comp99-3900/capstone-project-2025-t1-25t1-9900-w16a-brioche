@@ -549,6 +549,20 @@ const CreateInvoiceContainer: React.FC = () => {
                                               ""
                                           )
 
+                                          const currentQty = form.getValues(
+                                            `items.${index}.qty`
+                                          )
+                                          if (
+                                            !currentQty ||
+                                            currentQty === "" ||
+                                            currentQty === "0"
+                                          ) {
+                                            form.setValue(
+                                              `items.${index}.qty`,
+                                              "1"
+                                            )
+                                          }
+
                                           const qty = Number(
                                             form.getValues(
                                               `items.${index}.qty`
