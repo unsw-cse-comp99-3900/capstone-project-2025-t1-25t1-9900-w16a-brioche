@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -14,10 +14,8 @@ import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
 const CustomerBookContainer: React.FC = () => {
   const navigate = useNavigate()
 
-  // 使用 useBookCustomer 钩子获取客户数据
   const { data: customers = [], isLoading, error } = useBookCustomer()
 
-  // 加载状态
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -26,7 +24,6 @@ const CustomerBookContainer: React.FC = () => {
     )
   }
 
-  // 错误处理
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -38,9 +35,12 @@ const CustomerBookContainer: React.FC = () => {
     )
   }
 
-  // 处理客户卡片点击事件，跳转到客户详情
-  const handleNavigate = (customerId: string) => {
-    navigate(`/customer/${customerId}`)
+  // const handleNavigate = (customerId: string) => {
+  //   navigate(`/customer/${customerId}`)
+  // }
+
+  const handleNavigate = () => {
+    navigate(`/dashboard`)
   }
 
   return (
@@ -62,19 +62,19 @@ const CustomerBookContainer: React.FC = () => {
                 >
                   <Users className="h-5 w-5" />
                 </div>
-                Customer:
+                Book Name:
               </CardTitle>
-              <CardDescription>view details</CardDescription>
+              {/* <CardDescription>view details</CardDescription> */}
             </CardHeader>
             <CardContent className="flex flex-col justify-between min-h-[200px]">
-              {/* 设置最小高度 */}
               <div className="text-3xl font-bold text-primary">
                 {customer.name}
               </div>
               <div className="mt-auto flex justify-center">
                 <Button
                   type="button"
-                  onClick={() => handleNavigate(customer.id)} // 传递客户ID进行导航
+                  // onClick={() => handleNavigate(customer.id)}
+                  onClick={() => handleNavigate()}
                   className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   Open
