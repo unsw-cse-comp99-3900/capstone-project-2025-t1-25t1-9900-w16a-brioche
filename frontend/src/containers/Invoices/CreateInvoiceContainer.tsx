@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray, useWatch } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -38,23 +38,23 @@ import {
 import { toast } from "sonner"
 import { Trash } from "lucide-react"
 import useCreateInvoice from "@/hooks/invoice/useCreateInvoice"
-
-// Import types from invoice.ts
 import { invoiceFormSchema, InvoiceFormValues } from "@/types/invoice"
 import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
+import { useExtractedPdfData } from "@/hooks/invoice/useProcessInvoicePdf"
 
-interface CreateInvoiceContainerProps {
-  initialData?: InvoiceFormValues
-}
-
-const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
-  initialData,
-}) => {
+const CreateInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [isSending] = useState(false)
+
+  // Enable query only when navigating from the PDF upload page
+  const isFromPdfUpload = location.state?.from === "/invoices/upload"
+  const { data: pdfData } = useExtractedPdfData({
+    enabled: isFromPdfUpload,
+  })
 
   const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
@@ -74,7 +74,29 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceFormSchema),
-    defaultValues: initialData || {
+    // defaultValues:
+    //   isFromPdfUpload && pdfData
+    //     ? pdfData
+    //     : {
+    //         customer: "",
+    //         invoiceDate: new Date(),
+    //         dueDate: undefined,
+    //         referenceCode: "",
+    //         invoiceDiscount: "",
+    //         items: [
+    //           {
+    //             item: "",
+    //             itemPrice: "",
+    //             description: "",
+    //             qty: "",
+    //             discount: "",
+    //             taxCode: "",
+    //             tax: "",
+    //             amount: "",
+    //           },
+    //         ],
+    //       },
+    defaultValues: {
       customer: "",
       invoiceDate: new Date(),
       dueDate: undefined,
@@ -246,6 +268,16 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
       amount: "",
     })
   }
+
+  // Remove clearInitialFormData related code
+  useEffect(() => {
+    if (isFromPdfUpload && pdfData) {
+      // If from PDF upload page and has data, set the form data
+      Object.entries(pdfData).forEach(([key, value]) =>
+        form.setValue(key as keyof InvoiceFormValues, value)
+      )
+    }
+  }, [isFromPdfUpload, pdfData, form])
 
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
@@ -568,7 +600,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.id}
+                                          value={product.name}
                                         >
                                           {product.name}
                                         </option>
@@ -671,7 +703,7 @@ const CreateInvoiceContainer: React.FC<CreateInvoiceContainerProps> = ({
                                       ).map((taxRate) => (
                                         <option
                                           key={taxRate.id}
-                                          value={taxRate.id}
+                                          value={taxRate.name}
                                         >
                                           {taxRate.name}
                                         </option>

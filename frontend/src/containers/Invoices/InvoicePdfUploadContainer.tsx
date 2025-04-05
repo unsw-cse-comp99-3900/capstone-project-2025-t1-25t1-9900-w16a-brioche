@@ -1,16 +1,19 @@
-"use client"
-
 import React, { useState } from "react"
-import { FileUpload } from "@/components/ui/file-upload"
+import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import PageHeader from "@/components/common/PageHeader"
 import { FileText, Upload, Eye, X, AlertCircle } from "lucide-react"
+import { toast } from "sonner"
+import { useProcessInvoicePdf } from "@/hooks/invoice/useProcessInvoicePdf"
+import FileUploadLight from "@/components/ui/file-upload-light"
 
 const InvoicePdfUploadContainer: React.FC = () => {
+  const navigate = useNavigate()
   const [pdfFiles, setPdfFiles] = useState<File[]>([])
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const processPdf = useProcessInvoicePdf()
 
   const handleFileChange = (files: File[]) => {
     // Filter for PDF files only
@@ -37,11 +40,39 @@ const InvoicePdfUploadContainer: React.FC = () => {
     setError(null)
   }
 
-  const handleUpload = () => {
-    // This function will handle the actual upload to the server
-    // For now, it's just a placeholder
-    console.log("Uploading files:", pdfFiles)
-    // Here you would typically call an API endpoint to upload the file
+  const handleUpload = async () => {
+    if (!pdfFiles.length) {
+      toast.error("Please upload a PDF file")
+      return
+    }
+
+    try {
+      const result = await processPdf.mutateAsync(pdfFiles[0])
+      console.log("processPdfWithGemini result", result)
+
+      if (result.success && result.data) {
+        // Navigate to create invoice page with state
+        navigate("/invoices/create", {
+          state: { from: "/invoices/upload" },
+        })
+
+        toast.success("PDF Processed Successfully", {
+          description:
+            "Invoice data has been extracted and pre-filled in the create form.",
+        })
+      } else {
+        throw new Error(result.error || "Failed to process PDF")
+      }
+    } catch (err) {
+      console.error("Error processing PDF:", err)
+      setError(
+        "Failed to process PDF. Please try again or enter details manually."
+      )
+      toast.error("Error Processing PDF", {
+        description:
+          "Failed to extract data from PDF. Please try again or enter details manually.",
+      })
+    }
   }
 
   return (
@@ -63,7 +94,7 @@ const InvoicePdfUploadContainer: React.FC = () => {
 
         {!pdfFiles.length && (
           <div className="mb-6">
-            <FileUpload onChange={handleFileChange} />
+            <FileUploadLight onChange={handleFileChange} />
           </div>
         )}
 
@@ -123,10 +154,11 @@ const InvoicePdfUploadContainer: React.FC = () => {
               <Button
                 className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white"
                 onClick={handleUpload}
+                disabled={processPdf.isPending}
                 size="lg"
               >
                 <Upload className="h-4 w-4 mr-2" />
-                Upload Invoice
+                {processPdf.isPending ? "Processing..." : "Process Invoice"}
               </Button>
             </div>
           </div>

@@ -11,7 +11,7 @@ const DashboardHeaderContainer: React.FC = () => {
         title="Dashboard"
         description="Welcome to your invoice management dashboard"
       ></PageHeader>
-      <Link to="/invoice/create">
+      <Link to="/invoices/create">
         <Button size="lg" className="flex items-center text-md">
           <FilePlus2 /> Create Invoice
         </Button>

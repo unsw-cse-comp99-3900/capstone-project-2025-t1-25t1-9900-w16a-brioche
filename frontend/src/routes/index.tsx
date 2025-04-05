@@ -11,8 +11,6 @@ import LandingPage from "@/pages/LandingPage"
 import LoginPage from "@/pages/LoginPage"
 import RegistrationPage from "@/pages/RegistrationPage"
 import DashboardPage from "@/pages/DashboardPage"
-import ValidationResultsPage from "@/pages/ValidationResultsPage"
-import InvoiceDetailPage from "@/pages/InvoiceDetailPage"
 import NotFoundPage from "@/pages/NotFoundPage"
 // import InvoiceTestPage from "@/pages/ApiTestPage"
 import CustomersPage from "@/pages/CustomersPage"
@@ -83,20 +81,8 @@ const router = createBrowserRouter([
         element: <EditInvoicePage />,
       },
       {
-        path: "/invoice/upload",
+        path: "/invoices/upload",
         element: <InvoicePdfUploadPage />,
-      },
-      {
-        path: "/invoice/create",
-        element: <CreateInvoicePage />,
-      },
-      {
-        path: "/invoice/validation",
-        element: <ValidationResultsPage />,
-      },
-      {
-        path: "/invoice/:id",
-        element: <InvoiceDetailPage />,
       },
       {
         path: "/customers",
