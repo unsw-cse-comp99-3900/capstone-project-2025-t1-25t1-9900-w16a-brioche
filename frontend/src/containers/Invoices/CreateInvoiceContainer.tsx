@@ -538,7 +538,6 @@ const CreateInvoiceContainer: React.FC = () => {
                                       onChange={(e) => {
                                         const selectedProductId = e.target.value
                                         field.onChange(selectedProductId)
-
                                         const selectedProduct = products.find(
                                           (p) => p.id === selectedProductId
                                         )
@@ -602,7 +601,7 @@ const CreateInvoiceContainer: React.FC = () => {
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
-                                          value={product.name}
+                                          value={product.id}
                                         >
                                           {product.name}
                                         </option>
