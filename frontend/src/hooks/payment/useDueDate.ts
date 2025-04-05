@@ -12,14 +12,14 @@ export const useDueDate = (termId: string, invoiceDate: string) => {
       if (!termId || !invoiceDate) return null
 
       const url = `/${Demo_RECKON_BOOK_ID}/terms/${termId}/duedate/basedate/${invoiceDate}`
-      console.log("🧩 Full API URL:", url)
+      console.log(" Full API URL:", url)
 
       const response = await authApi.get(url)
       console.log("Raw API response:", response)
 
       const parsedData = dueDateSchema.parse(response)
 
-      console.log("✅ Parsed and validated due date:", parsedData)
+      console.log(" Parsed and validated due date:", parsedData)
       return parsedData
     },
   })

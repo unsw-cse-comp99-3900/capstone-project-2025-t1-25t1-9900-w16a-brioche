@@ -14,20 +14,17 @@ export const usePaymentTerms = () => {
 
       const response = await authApi.get(`/${Demo_RECKON_BOOK_ID}/terms`)
 
-      console.log("🚀 API Full Response:", response)
-      console.log("📌 API response.data:", response.data)
+      console.log(" API Full Response:", response)
+      console.log(" API response.data:", response.data)
 
       const parsedData = paymentTermsResponseSchema.safeParse(response)
 
       if (!parsedData.success) {
-        console.error("❌ Zod validation failed:", parsedData.error)
+        console.error(" Zod validation failed:", parsedData.error)
         return []
       }
 
-      console.log(
-        "✅ Parsed and validated payment terms:",
-        parsedData.data.list
-      )
+      console.log(" Parsed and validated payment terms:", parsedData.data.list)
 
       if (!parsedData.data.list.length) {
         console.warn("⚠️ No payment terms returned from API")
