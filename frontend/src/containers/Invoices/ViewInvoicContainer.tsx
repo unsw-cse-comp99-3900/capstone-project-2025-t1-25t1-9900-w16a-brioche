@@ -164,7 +164,7 @@ const ViewInvoiceContainer: React.FC = () => {
 
       {isModalOpen && (
         <SendInvoiceModal
-          customerId = {invoice?.customer?.id ?? ""}
+          customerId={invoice?.customer?.id ?? ""}
           invoiceId={id ?? ""}
           customerEmail={emailData.toAddresses[0]}
           customerName={invoice?.customer?.name || "Customer"}
