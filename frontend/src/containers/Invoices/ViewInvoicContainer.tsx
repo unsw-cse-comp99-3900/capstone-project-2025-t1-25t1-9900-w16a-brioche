@@ -9,6 +9,12 @@ import { Send, Download, Edit } from "lucide-react"
 
 import useInvoice from "@/hooks/invoice/useInvoice"
 import useDownloadInvoice from "@/hooks/invoice/useDownloadInvoice"
+import useCustomers from "@/hooks/customer/useCustomers"
+
+import SendInvoiceModal from "@/components/invoice/SendInvoiceModal"
+
+import { format } from "date-fns"
+import { toast } from "sonner"
 
 /**
  * ViewInvoiceContainer Component
@@ -21,7 +27,7 @@ import useDownloadInvoice from "@/hooks/invoice/useDownloadInvoice"
 const ViewInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const [isSending] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [isLoadingPdf, setIsLoadingPdf] = useState(false)
 
@@ -43,6 +49,7 @@ const ViewInvoiceContainer: React.FC = () => {
           },
           onError: () => {
             setIsLoadingPdf(false)
+            toast.error("Failed to load invoice preview")
           },
         }
       )
@@ -52,15 +59,70 @@ const ViewInvoiceContainer: React.FC = () => {
   // Clean up preview blob URL on unmount
   useEffect(() => {
     return () => {
-      if (pdfUrl) {
+      if (pdfUrl && pdfUrl.startsWith("blob:")) {
         window.URL.revokeObjectURL(pdfUrl)
       }
     }
   }, [pdfUrl])
 
-  const sendInvoice = async () => {
-    console.log("e")
+  const { data: customers = [], refetch } = useCustomers()
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const [emailData, setEmailData] = useState({
+    toAddresses: [""],
+    subject: "Invoice from Your Company",
+    body: "Dear Customer,\n\nPlease find the attached invoice.\n\nBest regards,\nYour Company",
+  })
+
+  const openSendInvoiceModal = async () => {
+    if (invoice?.customer?.id) {
+      setIsSending(true)
+      try {
+        let customer = customers.find((c) => c.id === invoice.customer?.id)
+        if (!customer) {
+          await refetch()
+          customer = customers.find((c) => c.id === invoice.customer?.id)
+        }
+        if (!customer) {
+          throw new Error("Customer information could not be found")
+        }
+
+        const customerEmail =
+          customer?.electronicAddresses?.find((ea) => ea.type.name === "Email")
+            ?.address || ""
+
+        if (!customerEmail) {
+          throw new Error("Customer email address not found")
+        }
+
+        const invoiceNumber = invoice.invoiceNumber || "Unknown"
+        const totalAmount = invoice.totalAmount
+        const dueDate = invoice.dueDate
+          ? format(new Date(invoice.dueDate), "dd MMM yyyy")
+          : "Unknown"
+
+        setEmailData({
+          toAddresses: [customerEmail],
+          subject: `Invoice ${invoiceNumber} from Your Company`,
+          body: `Dear ${customer?.name || "Customer"},\n\nPlease find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\nBest regards,\nYour Company`,
+        })
+        setIsModalOpen(true)
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message)
+        } else {
+          toast.error("Failed to prepare email. Please try again.")
+        }
+      } finally {
+        setIsSending(false)
+      }
+    } else {
+      toast.error("Customer information is missing. Cannot send invoice.")
+    }
   }
+
+  const closeSendInvoiceModal = () => setIsModalOpen(false)
 
   if (isLoading || isLoadingPdf) {
     return (
@@ -95,14 +157,38 @@ const ViewInvoiceContainer: React.FC = () => {
 
         <Button
           type="button"
-          onClick={sendInvoice}
+          onClick={openSendInvoiceModal}
           disabled={isSending}
           className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
         >
           <Send className="h-4 w-4" />
-          {isSending ? "Sending..." : "Send"}
+          {isSending ? "Preparing..." : "Send"}
         </Button>
       </div>
+
+      {isModalOpen && (
+        <SendInvoiceModal
+          invoiceId={id ?? ""}
+          customerEmail={emailData.toAddresses[0]}
+          customerName={invoice?.customer?.name || "Customer"}
+          invoiceNumber={invoice?.invoiceNumber || "Unknown"}
+          totalAmount={
+            typeof invoice?.totalAmount === "number"
+              ? invoice.totalAmount.toFixed(2)
+              : "0.00"
+          }
+          dueDate={
+            invoice?.dueDate
+              ? format(new Date(invoice.dueDate), "dd MMM yyyy")
+              : "Unknown"
+          }
+          onClose={closeSendInvoiceModal}
+          onSuccess={() => {
+            toast.success("Invoice sent successfully")
+            navigate("/invoices")
+          }}
+        />
+      )}
 
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5 w-full">
         {/* PDF Preview */}
