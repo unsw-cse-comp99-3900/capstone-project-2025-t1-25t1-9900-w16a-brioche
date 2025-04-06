@@ -3,6 +3,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { generateObject } from "ai"
 import { z } from "zod"
 import { InvoiceFormValues } from "@/types/invoice"
+import { formatPrice } from "@/utils/formatters"
 
 // Define schema for invoice extraction, put schema inside because it's not used in other files
 const extractedDataSchema = z.object({
@@ -86,7 +87,7 @@ const processPdf = async (pdfFile: File): Promise<ProcessPdfResult> => {
       invoiceDiscount: extractedData.invoiceDiscount || "",
       items: extractedData.lineItems.map((item) => ({
         item: item.item || "",
-        itemPrice: item.price || "",
+        itemPrice: formatPrice(item.price) || "",
         description: item.description || "",
         qty: item.quantity || "1",
         discount: item.discount || "",
