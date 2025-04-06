@@ -5,7 +5,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import useSendInvoice from "@/hooks/invoice/useSendInvoice"
 import useEditCustomer from "@/hooks/customer/useEditCustomer"
-import { apiToFormSchema, customerFormSchema, CustomerFormValues } from "@/types/customer"
+import {
+  apiToFormSchema,
+  customerFormSchema,
+  CustomerFormValues,
+} from "@/types/customer"
 import useCustomer from "@/hooks/customer/useCustomer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -39,7 +43,8 @@ const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
     body: `Dear ${customerName},\n\nPlease find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\nBest regards,\nYour Company`,
   })
 
-  const { mutate: sendInvoiceEmail, isPending: isSending } = useSendInvoice(invoiceId)
+  const { mutate: sendInvoiceEmail, isPending: isSending } =
+    useSendInvoice(invoiceId)
   const { mutate: editCustomer } = useEditCustomer(customerId ?? "")
   const { data: customer } = useCustomer(customerId ?? "")
 
@@ -62,10 +67,10 @@ const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
 
   useEffect(() => {
     if (customer) {
-      const formData = apiToFormSchema.parse(customer);
-      form.reset(formData);
+      const formData = apiToFormSchema.parse(customer)
+      form.reset(formData)
     }
-  }, [customer, form]);
+  }, [customer, form])
 
   const handleSendInvoice = async () => {
     if (!emailData.toAddresses[0]) {
@@ -79,8 +84,7 @@ const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
     }
 
     try {
-      
-      const formData = form.getValues();
+      const formData = form.getValues()
       await editCustomer(formData, {
         onSuccess: () => {
           // After customer is updated, send the invoice email
@@ -99,7 +103,7 @@ const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
             description: `Error: ${error}`,
           })
           console.error("Error updating customer:", error)
-        }
+        },
       })
     } catch (error) {
       console.error("Error in send invoice process:", error)
