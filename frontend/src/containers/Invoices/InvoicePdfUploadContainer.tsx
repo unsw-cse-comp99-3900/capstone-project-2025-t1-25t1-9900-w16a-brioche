@@ -54,7 +54,7 @@ const InvoicePdfUploadContainer: React.FC = () => {
       if (!result.success) {
         toast.error("Error Processing PDF", {
           description:
-            result.error || "Failed to process PDF due to fail to extract data",
+            result.error || "Failed to process PDF because data extraction failed",
         })
       }
       console.log("processPdfWithGemini result", result)
