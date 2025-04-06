@@ -11,7 +11,7 @@ import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
 
-const CustomerBookContainer: React.FC = () => {
+const BookContainer: React.FC = () => {
   const navigate = useNavigate()
 
   const { data: customers = [], isLoading, error } = useBookCustomer()
@@ -106,4 +106,4 @@ const CustomerBookContainer: React.FC = () => {
   )
 }
 
-export default CustomerBookContainer
+export default BookContainer

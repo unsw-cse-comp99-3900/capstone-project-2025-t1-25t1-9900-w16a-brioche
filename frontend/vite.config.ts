@@ -1,10 +1,14 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import path from "path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import * as selfsigned from "selfsigned";
 
 const ReactCompilerConfig = {
   /* ... */
-}
+};
+
+const attrs = [{ name: "commonName", value: "localhost" }];
+const pems = selfsigned.generate(attrs, { days: 365 });
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,6 +24,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    https: {
+      key: pems.private,
+      cert: pems.cert,
+    },
+    host: true,
+    port: 5173,
+  },
   // server: {
   //   proxy: {
   //     "/reckon": {
@@ -30,4 +42,4 @@ export default defineConfig({
   //     },
   //   },
   // },
-})
+});

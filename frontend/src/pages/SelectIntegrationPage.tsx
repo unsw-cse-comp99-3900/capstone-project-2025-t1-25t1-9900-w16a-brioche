@@ -5,11 +5,13 @@ import PageHeader from "@/components/common/PageHeader";
 import { useNavigate } from "react-router-dom";
 import { useConnectReckon } from "@/hooks/reckon/useConnectReckon";
 import { Demo_RECKON_BOOK_ID } from "@/constants";
+import { useUser } from "@clerk/clerk-react";
 
 const SelectIntegrationPage: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<"reckon" | "other" | null>(null);
   const navigate = useNavigate();
   const connectReckon = useConnectReckon();
+  const { user } = useUser()
 
   const handleUseDemoAccount = () => {
     localStorage.setItem("bookId", Demo_RECKON_BOOK_ID); // Set bookId in localStorage
@@ -18,7 +20,10 @@ const SelectIntegrationPage: React.FC = () => {
 
   const handleConnectReckon = async () => {
     try {
-      const userId = "your-user-id"; // Replace with the actual user ID
+      const userId = user?.fullName;
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
       const redirectUrl = await connectReckon.mutateAsync(userId);
       window.location.href = redirectUrl; // Redirect to the Reckon authentication URL
     } catch (error) {
