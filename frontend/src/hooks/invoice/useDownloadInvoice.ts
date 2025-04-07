@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 import axios from "axios"
 
 /**

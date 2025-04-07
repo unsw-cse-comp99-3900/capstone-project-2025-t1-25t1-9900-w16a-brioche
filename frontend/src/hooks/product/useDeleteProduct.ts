@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient()

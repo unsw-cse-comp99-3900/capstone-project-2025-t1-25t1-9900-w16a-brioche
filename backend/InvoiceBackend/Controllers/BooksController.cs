@@ -27,7 +27,7 @@ namespace InvoiceBackend.Controllers
 
             HttpResponseMessage response = await _apiService.GetBooksAsync(sessionId);
 
-            return await ApiResponseHelper.HandleApiResponse(response); ;
+            return await ApiResponseHelper.HandleApiResponse(response);
         }
     }
 }

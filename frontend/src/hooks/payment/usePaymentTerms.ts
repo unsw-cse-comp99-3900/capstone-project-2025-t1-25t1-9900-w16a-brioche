@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 import { PaymentTerm } from "@/types/payment"
 import { paymentTermsResponseSchema } from "@/types/payment"
 

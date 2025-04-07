@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { toast } from "sonner"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 interface SendInvoiceEmailData {
   toAddresses: string[]
