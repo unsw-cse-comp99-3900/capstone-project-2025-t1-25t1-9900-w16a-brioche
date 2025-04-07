@@ -62,7 +62,9 @@ const EditInvoiceContainer: React.FC = () => {
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
 
-  const { mutate: editInvoice, isPending: isEditing } = useEditInvoice(id ?? "")
+  const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(
+    id ?? ""
+  )
 
   const [totals, setTotals] = useState({
     subtotal: "0.00",
@@ -223,15 +225,28 @@ const EditInvoiceContainer: React.FC = () => {
 
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
-      // Use the mutation to create the invoice
-      console.log(data)
       await editInvoice(data)
 
       toast.success("Invoice updated successfully")
       navigate("/invoices")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to update invoice."
+
+      if (error?.response?.data?.message) {
+        const backendMessage = error.response.data.message
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      }
+
       toast.error("Failed to update invoice", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error updating invoice:", error)
     }
