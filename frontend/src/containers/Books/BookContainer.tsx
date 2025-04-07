@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
+import { useBookCustomer } from "@/hooks/book/useBookCustomer"
 
 const BookContainer: React.FC = () => {
   const navigate = useNavigate()
