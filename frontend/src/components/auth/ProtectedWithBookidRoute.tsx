@@ -40,6 +40,12 @@ const ProtectedWithBookidRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/select" replace />
   }
 
+  // Check if `sessionId` exists in localStorage
+  const sessionId = localStorage.getItem("sessionId")
+  if (!sessionId) {
+    return <Navigate to="/select" replace />
+  }
+
   return <>{children}</>
 }
 
