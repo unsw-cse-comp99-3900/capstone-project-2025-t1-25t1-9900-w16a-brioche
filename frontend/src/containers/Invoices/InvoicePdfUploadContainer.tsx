@@ -6,6 +6,7 @@ import PageHeader from "@/components/common/PageHeader"
 import { FileText, Upload, Eye, X, AlertCircle } from "lucide-react"
 import { toast } from "sonner"
 import { useProcessInvoicePdf } from "@/hooks/invoice/useProcessInvoicePdf"
+import usePreprocessInvoiceData from "@/hooks/invoice/usePreprocessInvoiceData"
 import FileUploadLight from "@/components/ui/file-upload-light"
 
 const InvoicePdfUploadContainer: React.FC = () => {
@@ -14,6 +15,7 @@ const InvoicePdfUploadContainer: React.FC = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const processPdf = useProcessInvoicePdf()
+  const preprocessInvoiceData = usePreprocessInvoiceData()
 
   const handleFileChange = (files: File[]) => {
     // Filter for PDF files only
@@ -48,9 +50,33 @@ const InvoicePdfUploadContainer: React.FC = () => {
 
     try {
       const result = await processPdf.mutateAsync(pdfFiles[0])
+
+      if (!result.success) {
+        toast.error("Error Processing PDF", {
+          description:
+            result.error ||
+            "Failed to process PDF because data extraction failed",
+        })
+      }
       console.log("processPdfWithGemini result", result)
 
       if (result.success && result.data) {
+        // Preprocess invoice data to ensure customers and products exist
+        const preprocessResult = await preprocessInvoiceData.mutateAsync(
+          result.data
+        )
+        console.log("Preprocess result:", preprocessResult)
+
+        if (!preprocessResult.success) {
+          toast.error("Error Processing PDF", {
+            description:
+              "Failed to process PDF: due to fail to preprocess invoice data",
+          })
+          throw new Error(
+            preprocessResult.error || "Failed to preprocess invoice data"
+          )
+        }
+
         // Navigate to create invoice page with state
         navigate("/invoices/create", {
           state: { from: "/invoices/upload" },
