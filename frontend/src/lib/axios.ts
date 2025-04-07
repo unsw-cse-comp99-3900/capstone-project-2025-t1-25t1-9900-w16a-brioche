@@ -116,7 +116,7 @@ export const useAuthApi = () => {
         if (sessionId && config.headers) {
           config.headers["X-Session-ID"] = sessionId
         }
-        
+
         return config
       } catch (error) {
         return Promise.reject(error)
