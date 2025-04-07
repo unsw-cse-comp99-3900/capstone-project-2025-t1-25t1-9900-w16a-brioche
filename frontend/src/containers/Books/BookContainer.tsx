@@ -39,8 +39,9 @@ const BookContainer: React.FC = () => {
   //   navigate(`/customer/${customerId}`)
   // }
 
-  const handleNavigate = () => {
-    navigate(`/dashboard`)
+  const handleNavigate = (bookId: string) => {
+    localStorage.setItem("bookId", bookId)
+    navigate("/dashboard")
   }
 
   if (customers.length === 0) {
@@ -92,7 +93,7 @@ const BookContainer: React.FC = () => {
                 <Button
                   type="button"
                   // onClick={() => handleNavigate(customer.id)}
-                  onClick={() => handleNavigate()}
+                  onClick={() => handleNavigate(customer.id)}
                   className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   Open

@@ -9,11 +9,9 @@ export const useDeleteInvoice = () => {
   return useMutation({
     mutationFn: async (invoiceId: string) => {
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.delete(
-        `/${bookId}/invoices/${invoiceId}`
-      )
+      const response = await authApi.delete(`/${bookId}/invoices/${invoiceId}`)
       return response.status === 204
     },
     onSuccess: () => {

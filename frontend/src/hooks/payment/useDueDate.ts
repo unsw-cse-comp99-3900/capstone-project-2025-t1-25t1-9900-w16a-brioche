@@ -12,7 +12,7 @@ export const useDueDate = (termId: string, invoiceDate: string) => {
       if (!termId || !invoiceDate) return null
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const url = `/${bookId}/terms/${termId}/duedate/basedate/${invoiceDate}`
       console.log(" Full API URL:", url)

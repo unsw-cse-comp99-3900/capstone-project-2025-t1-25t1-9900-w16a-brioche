@@ -20,7 +20,7 @@ export const useInvoices = (page = 1, perPage = 9999) => {
       console.log("Fetching invoices from Reckon API...")
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       // Include the bookId in the endpoint path
       const response = await authApi.get(`/${bookId}/invoices`, {

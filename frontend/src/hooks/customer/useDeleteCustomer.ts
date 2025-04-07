@@ -8,7 +8,7 @@ export const useDeleteCustomer = () => {
   return useMutation({
     mutationFn: async (customerId: string) => {
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const response = await authApi.delete(
         `/${bookId}/customers/${customerId}`

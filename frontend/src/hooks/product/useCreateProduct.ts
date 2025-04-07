@@ -19,12 +19,9 @@ export const useCreateProduct = () => {
       const apiData = apiRequestSchema.parse(data)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.post(
-        `/${bookId}/items`,
-        apiData
-      )
+      const response = await authApi.post(`/${bookId}/items`, apiData)
 
       console.log("Create product response:", response)
 

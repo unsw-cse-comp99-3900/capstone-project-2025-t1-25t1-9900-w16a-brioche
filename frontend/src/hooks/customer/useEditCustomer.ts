@@ -19,7 +19,7 @@ export const useEditCustomer = (customerId: string) => {
       const apiData = apiRequestSchema.parse(data)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const response = await authApi.put(
         `/${bookId}/customers/${customerId}`,

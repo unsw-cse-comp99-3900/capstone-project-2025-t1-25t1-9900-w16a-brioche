@@ -21,11 +21,9 @@ const useCustomer = (customerId: string) => {
       console.log("Fetching customer from Reckon API...", customerId)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.get(
-        `/${bookId}/customers/${customerId}`
-      )
+      const response = await authApi.get(`/${bookId}/customers/${customerId}`)
 
       console.log("Raw Reckon API response:", response)
 

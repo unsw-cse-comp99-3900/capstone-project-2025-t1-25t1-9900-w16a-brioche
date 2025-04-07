@@ -139,7 +139,7 @@ const router = createBrowserRouter([
       {
         path: "/book",
         element: <BookPage />,
-      }
+      },
     ],
   },
 

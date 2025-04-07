@@ -22,12 +22,10 @@ const useInvoice = (invoiceId: string) => {
       console.log(`Fetching invoice ${invoiceId} from Reckon API...`)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       // Include the bookId in the endpoint path
-      const response = await authApi.get(
-        `/${bookId}/invoices/${invoiceId}`
-      )
+      const response = await authApi.get(`/${bookId}/invoices/${invoiceId}`)
 
       console.log("Raw invoice API response:", response)
 

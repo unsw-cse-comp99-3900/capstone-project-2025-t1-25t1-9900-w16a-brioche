@@ -25,7 +25,7 @@ const useInvoicePdf = () => {
 
       try {
         // Dynamically get the bookId
-        const bookId = getBookId();
+        const bookId = getBookId()
         console.log(
           `Requesting PDF for invoice ${invoiceId} from book ${bookId}`
         )

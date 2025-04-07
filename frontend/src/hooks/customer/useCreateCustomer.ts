@@ -24,12 +24,9 @@ export const useCreateCustomer = () => {
       const apiData = apiRequestSchema.parse(data)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.post(
-        `/${bookId}/customers`,
-        apiData
-      )
+      const response = await authApi.post(`/${bookId}/customers`, apiData)
 
       console.log("Create customer response:", response)
 
