@@ -181,7 +181,6 @@ const ViewInvoiceContainer: React.FC = () => {
           }
           onClose={closeSendInvoiceModal}
           onSuccess={() => {
-            toast.success("Invoice sent successfully")
             navigate("/invoices")
           }}
         />
