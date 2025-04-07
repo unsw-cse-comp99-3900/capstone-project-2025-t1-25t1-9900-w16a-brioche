@@ -313,11 +313,11 @@ const CreateInvoiceContainer: React.FC = () => {
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           value={field.value || ""}
                           onChange={(e) => {
-                            const value = e.target.value;
+                            const value = e.target.value
                             if (value === "__add_customer__") {
-                              navigate("/customers/create");
+                              navigate("/customers/create")
                             } else {
-                              field.onChange(value);
+                              field.onChange(value)
                             }
                           }}
                           disabled={isLoadingCustomers}
@@ -329,7 +329,10 @@ const CreateInvoiceContainer: React.FC = () => {
                             </option>
                           ))}
                           {/* Add Customer Option */}
-                          <option value="__add_customer__" className="text-blue-600">
+                          <option
+                            value="__add_customer__"
+                            className="text-blue-600"
+                          >
                             + Add Customer
                           </option>
                         </select>
@@ -549,35 +552,38 @@ const CreateInvoiceContainer: React.FC = () => {
                                       onChange={(e) => {
                                         const selectedProductName =
                                           e.target.value
-                                        if (selectedProductName === "__add_item__") {
-                                          navigate("/products/create");
+                                        if (
+                                          selectedProductName === "__add_item__"
+                                        ) {
+                                          navigate("/products/create")
                                         } else {
                                           field.onChange(selectedProductName)
                                           const selectedProduct = products.find(
-                                            (p) => p.name === selectedProductName
+                                            (p) =>
+                                              p.name === selectedProductName
                                           )
                                           console.log(
                                             "🎯 selectedProduct",
                                             selectedProduct
                                           )
-  
+
                                           if (selectedProduct?.sale) {
                                             const price =
                                               selectedProduct.sale.price || 0
                                             const taxPercent =
                                               selectedProduct.sale.taxRate
                                                 ?.percent || 0
-  
+
                                             form.setValue(
                                               `items.${index}.itemPrice`,
                                               price.toString()
                                             )
                                             form.setValue(
                                               `items.${index}.taxCode`,
-                                              selectedProduct.sale.taxRate?.id ||
-                                                ""
+                                              selectedProduct.sale.taxRate
+                                                ?.id || ""
                                             )
-  
+
                                             const currentQty = form.getValues(
                                               `items.${index}.qty`
                                             )
@@ -591,13 +597,13 @@ const CreateInvoiceContainer: React.FC = () => {
                                                 "1"
                                               )
                                             }
-  
+
                                             const qty = Number(
                                               form.getValues(
                                                 `items.${index}.qty`
                                               ) || 0
                                             )
-  
+
                                             if (qty && price && taxPercent) {
                                               const grossTotal = price * qty
                                               const taxAmount =
@@ -623,7 +629,10 @@ const CreateInvoiceContainer: React.FC = () => {
                                         </option>
                                       ))}
                                       {/* Add Item Option */}
-                                      <option value="__add_item__" className="text-blue-600">
+                                      <option
+                                        value="__add_item__"
+                                        className="text-blue-600"
+                                      >
                                         + Add Item
                                       </option>
                                     </select>
