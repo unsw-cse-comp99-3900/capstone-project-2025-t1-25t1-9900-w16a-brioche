@@ -92,10 +92,6 @@ const ViewInvoiceContainer: React.FC = () => {
           customer?.electronicAddresses?.find((ea) => ea.type.name === "Email")
             ?.address || ""
 
-        if (!customerEmail) {
-          throw new Error("Customer email address not found")
-        }
-
         const invoiceNumber = invoice.invoiceNumber || "Unknown"
         const totalAmount = invoice.totalAmount
         const dueDate = invoice.dueDate
@@ -168,6 +164,7 @@ const ViewInvoiceContainer: React.FC = () => {
 
       {isModalOpen && (
         <SendInvoiceModal
+          customerId={invoice?.customer?.id ?? ""}
           invoiceId={id ?? ""}
           customerEmail={emailData.toAddresses[0]}
           customerName={invoice?.customer?.name || "Customer"}
@@ -184,7 +181,6 @@ const ViewInvoiceContainer: React.FC = () => {
           }
           onClose={closeSendInvoiceModal}
           onSuccess={() => {
-            toast.success("Invoice sent successfully")
             navigate("/invoices")
           }}
         />
