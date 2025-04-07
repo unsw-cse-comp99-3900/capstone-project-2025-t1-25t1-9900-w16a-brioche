@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import api from "@/lib/axios"
 import { accountResponseSchema, type Account } from "@/types/account"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to fetch accounts from the Reckon API

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type CustomerFormValues, apiRequestSchema } from "@/types/customer"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to edit a customer using the Reckon API

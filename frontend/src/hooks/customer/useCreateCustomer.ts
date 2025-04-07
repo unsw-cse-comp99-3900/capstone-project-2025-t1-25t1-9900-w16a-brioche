@@ -6,7 +6,7 @@ import {
   apiRequestSchema,
   createCustomerResponseSchema,
 } from "@/types/customer"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to create a customer using the Reckon API

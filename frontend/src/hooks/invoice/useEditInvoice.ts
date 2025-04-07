@@ -5,7 +5,7 @@ import {
   type InvoiceFormValues,
   formToApiSchema,
 } from "@/types/invoice"
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to edit an existing invoice using the Reckon API

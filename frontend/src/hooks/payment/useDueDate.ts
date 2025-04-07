@@ -1,4 +1,4 @@
-import { getBookId } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 import { useAuthApi } from "@/lib/axios"
 import { dueDateSchema } from "@/types/payment"
 import { useQuery } from "@tanstack/react-query"
