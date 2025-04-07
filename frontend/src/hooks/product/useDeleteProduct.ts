@@ -9,11 +9,9 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationFn: async (productId: string) => {
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.delete(
-        `/${bookId}/items/${productId}`
-      )
+      const response = await authApi.delete(`/${bookId}/items/${productId}`)
       return response.status === 204
     },
     onSuccess: () => {

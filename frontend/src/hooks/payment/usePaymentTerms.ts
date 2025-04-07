@@ -13,7 +13,7 @@ export const usePaymentTerms = () => {
       console.log("Fetching payment terms from API...")
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const response = await authApi.get(`/${bookId}/terms`)
 

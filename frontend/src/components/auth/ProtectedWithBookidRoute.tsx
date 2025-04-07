@@ -20,7 +20,9 @@ interface ProtectedRouteProps {
  * @param {React.ReactNode} props.children - The child elements to render if the user is authenticated.
  * @returns {JSX.Element} - Either the children, a redirect to the sign-in page, or a loading page.
  */
-const ProtectedWithBookidRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedWithBookidRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+}) => {
   const { isLoaded, isSignedIn } = useAuth()
   const location = useLocation()
 

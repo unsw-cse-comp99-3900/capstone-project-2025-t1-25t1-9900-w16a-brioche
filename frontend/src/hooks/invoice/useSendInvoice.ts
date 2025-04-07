@@ -26,7 +26,7 @@ const useSendInvoice = (invoiceId: string) => {
       console.log("Sending invoice email with data:", emailData)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const response = await authApi.post(
         `/${bookId}/invoices/${invoiceId}/email`,

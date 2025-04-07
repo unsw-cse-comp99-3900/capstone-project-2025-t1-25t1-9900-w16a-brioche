@@ -36,15 +36,18 @@ namespace InvoiceBackend.Services.ReckonTokenService
 
         public async Task<ReckonToken> ExchangeCodeAsync(string code, string sessionId)
         {
+            var existingToken = await _repo.GetBySessionIdAsync(sessionId);
+            if (existingToken != null)
+            {
+                return existingToken;
+            }
+
             var token = await RequestTokenAsync("authorization_code", "code", code);
             token.SessionId = sessionId;
             token.CreatedAt = DateTime.UtcNow;
             token.UpdatedAt = DateTime.UtcNow;
 
-            if (await _repo.ExistsAsync(sessionId))
-                await _repo.UpdateTokenAsync(token);
-            else
-                await _repo.SaveTokenAsync(token);
+            await _repo.SaveTokenAsync(token);
 
             return token;
         }

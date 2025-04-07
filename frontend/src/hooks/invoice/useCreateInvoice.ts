@@ -25,12 +25,9 @@ export const useCreateInvoice = () => {
       console.log("API request data:", apiData)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-      const response = await authApi.post(
-        `/${bookId}/invoices`,
-        apiData
-      )
+      const response = await authApi.post(`/${bookId}/invoices`, apiData)
 
       console.log("Create invoice response:", response)
 

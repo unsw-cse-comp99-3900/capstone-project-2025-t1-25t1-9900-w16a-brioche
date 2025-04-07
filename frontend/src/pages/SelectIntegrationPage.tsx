@@ -1,39 +1,42 @@
-import React, { useState } from "react";
-import { FileText } from "lucide-react";
-import GridPatternOverlay from "@/components/common/GridPatternOverlay";
-import PageHeader from "@/components/common/PageHeader";
-import { useNavigate } from "react-router-dom";
-import { useConnectReckon } from "@/hooks/reckon/useConnectReckon";
-import { Demo_RECKON_BOOK_ID } from "@/constants";
-import { useUser } from "@clerk/clerk-react";
+import React, { useState } from "react"
+import { FileText } from "lucide-react"
+import GridPatternOverlay from "@/components/common/GridPatternOverlay"
+import PageHeader from "@/components/common/PageHeader"
+import { useNavigate } from "react-router-dom"
+import { useConnectReckon } from "@/hooks/reckon/useConnectReckon"
+import { Demo_RECKON_BOOK_ID } from "@/constants"
+import { useUser } from "@clerk/clerk-react"
 
 const SelectIntegrationPage: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<"reckon" | "other" | null>(null);
-  const navigate = useNavigate();
-  const connectReckon = useConnectReckon();
+  const [selectedOption, setSelectedOption] = useState<
+    "reckon" | "other" | null
+  >(null)
+  const navigate = useNavigate()
+  const connectReckon = useConnectReckon()
   const { user } = useUser()
 
   const handleUseDemoAccount = () => {
-    localStorage.setItem("bookId", Demo_RECKON_BOOK_ID); // Set bookId in localStorage
-    navigate("/dashboard"); // Redirect to the dashboard
-  };
+    localStorage.setItem("bookId", Demo_RECKON_BOOK_ID) // Set bookId in localStorage
+    localStorage.setItem("sessionId", "888")
+    navigate("/dashboard") // Redirect to the dashboard
+  }
 
   const handleConnectReckon = async () => {
     try {
-      const userId = user?.fullName;
+      const userId = user?.username
       if (!userId) {
-        throw new Error("User ID is required");
+        throw new Error("User ID is required")
       }
-      const redirectUrl = await connectReckon.mutateAsync(userId);
-      window.location.href = redirectUrl; // Redirect to the Reckon authentication URL
+      const redirectUrl = await connectReckon.mutateAsync(userId)
+      window.location.href = redirectUrl // Redirect to the Reckon authentication URL
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Failed to connect to Reckon:", error.message);
+        console.error("Failed to connect to Reckon:", error.message)
       } else {
-        console.error("Unknown error:", error);
+        console.error("Unknown error:", error)
       }
     }
-  };
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -50,11 +53,15 @@ const SelectIntegrationPage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
               {/* Left Side: Options - reduced to 1/4 of the space */}
               <div className="bg-white shadow rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">Select Invoice API</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  Select Invoice API
+                </h2>
                 <div className="space-y-4">
                   <button
                     className={`w-full py-2 px-4 rounded-lg ${
-                      selectedOption === "reckon" ? "bg-blue-500 text-white" : "bg-gray-200"
+                      selectedOption === "reckon"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
                     }`}
                     onClick={() => setSelectedOption("reckon")}
                   >
@@ -62,7 +69,9 @@ const SelectIntegrationPage: React.FC = () => {
                   </button>
                   <button
                     className={`w-full py-2 px-4 rounded-lg ${
-                      selectedOption === "other" ? "bg-blue-500 text-white" : "bg-gray-200"
+                      selectedOption === "other"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
                     }`}
                     onClick={() => setSelectedOption("other")}
                   >
@@ -75,7 +84,9 @@ const SelectIntegrationPage: React.FC = () => {
               <div className="bg-white shadow rounded-lg p-6 md:col-span-3">
                 {selectedOption === "reckon" ? (
                   <div>
-                    <h2 className="text-lg font-semibold mb-4">Reckon One Integration</h2>
+                    <h2 className="text-lg font-semibold mb-4">
+                      Reckon One Integration
+                    </h2>
                     <div className="space-x-4">
                       <button
                         className="bg-green-500 text-white py-2 px-4 rounded-lg"
@@ -93,11 +104,17 @@ const SelectIntegrationPage: React.FC = () => {
                   </div>
                 ) : selectedOption === "other" ? (
                   <div>
-                    <h2 className="text-lg font-semibold mb-4">Other API Integration</h2>
-                    <p className="text-gray-600">Other APIs are under development...</p>
+                    <h2 className="text-lg font-semibold mb-4">
+                      Other API Integration
+                    </h2>
+                    <p className="text-gray-600">
+                      Other APIs are under development...
+                    </p>
                   </div>
                 ) : (
-                  <p className="text-gray-600">Please select the invoice API you wish to use.</p>
+                  <p className="text-gray-600">
+                    Please select the invoice API you wish to use.
+                  </p>
                 )}
               </div>
             </div>
@@ -105,7 +122,7 @@ const SelectIntegrationPage: React.FC = () => {
         </main>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SelectIntegrationPage;
+export default SelectIntegrationPage

@@ -1,6 +1,6 @@
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
-import BookContainer from "@/containers/Customers/BookContainer"
+import BookContainer from "@/containers/Books/BookContainer"
 
 const BookPage: React.FC = () => {
   return (

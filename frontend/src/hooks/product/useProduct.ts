@@ -21,12 +21,9 @@ const useProduct = (productId: string) => {
       console.log("Fetching product from Reckon API...", productId)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
-
-      const response = await authApi.get(
-        `/${bookId}/items/${productId}`
-      )
+      const response = await authApi.get(`/${bookId}/items/${productId}`)
 
       console.log("Raw Reckon API response:", response)
 

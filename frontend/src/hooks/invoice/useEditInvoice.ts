@@ -25,7 +25,7 @@ const useEditInvoice = (invoiceId: string) => {
       console.log("API request data:", apiData)
 
       // Dynamically get the bookId
-      const bookId = getBookId();
+      const bookId = getBookId()
 
       const response = await authApi.put(
         `/${bookId}/invoices/${invoiceId}`,
