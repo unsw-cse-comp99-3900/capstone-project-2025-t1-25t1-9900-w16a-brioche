@@ -18,7 +18,14 @@ namespace InvoiceBackend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBooks()
         {
-            HttpResponseMessage response = await _apiService.GetBooksAsync();
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
+
+            string sessionId = sessionIdValues.ToString();
+
+            HttpResponseMessage response = await _apiService.GetBooksAsync(sessionId);
 
             return await ApiResponseHelper.HandleApiResponse(response); ;
         }

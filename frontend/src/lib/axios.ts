@@ -110,6 +110,13 @@ export const useAuthApi = () => {
           config.headers.Authorization = `Bearer ${token}`
           // console.log("Token added to request headers:", config.headers.Authorization)
         }
+
+        // Add sessionId from localStorage if available
+        const sessionId = localStorage.getItem("sessionId")
+        if (sessionId && config.headers) {
+          config.headers["X-Session-ID"] = sessionId
+        }
+        
         return config
       } catch (error) {
         return Promise.reject(error)
