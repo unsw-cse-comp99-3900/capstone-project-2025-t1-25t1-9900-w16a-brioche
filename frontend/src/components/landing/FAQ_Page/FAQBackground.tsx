@@ -5,7 +5,7 @@ const FAQBackground: React.FC = () => {
   return (
     <>
       {/* Premium background with subtle patterns */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white">
+      <div className="absolute inset-0 bg-gradient-to-b to-white">
         <GridPatternOverlay />
       </div>
 
