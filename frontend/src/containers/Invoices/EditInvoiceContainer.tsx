@@ -32,7 +32,6 @@ import {
   Clock,
   Hash,
   Percent,
-  Send,
   FileText,
 } from "lucide-react"
 import { toast } from "sonner"
@@ -50,7 +49,6 @@ import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
-import SendInvoiceModal from "@/components/invoice/SendInvoiceModal"
 
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -60,22 +58,13 @@ const EditInvoiceContainer: React.FC = () => {
   const { data: invoice, isLoading: isLoadingInvoice } = useInvoice(id ?? "")
 
   const { data: products = [] } = useProducts()
-  const {
-    data: customers = [],
-    isLoading: isLoadingCustomers,
-    refetch,
-  } = useCustomers()
+  const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
 
-  const { mutate: editInvoice, isPending: isEditing } = useEditInvoice(id ?? "")
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [emailData, setEmailData] = useState({
-    toAddresses: [""],
-    subject: "Invoice from Your Company",
-    body: "Dear Customer,\n\nPlease find the attached invoice.\n\nBest regards,\nYour Company",
-  })
+  const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(
+    id ?? ""
+  )
 
   const [totals, setTotals] = useState({
     subtotal: "0.00",
@@ -234,47 +223,30 @@ const EditInvoiceContainer: React.FC = () => {
     control: form.control,
   })
 
-  const openSendInvoiceModal = async () => {
-    if (invoice?.customer?.id) {
-      let customer = customers.find((c) => c.id === invoice.customer?.id)
-      if (!customer) {
-        await refetch()
-        customer = customers.find((c) => c.id === invoice.customer?.id)
-      }
-
-      const customerEmail =
-        customer?.electronicAddresses?.find((ea) => ea.type.name === "Email")
-          ?.address || ""
-      const invoiceNumber = invoice.invoiceNumber || "Unknown"
-      const totalAmount = totals.total
-      const dueDate = invoice.dueDate
-        ? format(new Date(invoice.dueDate), "dd MMM yyyy")
-        : "Unknown"
-
-      setEmailData({
-        toAddresses: [customerEmail],
-        subject: `Invoice ${invoiceNumber} from Your Company`,
-        body: `Dear ${customer?.name || "Customer"},\n\nPlease find attached Invoice ${invoiceNumber} for ${totalAmount} due on ${dueDate}.\n\nBest regards,\nYour Company`,
-      })
-      setIsModalOpen(true)
-    } else {
-      toast.error("Customer information is missing. Cannot send invoice.")
-    }
-  }
-
-  const closeSendInvoiceModal = () => setIsModalOpen(false)
-
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
-      // Use the mutation to create the invoice
-      console.log(data)
       await editInvoice(data)
 
       toast.success("Invoice updated successfully")
       navigate("/invoices")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to update invoice."
+
+      if (error?.response?.data?.message) {
+        const backendMessage = error.response.data.message
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      }
+
       toast.error("Failed to update invoice", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error updating invoice:", error)
     }
@@ -308,14 +280,6 @@ const EditInvoiceContainer: React.FC = () => {
         <div className="flex justify-end mb-4 space-x-2">
           <Button
             type="button"
-            onClick={openSendInvoiceModal}
-            className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
-          >
-            <Send className="h-4 w-4" />
-            Send
-          </Button>
-          <Button
-            type="button"
             onClick={() => form.handleSubmit(onSubmit)()}
             disabled={isEditing}
             className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
@@ -324,25 +288,6 @@ const EditInvoiceContainer: React.FC = () => {
             {isEditing ? "Updating..." : "Update"}
           </Button>
         </div>
-
-        {isModalOpen && (
-          <SendInvoiceModal
-            invoiceId={id ?? ""}
-            customerEmail={emailData.toAddresses[0]}
-            customerName={invoice?.customer?.name || "Customer"}
-            invoiceNumber={invoice?.invoiceNumber || "Unknown"}
-            totalAmount={totals.total}
-            dueDate={
-              invoice?.dueDate
-                ? format(new Date(invoice.dueDate), "dd MMM yyyy")
-                : "Unknown"
-            }
-            onClose={closeSendInvoiceModal}
-            onSuccess={() => {
-              navigate("/invoices")
-            }}
-          />
-        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
