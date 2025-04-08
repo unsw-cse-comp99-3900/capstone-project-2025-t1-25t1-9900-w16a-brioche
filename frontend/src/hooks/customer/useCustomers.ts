@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { customerResponseSchema, type Customer } from "@/types/customer"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to fetch customers from the Reckon API
@@ -19,8 +19,11 @@ export const useCustomers = (page = 1, perPage = 9999) => {
     queryFn: async () => {
       console.log("Fetching customers from Reckon API...")
 
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
       // Include the bookId in the endpoint path
-      const response = await authApi.get(`/${Demo_RECKON_BOOK_ID}/customers`, {
+      const response = await authApi.get(`/${bookId}/customers`, {
         params: {
           page,
           perPage,

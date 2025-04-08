@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient()
@@ -8,9 +8,10 @@ export const useDeleteProduct = () => {
 
   return useMutation({
     mutationFn: async (productId: string) => {
-      const response = await authApi.delete(
-        `/${Demo_RECKON_BOOK_ID}/items/${productId}`
-      )
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
+      const response = await authApi.delete(`/${bookId}/items/${productId}`)
       return response.status === 204
     },
     onSuccess: () => {

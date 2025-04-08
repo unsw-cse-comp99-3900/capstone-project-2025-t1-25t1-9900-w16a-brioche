@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { productSchema, type Product } from "@/types/product"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to fetch a single product using the Reckon API
@@ -20,9 +20,10 @@ const useProduct = (productId: string) => {
 
       console.log("Fetching product from Reckon API...", productId)
 
-      const response = await authApi.get(
-        `/${Demo_RECKON_BOOK_ID}/items/${productId}`
-      )
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
+      const response = await authApi.get(`/${bookId}/items/${productId}`)
 
       console.log("Raw Reckon API response:", response)
 

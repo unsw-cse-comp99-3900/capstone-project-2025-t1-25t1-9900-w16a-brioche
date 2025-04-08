@@ -22,14 +22,22 @@ import CreateProductPage from "@/pages/CreateProductPage"
 import InvoicesPage from "@/pages/invoices/InvoicesPage"
 import EditProductPage from "@/pages/EditProductPage"
 import CreateInvoicePage from "@/pages/invoices/CreateInvoicePage"
-import CustomerBookPage from "@/pages/CustomerBookPage"
 import EditInvoicePage from "@/pages/invoices/EditInvoicePage"
 import InvoicePdfUploadPage from "@/pages/InvoicePdfUploadPage"
 import ViewInvoicePage from "@/pages/invoices/ViewInvoicePage"
+import SelectIntegrationPage from "@/pages/SelectIntegrationPage"
+import SelectLayout from "@/components/layout/SelectLayout"
+import ProtectedWithBookidRoute from "@/components/auth/ProtectedWithBookidRoute"
+import ReckonCallbackPage from "@/pages/ReckonCallbackPage"
+import BookPage from "@/pages/BookPage"
 
 // Define routes
 const router = createBrowserRouter([
   // Public routes with main layout
+  {
+    path: "/reckon",
+    element: <ReckonCallbackPage />,
+  },
   {
     path: "/",
     element: <LandingLayout />,
@@ -61,9 +69,9 @@ const router = createBrowserRouter([
     path: "/",
     // for clerk protect route
     element: (
-      <ProtectedRoute>
+      <ProtectedWithBookidRoute>
         <DashboardLayout />
-      </ProtectedRoute>
+      </ProtectedWithBookidRoute>
     ),
     children: [
       {
@@ -118,9 +126,24 @@ const router = createBrowserRouter([
         path: "/products/:id/edit",
         element: <EditProductPage />,
       },
+    ],
+  },
+
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <SelectLayout />
+      </ProtectedRoute>
+    ),
+    children: [
       {
-        path: "/customerbook",
-        element: <CustomerBookPage />,
+        path: "/select",
+        element: <SelectIntegrationPage />,
+      },
+      {
+        path: "/book",
+        element: <BookPage />,
       },
     ],
   },
