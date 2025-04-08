@@ -46,7 +46,9 @@ export const EditProductContainer: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   console.log("productId in EditProductContainer", id)
   const { data: product, isLoading } = useProduct(id ?? "")
-  const { mutate: editProduct, isPending: isEditing } = useEditProduct(id ?? "")
+  const { mutateAsync: editProduct, isPending: isEditing } = useEditProduct(
+    id ?? ""
+  )
   const { data: products = [], isLoading: isLoadingProducts } = useProducts()
   const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
@@ -72,9 +74,11 @@ export const EditProductContainer: React.FC = () => {
       await editProduct(data)
       toast.success("Product updated successfully")
       navigate("/products")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
       toast.error("Failed to update product", {
-        description: `Error: ${error}`,
+        description: `Error: ${error?.message || "Unknown error"}`,
       })
       console.error("Error updating product:", error)
     }
