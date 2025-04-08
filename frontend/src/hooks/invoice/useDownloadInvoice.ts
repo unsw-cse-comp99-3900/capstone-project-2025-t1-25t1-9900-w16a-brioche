@@ -3,11 +3,6 @@ import { useAuthApi } from "@/lib/axios"
 import { getBookId } from "@/lib/utils"
 import axios from "axios"
 
-/**
- * Custom hook to download an invoice PDF from the Reckon API
- *
- * @returns Mutation function and state for downloading invoice PDF
- */
 const useInvoicePdf = () => {
   const authApi = useAuthApi()
 
@@ -24,40 +19,29 @@ const useInvoicePdf = () => {
       }
 
       try {
-        // Dynamically get the bookId
         const bookId = getBookId()
-        console.log(
-          `Requesting PDF for invoice ${invoiceId} from book ${bookId}`
+
+        const response = await authApi.get(
+          `/${bookId}/invoices/${invoiceId}/pdf`,
+          {
+            responseType: "blob",
+          }
         )
 
-        const baseURL = authApi.defaults?.baseURL || ""
-        const headers = { ...authApi.defaults?.headers?.common }
-
-        const url = `${baseURL}/${bookId}/invoices/${invoiceId}/pdf`
-        const response = await axios.get(url, {
-          headers,
-          responseType: "blob",
-        })
-
-        if (!response.data || !(response.data instanceof Blob)) {
+        if (!response || !(response instanceof Blob)) {
           throw new Error("Invalid response data format")
         }
 
         const filename = `invoice_${invoiceId}.pdf`
-        const blob = new Blob([response.data], { type: "application/pdf" })
-        const blobUrl = window.URL.createObjectURL(blob)
+        const blobUrl = window.URL.createObjectURL(response)
 
         if (action === "download") {
           const link = document.createElement("a")
           link.href = blobUrl
           link.download = filename
-          document.body.appendChild(link)
           link.click()
 
-          setTimeout(() => {
-            window.URL.revokeObjectURL(blobUrl)
-            document.body.removeChild(link)
-          }, 100)
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100)
 
           return { success: true, action: "download" }
         } else {
@@ -74,8 +58,6 @@ const useInvoicePdf = () => {
           console.error("Response details:", {
             status: error.response?.status,
             statusText: error.response?.statusText,
-            headers: error.response?.headers,
-            data: error.response?.data,
           })
         }
         throw error
