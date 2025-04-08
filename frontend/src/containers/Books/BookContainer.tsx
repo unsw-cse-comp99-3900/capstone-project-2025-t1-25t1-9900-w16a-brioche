@@ -94,7 +94,7 @@ const BookContainer: React.FC = () => {
                   type="button"
                   // onClick={() => handleNavigate(customer.id)}
                   onClick={() => handleNavigate(customer.id)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  className="bg-primary-600 hover:bg-primary-700 text-white"
                 >
                   Open
                 </Button>
