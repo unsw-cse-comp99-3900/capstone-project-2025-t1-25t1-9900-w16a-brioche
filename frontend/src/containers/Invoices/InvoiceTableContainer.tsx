@@ -157,16 +157,28 @@ const InvoiceTableContainer: React.FC = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => handleEdit(invoice.id)}>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation()
+            handleEdit(invoice.id)
+          }}
+        >
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => navigate(`/invoices/${invoice.id}/view`)}
+          onClick={(e) => {
+            e.stopPropagation()
+            navigate(`/invoices/${invoice.id}/view`)
+          }}
         >
           View
         </DropdownMenuItem>
+
         <DropdownMenuItem
-          onClick={() => handleDelete(invoice)}
+          onClick={(e) => {
+            e.stopPropagation()
+            handleDelete(invoice)
+          }}
           className="text-red-600 hover:text-red-700 hover:bg-red-50 focus:bg-red-50 focus:text-red-700"
         >
           Delete
@@ -204,6 +216,7 @@ const InvoiceTableContainer: React.FC = () => {
         searchPlaceholder="Search invoices..."
         noDataMessage="No invoices found."
         renderActions={renderActionsDropdown}
+        onRowClick={(invoice) => navigate(`/invoices/${invoice.id}/view`)}
       />
 
       <DeleteInvoiceDialog
