@@ -7,7 +7,7 @@ import CTAContainer from "@/containers/Landing/CTAContainer"
 
 const BenefitsSection: React.FC = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative pt-24 pb-8 overflow-hidden">
       <BenefitsBackground />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
