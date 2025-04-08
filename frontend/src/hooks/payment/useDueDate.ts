@@ -1,4 +1,4 @@
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 import { useAuthApi } from "@/lib/axios"
 import { dueDateSchema } from "@/types/payment"
 import { useQuery } from "@tanstack/react-query"
@@ -11,7 +11,10 @@ export const useDueDate = (termId: string, invoiceDate: string) => {
     queryFn: async () => {
       if (!termId || !invoiceDate) return null
 
-      const url = `/${Demo_RECKON_BOOK_ID}/terms/${termId}/duedate/basedate/${invoiceDate}`
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
+      const url = `/${bookId}/terms/${termId}/duedate/basedate/${invoiceDate}`
       console.log(" Full API URL:", url)
 
       const response = await authApi.get(url)

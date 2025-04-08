@@ -7,11 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Users } from "lucide-react"
+import { Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useBookCustomer } from "@/hooks/customer/useBookCustomer"
+import { useBookCustomer } from "@/hooks/book/useBookCustomer"
 
-const CustomerBookContainer: React.FC = () => {
+const BookContainer: React.FC = () => {
   const navigate = useNavigate()
 
   const { data: customers = [], isLoading, error } = useBookCustomer()
@@ -39,8 +39,9 @@ const CustomerBookContainer: React.FC = () => {
   //   navigate(`/customer/${customerId}`)
   // }
 
-  const handleNavigate = () => {
-    navigate(`/dashboard`)
+  const handleNavigate = (bookId: string) => {
+    localStorage.setItem("bookId", bookId)
+    navigate("/dashboard")
   }
 
   if (customers.length === 0) {
@@ -75,10 +76,10 @@ const CustomerBookContainer: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <div
-                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500
+                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-primary-600
                   group-hover:text-white transition-colors duration-300"
                 >
-                  <Users className="h-5 w-5" />
+                  <Book className="h-5 w-5" />
                 </div>
                 Book Name:
               </CardTitle>
@@ -92,8 +93,8 @@ const CustomerBookContainer: React.FC = () => {
                 <Button
                   type="button"
                   // onClick={() => handleNavigate(customer.id)}
-                  onClick={() => handleNavigate()}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  onClick={() => handleNavigate(customer.id)}
+                  className="bg-primary-600 hover:bg-primary-700 text-white"
                 >
                   Open
                 </Button>
@@ -106,4 +107,4 @@ const CustomerBookContainer: React.FC = () => {
   )
 }
 
-export default CustomerBookContainer
+export default BookContainer

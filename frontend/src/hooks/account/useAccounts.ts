@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import api from "@/lib/axios"
+import { useAuthApi } from "@/lib/axios"
 import { accountResponseSchema, type Account } from "@/types/account"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to fetch accounts from the Reckon API
@@ -12,13 +12,18 @@ import { Demo_RECKON_BOOK_ID } from "@/constants/config"
  * @returns The React Query result containing accounts data, loading state, and error
  */
 export const useAccounts = (page = 1, perPage = 9999) => {
+  const authApi = useAuthApi()
+
   return useQuery<Account[]>({
     queryKey: ["accounts"],
     queryFn: async () => {
       console.log("Fetching accounts from Reckon API...")
 
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
       // Include the bookId in the endpoint path
-      const response = await api.get(`/${Demo_RECKON_BOOK_ID}/ledgeraccounts`, {
+      const response = await authApi.get(`/${bookId}/ledgeraccounts`, {
         params: {
           page,
           perPage,

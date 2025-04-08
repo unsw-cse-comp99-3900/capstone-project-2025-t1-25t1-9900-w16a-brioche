@@ -20,6 +20,13 @@ namespace InvoiceBackend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClassifications(string bookId, [FromQuery] int? page, [FromQuery] int? perpage)
         {
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
+
+            string sessionId = sessionIdValues.ToString();
+
             var queryParameters = new List<string>();
             if (page.HasValue)
             {
@@ -29,48 +36,72 @@ namespace InvoiceBackend.Controllers
             {
                 queryParameters.Add($"perpage={perpage.Value}");
             }
+
             var endpoint = "classifications";
             if (queryParameters.Any())
             {
                 endpoint = $"{endpoint}?{string.Join("&", queryParameters)}";
             }
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, endpoint, HttpMethod.Get);
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, endpoint, HttpMethod.Get, sessionId);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
         [HttpGet("{classificationId}")]
         public async Task<IActionResult> GetClassificationById(string bookId, string classificationId)
         {
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Get);
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
 
+            string sessionId = sessionIdValues.ToString();
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Get, sessionId);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateClassification(string bookId, [FromBody] object classificationRequestBody)
         {
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
+
+            string sessionId = sessionIdValues.ToString();
+
             string requestBody = System.Text.Json.JsonSerializer.Serialize(classificationRequestBody);
-
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "classifications", HttpMethod.Post, requestBody);
-
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, "classifications", HttpMethod.Post, sessionId, requestBody);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
         [HttpDelete("{classificationId}")]
         public async Task<IActionResult> DeleteClassification(string bookId, string classificationId)
         {
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Delete);
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
 
+            string sessionId = sessionIdValues.ToString();
+
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Delete, sessionId);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
 
         [HttpPut("{classificationId}")]
         public async Task<IActionResult> UpdateClassification(string bookId, string classificationId, [FromBody] object classificationRequestBody)
         {
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
+
+            string sessionId = sessionIdValues.ToString();
+
             string requestBody = System.Text.Json.JsonSerializer.Serialize(classificationRequestBody);
-
-            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Put, requestBody);
-
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"classifications/{classificationId}", HttpMethod.Put, sessionId, requestBody);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
     }

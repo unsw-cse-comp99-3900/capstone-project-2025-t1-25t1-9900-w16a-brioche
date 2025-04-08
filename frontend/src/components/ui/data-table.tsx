@@ -52,6 +52,7 @@ export type DataTableProps<T> = {
   noDataMessage?: string
   itemsPerPageOptions?: number[]
   defaultItemsPerPage?: number
+  onRowClick?: (item: T) => void
 }
 
 const SIBLING_COUNT = 1
@@ -101,6 +102,7 @@ export function DataTable<T extends Record<string, any>>({
   noDataMessage = "No data found.",
   itemsPerPageOptions = [5, 10, 20, 50],
   defaultItemsPerPage = 5,
+  onRowClick,
 }: DataTableProps<T>) {
   // State for client-side operations
   const [page, setPage] = React.useState(1)
@@ -290,7 +292,11 @@ export function DataTable<T extends Record<string, any>>({
             {paginatedData.map((item) => (
               <TableRow
                 key={keyExtractor(item)}
-                className="border-b border-secondary-100 hover:bg-secondary-50 transition-colors"
+                onClick={() => onRowClick?.(item)}
+                className={cn(
+                  "border-b border-secondary-100 transition-colors",
+                  onRowClick && "cursor-pointer hover:bg-secondary-100"
+                )}
               >
                 {columns.map((column) => (
                   <TableCell

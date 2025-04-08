@@ -1,6 +1,7 @@
-﻿using System.Net.Http.Headers;
+﻿// ReckonApiService.cs
+using System.Net.Http.Headers;
 using System.Text;
-
+using InvoiceBackend.Services.ReckonTokenService;
 
 namespace InvoiceBackend.Services.ReckonApiService
 {
@@ -8,22 +9,24 @@ namespace InvoiceBackend.Services.ReckonApiService
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+        private readonly IReckonTokenService _tokenService;
 
-        public ReckonApiService(IConfiguration configuration)
+        public ReckonApiService(IConfiguration configuration, IReckonTokenService tokenService)
         {
             _configuration = configuration;
             _httpClient = new HttpClient();
+            _tokenService = tokenService;
         }
 
-        public async Task<HttpResponseMessage> CallApiAsync(string bookId, string endpoint, HttpMethod method, string requestBody = null)
+        public async Task<HttpResponseMessage> CallApiAsync(string bookId, string endpoint, HttpMethod method, string sessionId, string requestBody = null)
         {
             string apiBaseUrl = _configuration["ReckonAPI:BaseUrl"];
             string apiSegment = _configuration["ReckonAPI:ApiSegment"];
-            string accessToken = _configuration["ReckonAPI:AccessToken"];//应该从前端拿
             string subscriptionKey = _configuration["ReckonAPI:SubscriptionKey"];
 
-            string requestUrl = $"{apiBaseUrl}{apiSegment}{bookId}/{endpoint}";
+            string accessToken = await _tokenService.GetValidAccessTokenAsync(sessionId);
 
+            string requestUrl = $"{apiBaseUrl}{apiSegment}{bookId}/{endpoint}";
             HttpRequestMessage request = new HttpRequestMessage(method, requestUrl);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
@@ -36,15 +39,15 @@ namespace InvoiceBackend.Services.ReckonApiService
             return await _httpClient.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> GetBooksAsync()
+        public async Task<HttpResponseMessage> GetBooksAsync(string sessionId)
         {
             string apiBaseUrl = _configuration["ReckonAPI:BaseUrl"];
             string apiSegment = _configuration["ReckonAPI:ApiSegment"];
-            string accessToken = _configuration["ReckonAPI:AccessToken"];//应该从前端拿
             string subscriptionKey = _configuration["ReckonAPI:SubscriptionKey"];
 
-            string requestUrl = $"{apiBaseUrl}{apiSegment}books"; // books endpoint
+            string accessToken = await _tokenService.GetValidAccessTokenAsync(sessionId);
 
+            string requestUrl = $"{apiBaseUrl}{apiSegment}books";
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);

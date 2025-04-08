@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { invoiceSchema, type Invoice } from "@/types/invoice"
-import { Demo_RECKON_BOOK_ID } from "@/constants/config"
+import { getBookId } from "@/lib/utils"
 
 /**
  * Custom hook to fetch a single invoice by ID from the Reckon API
@@ -21,10 +21,11 @@ const useInvoice = (invoiceId: string) => {
 
       console.log(`Fetching invoice ${invoiceId} from Reckon API...`)
 
+      // Dynamically get the bookId
+      const bookId = getBookId()
+
       // Include the bookId in the endpoint path
-      const response = await authApi.get(
-        `/${Demo_RECKON_BOOK_ID}/invoices/${invoiceId}`
-      )
+      const response = await authApi.get(`/${bookId}/invoices/${invoiceId}`)
 
       console.log("Raw invoice API response:", response)
 
