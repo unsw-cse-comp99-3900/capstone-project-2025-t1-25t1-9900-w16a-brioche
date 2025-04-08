@@ -42,7 +42,7 @@ export const EditCustomerContainer: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   console.log("customerId in EditCustomerContainer", id)
   const { data: customer, isLoading } = useCustomer(id ?? "")
-  const { mutate: editCustomer, isPending: isEditing } = useEditCustomer(
+  const { mutateAsync: editCustomer, isPending: isEditing } = useEditCustomer(
     id ?? ""
   )
 
@@ -69,9 +69,11 @@ export const EditCustomerContainer: React.FC = () => {
       await editCustomer(data)
       toast.success("Customer updated successfully")
       navigate("/customers")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
       toast.error("Failed to update customer", {
-        description: `Error: ${error}`,
+        description: `Error: ${error?.message || "Unknown error"}`,
       })
       console.error("Error updating customer:", error)
     }
