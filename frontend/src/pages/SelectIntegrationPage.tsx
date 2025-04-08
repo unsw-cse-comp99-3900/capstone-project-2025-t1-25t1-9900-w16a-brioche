@@ -60,7 +60,7 @@ const SelectIntegrationPage: React.FC = () => {
                   <button
                     className={`w-full py-2 px-4 rounded-lg ${
                       selectedOption === "reckon"
-                        ? "bg-blue-500 text-white"
+                        ? "bg-primary-600 text-white"
                         : "bg-gray-200"
                     }`}
                     onClick={() => setSelectedOption("reckon")}
@@ -70,7 +70,7 @@ const SelectIntegrationPage: React.FC = () => {
                   <button
                     className={`w-full py-2 px-4 rounded-lg ${
                       selectedOption === "other"
-                        ? "bg-blue-500 text-white"
+                        ? "bg-primary-600 text-white"
                         : "bg-gray-200"
                     }`}
                     onClick={() => setSelectedOption("other")}
@@ -89,13 +89,13 @@ const SelectIntegrationPage: React.FC = () => {
                     </h2>
                     <div className="space-x-4">
                       <button
-                        className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                        className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg"
                         onClick={handleConnectReckon} // Connect button handler
                       >
                         Connect
                       </button>
                       <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+                        className="bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg"
                         onClick={handleUseDemoAccount} // Use Demo Account button handler
                       >
                         Use Demo Account
