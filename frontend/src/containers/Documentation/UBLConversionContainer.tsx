@@ -1,16 +1,23 @@
-import React from 'react';
+import React from "react"
 
 const UBLConversion: React.FC = () => {
   return (
     <section id="ubl-conversion" className="mb-16">
-      <h2 className="text-2xl font-bold text-secondary-900 tracking-tight">UBL Conversion</h2>
+      <h2 className="text-2xl font-bold text-secondary-900 tracking-tight">
+        UBL Conversion
+      </h2>
       <p className="mt-4 text-lg text-secondary-500">
-        After creating an invoice in Reckon One, our platform automatically converts it to UBL XML format, which is required for Australian e-invoicing.
+        After creating an invoice in Reckon One, our platform automatically
+        converts it to UBL XML format, which is required for Australian
+        e-invoicing.
       </p>
 
-      <h3 className="mt-8 text-xl font-medium text-secondary-900">Conversion Process</h3>
+      <h3 className="mt-8 text-xl font-medium text-secondary-900">
+        Conversion Process
+      </h3>
       <p className="mt-4 text-secondary-700">
-        The conversion process maps Reckon One invoice fields to their corresponding UBL XML elements. This includes:
+        The conversion process maps Reckon One invoice fields to their
+        corresponding UBL XML elements. This includes:
       </p>
       <ul className="mt-2 list-disc pl-5 text-secondary-700">
         <li>Invoice header information (ID, issue date, due date)</li>
@@ -20,19 +27,24 @@ const UBLConversion: React.FC = () => {
         <li>Payment terms and instructions</li>
       </ul>
 
-      <h3 className="mt-8 text-xl font-medium text-secondary-900">UBL XML Structure</h3>
+      <h3 className="mt-8 text-xl font-medium text-secondary-900">
+        UBL XML Structure
+      </h3>
       <p className="mt-4 text-secondary-700">
-        The UBL XML follows the structure required by the Australian e-invoicing standard, which is based on the PEPPOL BIS Billing 3.0 specification.
+        The UBL XML follows the structure required by the Australian e-invoicing
+        standard, which is based on the PEPPOL BIS Billing 3.0 specification.
       </p>
 
       <div className="mt-4 border border-secondary-200 rounded-md">
         <div className="bg-secondary-50 px-4 py-2 border-b border-secondary-200">
-          <h4 className="text-md font-medium text-secondary-900">Sample UBL XML Structure</h4>
+          <h4 className="text-md font-medium text-secondary-900">
+            Sample UBL XML Structure
+          </h4>
         </div>
         <div className="p-4">
           <div className="bg-secondary-800 rounded-md overflow-auto">
             <pre className="text-xs text-secondary-100 p-4 font-mono">
-{`<?xml version="1.0" encoding="UTF-8"?>
+              {`<?xml version="1.0" encoding="UTF-8"?>
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" 
          xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" 
          xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
@@ -127,7 +139,7 @@ const UBLConversion: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default UBLConversion;
+export default UBLConversion
