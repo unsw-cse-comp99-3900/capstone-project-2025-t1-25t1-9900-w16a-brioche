@@ -1,7 +1,5 @@
-import React from 'react';
-import { reckonIntegrationText } from '@/constants/Documentation/Integration';
-
-
+import React from "react"
+import { reckonIntegrationText } from "@/constants/Documentation/Integration"
 
 const ReckonIntegration: React.FC = () => {
   return (
@@ -72,7 +70,7 @@ const ReckonIntegration: React.FC = () => {
         </table>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ReckonIntegration;
+export default ReckonIntegration

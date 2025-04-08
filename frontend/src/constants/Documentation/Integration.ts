@@ -12,7 +12,7 @@ export const reckonIntegrationText = {
   bookSelection: {
     title: "Book Selection",
     content:
-      "Reckon One organizes data into \"books.\" After authentication, you'll need to select which book to use for your e-invoices. The bookId is a crucial parameter used in all API calls to Reckon One.",
+      'Reckon One organizes data into "books." After authentication, you\'ll need to select which book to use for your e-invoices. The bookId is a crucial parameter used in all API calls to Reckon One.',
   },
   importantNote: {
     title: "Important Note",
@@ -84,4 +84,4 @@ export const reckonIntegrationText = {
       },
     ],
   },
-};
+}
