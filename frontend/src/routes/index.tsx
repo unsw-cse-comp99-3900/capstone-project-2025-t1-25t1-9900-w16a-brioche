@@ -11,6 +11,7 @@ import LandingPage from "@/pages/LandingPage"
 import LoginPage from "@/pages/LoginPage"
 import RegistrationPage from "@/pages/RegistrationPage"
 import DashboardPage from "@/pages/DashboardPage"
+import DocumentationPage from "@/pages/DocumentationPage"
 import NotFoundPage from "@/pages/NotFoundPage"
 import CustomersPage from "@/pages/CustomersPage"
 import CreateCustomerPage from "@/pages/CreateCustomerPage"
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <DashboardPage />,
+      },
+      {
+        path: "/documentation",
+        element: <DocumentationPage />,
       },
       {
         path: "/invoices",
