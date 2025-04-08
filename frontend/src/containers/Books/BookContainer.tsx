@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Users } from "lucide-react"
+import { Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useBookCustomer } from "@/hooks/book/useBookCustomer"
 
@@ -76,10 +76,10 @@ const BookContainer: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <div
-                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500
+                  className="p-2 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-primary-600
                   group-hover:text-white transition-colors duration-300"
                 >
-                  <Users className="h-5 w-5" />
+                  <Book className="h-5 w-5" />
                 </div>
                 Book Name:
               </CardTitle>
