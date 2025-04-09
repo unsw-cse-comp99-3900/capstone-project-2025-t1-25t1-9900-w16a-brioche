@@ -69,7 +69,7 @@ const InvoiceTableContainer: React.FC = () => {
   //email status badge styles
   const getEmailStatusBadge = (status: string) => {
     const styles = {
-      Sented: "bg-green-100 text-green-800",
+      Sent: "bg-green-100 text-green-800",
       Unsent: "bg-orange-100 text-orange-800",
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
@@ -125,13 +125,9 @@ const InvoiceTableContainer: React.FC = () => {
       key: "emailStatus",
       header: "Email Status",
       render: (invoice) => {
-        let computedEmailStatus = invoice.emailStatus || "-"
-        if (computedEmailStatus.toLowerCase() === "sent") {
-          computedEmailStatus = "Sented"
-        }
         return (
-          <Badge className={getEmailStatusBadge(computedEmailStatus)}>
-            {computedEmailStatus}
+          <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
+            {invoice.emailStatus}
           </Badge>
         )
       },
