@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom"
 
 import useInvoices from "@/hooks/invoice/useInvoices"
 import {
+  InvoiceStatus,
   type Invoice,
   invoiceTopLevelSchema,
   type InvoiceTopLevel,
@@ -58,9 +59,9 @@ const InvoiceTableContainer: React.FC = () => {
   const getStatusBadge = (status: string) => {
     const styles = {
       Paid: "bg-green-100 text-green-800",
-      Draft: "bg-gray-100 text-gray-800",
-      // Overdue: "bg-red-100 text-red-800",
-      Approved: "bg-yellow-100 text-yellow-800",
+      // Draft: "bg-gray-100 text-gray-800",
+      Overdue: "bg-red-100 text-red-800",
+      Unpaid: "bg-yellow-100 text-yellow-800",
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
   }
@@ -68,7 +69,7 @@ const InvoiceTableContainer: React.FC = () => {
   //email status badge styles
   const getEmailStatusBadge = (status: string) => {
     const styles = {
-      Sent: "bg-green-100 text-green-800",
+      Sented: "bg-green-100 text-green-800",
       Unsent: "bg-orange-100 text-orange-800",
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
@@ -99,11 +100,22 @@ const InvoiceTableContainer: React.FC = () => {
     {
       key: "status",
       header: "Status",
-      render: (invoice) => (
-        <Badge className={getStatusBadge(invoice.status || "-")}>
-          {invoice.status}
-        </Badge>
-      ),
+      render: (invoice) => {
+        let computedStatus = ""
+        if (invoice.status === InvoiceStatus.Paid) {
+          computedStatus = "Paid"
+        } else if (invoice.dueDate) {
+          const dueDate = new Date(invoice.dueDate)
+          computedStatus = dueDate < new Date() ? "Overdue" : "Unpaid"
+        } else {
+          computedStatus = "Unpaid"
+        }
+        return (
+          <Badge className={getStatusBadge(computedStatus)}>
+            {computedStatus}
+          </Badge>
+        )
+      },
       sortable: true,
       searchable: true,
       align: "center",
@@ -112,11 +124,17 @@ const InvoiceTableContainer: React.FC = () => {
     {
       key: "emailStatus",
       header: "Email Status",
-      render: (invoice) => (
-        <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
-          {invoice.emailStatus}
-        </Badge>
-      ),
+      render: (invoice) => {
+        let computedEmailStatus = invoice.emailStatus || "-"
+        if (computedEmailStatus.toLowerCase() === "sent") {
+          computedEmailStatus = "Sented"
+        }
+        return (
+          <Badge className={getEmailStatusBadge(computedEmailStatus)}>
+            {computedEmailStatus}
+          </Badge>
+        )
+      },
       sortable: true,
       searchable: true,
       align: "center",
