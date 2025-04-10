@@ -124,13 +124,11 @@ const InvoiceTableContainer: React.FC = () => {
     {
       key: "emailStatus",
       header: "Email Status",
-      render: (invoice) => {
-        return (
-          <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
-            {invoice.emailStatus}
-          </Badge>
-        )
-      },
+      render: (invoice) => (
+        <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
+          {invoice.emailStatus}
+        </Badge>
+      ),
       sortable: true,
       searchable: true,
       align: "center",
