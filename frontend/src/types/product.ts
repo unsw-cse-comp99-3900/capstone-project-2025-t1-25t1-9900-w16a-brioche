@@ -35,12 +35,6 @@ export const itemUseInputSchema = z.object({
 export const productSchema = z.object({
   id: z.string(),
   name: z.string(),
-  parentItem: z
-    .object({
-      id: z.string().nullable(),
-      name: z.string().nullable(),
-    })
-    .optional(),
   fullName: z.string(),
   itemType: z.string(),
   itemCode: z.string().nullable(),
@@ -169,7 +163,6 @@ export const apiToFormSchema = productSchema.transform(
 
     return {
       name: data.name,
-      parentItem: data.parentItem?.name || undefined,
       itemType: data.itemType as keyof typeof ItemType,
       itemCode: data.itemCode || undefined,
       status: data.status as keyof typeof ItemStatus,
