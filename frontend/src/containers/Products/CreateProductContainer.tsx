@@ -261,7 +261,7 @@ const CreateProductContainer: React.FC = () => {
                           onChange={(e) =>
                             field.onChange(parseFloat(e.target.value) || 0)
                           }
-                          value={field.value}
+                          value={field.value === 0 ? "" : field.value}
                         />
                       </FormControl>
                       <FormDescription>
