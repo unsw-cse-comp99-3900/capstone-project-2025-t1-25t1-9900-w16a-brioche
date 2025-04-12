@@ -3,6 +3,7 @@ import { Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useBookCustomer } from "@/hooks/book/useBookCustomer"
+import { AxiosError } from "axios"
 
 interface BookContainerProps {
   onNavigate: (bookId: string) => void
@@ -26,6 +27,48 @@ const BookContainer: React.FC<BookContainerProps> = ({
   }
 
   if (error) {
+    // Check if the error is a 404 (no books found)
+    const is404Error = (error as AxiosError).status === 404
+
+    if (is404Error) {
+      return (
+        <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            No Books Found
+          </h3>
+          <p className="text-gray-600 mb-4">
+            You don't have any books connected to your account yet.
+          </p>
+          <div className="space-y-3">
+            <p className="text-sm text-gray-500">You can:</p>
+            <p className="text-sm">
+              Visit{" "}
+              <a
+                href="https://portal.reckon.com/"
+                className="text-blue-600 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                portal.reckon.com
+              </a>{" "}
+              to purchase a book, or use the Demo Account in the top-right
+              corner.
+            </p>
+            {!isConnected && onBack && (
+              <div className="mt-4">
+                <Button
+                  className="bg-gray-600 text-white hover:bg-gray-700"
+                  onClick={onBack}
+                >
+                  Back
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="text-red-600 text-center">
         <h3 className="text-lg font-semibold">Error loading books</h3>
@@ -36,21 +79,35 @@ const BookContainer: React.FC<BookContainerProps> = ({
 
   if (customers.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-4 text-center">
-        <h2 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
-          There are no books available
-        </h2>
-        <div className="flex space-x-4">
-          <Button className="bg-blue-600 text-white hover:bg-blue-700">
-            Add Book
-          </Button>
-          {!isConnected && onBack && (
-            <Button
-              className="bg-gray-600 text-white hover:bg-gray-700"
-              onClick={onBack}
+      <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          No Books Available
+        </h3>
+        <p className="text-gray-600 mb-4">
+          Your account doesn't have any books available at the moment.
+        </p>
+        <div className="space-y-3">
+          <p className="text-sm text-gray-500">
+            Visit{" "}
+            <a
+              href="https://portal.reckon.com/"
+              className="text-blue-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Back
-            </Button>
+              portal.reckon.com
+            </a>{" "}
+            to manage your books.
+          </p>
+          {!isConnected && onBack && (
+            <div className="mt-4">
+              <Button
+                className="bg-gray-600 text-white hover:bg-gray-700"
+                onClick={onBack}
+              >
+                Back
+              </Button>
+            </div>
           )}
         </div>
       </div>
