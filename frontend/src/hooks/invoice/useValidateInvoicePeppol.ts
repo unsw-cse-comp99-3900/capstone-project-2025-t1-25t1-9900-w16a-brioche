@@ -186,7 +186,7 @@ ${invoiceDataForPrompt}`
     console.error("Error during AI validation:", error)
     let errorMessage = "Failed to validate invoice with AI."
     if (error instanceof Error) {
-      // Check for specific AI SDK errors 
+      // Check for specific AI SDK errors
       errorMessage = error.message
     }
     return {
