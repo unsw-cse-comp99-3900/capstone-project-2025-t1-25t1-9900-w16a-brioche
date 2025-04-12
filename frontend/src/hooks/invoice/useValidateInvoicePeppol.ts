@@ -186,7 +186,7 @@ ${invoiceDataForPrompt}`
     console.error("Error during AI validation:", error)
     let errorMessage = "Failed to validate invoice with AI."
     if (error instanceof Error) {
-      // Check for specific AI SDK errors if needed
+      // Check for specific AI SDK errors 
       errorMessage = error.message
     }
     return {
@@ -206,10 +206,7 @@ ${invoiceDataForPrompt}`
 export const useValidateInvoicePeppol = () => {
   return useMutation<ValidationOutcome, Error, ValidateInvoiceParams>({
     mutationFn: validateInvoiceWithAI,
-    // Optional: Add onSuccess, onError, onSettled handlers here if needed
-    // e.g., for global notifications or cache invalidation (though likely not needed here)
   })
 }
 
-// Optional: Export the result type if needed elsewhere
 export type { ValidationResult }
