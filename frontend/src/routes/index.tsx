@@ -29,7 +29,6 @@ import SelectIntegrationPage from "@/pages/SelectIntegrationPage"
 import SelectLayout from "@/components/layout/SelectLayout"
 import ProtectedWithBookidRoute from "@/components/auth/ProtectedWithBookidRoute"
 import ReckonCallbackPage from "@/pages/ReckonCallbackPage"
-import BookPage from "@/pages/BookPage"
 
 // Define routes
 const router = createBrowserRouter([
@@ -140,10 +139,6 @@ const router = createBrowserRouter([
       {
         path: "/select",
         element: <SelectIntegrationPage />,
-      },
-      {
-        path: "/book",
-        element: <BookPage />,
       },
     ],
   },
