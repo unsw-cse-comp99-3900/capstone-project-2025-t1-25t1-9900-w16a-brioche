@@ -9,9 +9,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Hash, Percent } from "lucide-react"
 import SectionHeader from "@/components/common/SectionHeader"
+import { UseFormReturn } from "react-hook-form"
+import { InvoiceFormValues } from "@/types/invoice"
 
 interface InvoiceDetailsProps {
-  form: any
+  form: UseFormReturn<InvoiceFormValues>
 }
 
 const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ form }) => {
@@ -23,7 +25,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="referenceCode"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-2">
               <FormLabel className="flex items-center gap-1">
                 <Hash className="h-4 w-4 text-secondary-500" />
@@ -40,7 +42,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="invoiceDiscount"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-2">
               <FormLabel className="flex items-center gap-1">
                 <Percent className="h-4 w-4 text-secondary-500" />
