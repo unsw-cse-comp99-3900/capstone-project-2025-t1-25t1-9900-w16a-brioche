@@ -117,6 +117,21 @@ namespace InvoiceBackend.Controllers
             HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Put, sessionId, requestBody);
             return await ApiResponseHelper.HandleApiResponse(response);
         }
+        
+        [HttpPatch("{invoiceId}")]
+        public async Task<IActionResult> PatchInvoice(string bookId, string invoiceId, [FromBody] object invoicePatchBody)
+        {
+            if (!Request.Headers.TryGetValue("X-Session-ID", out var sessionIdValues) || string.IsNullOrEmpty(sessionIdValues))
+            {
+                return BadRequest(new { message = "Session ID is required" });
+            }
+            
+            string sessionId = sessionIdValues.ToString();
+            
+            string requestBody = System.Text.Json.JsonSerializer.Serialize(invoicePatchBody);
+            HttpResponseMessage response = await _apiService.CallApiAsync(bookId, $"invoices/{invoiceId}", HttpMethod.Patch, sessionId, requestBody);
+            return await ApiResponseHelper.HandleApiResponse(response);
+        }
 
         [HttpDelete("{invoiceId}")]
         public async Task<IActionResult> DeleteInvoice(string bookId, string invoiceId)
