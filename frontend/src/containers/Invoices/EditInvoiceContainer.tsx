@@ -15,7 +15,11 @@ import useProducts from "@/hooks/product/useProducts"
 import useCustomers from "@/hooks/customer/useCustomers"
 import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 import { useDueDate } from "@/hooks/payment/useDueDate"
-import { invoiceFormSchema, InvoiceFormValues, apiToFormSchema } from "@/types/invoice"
+import {
+  invoiceFormSchema,
+  InvoiceFormValues,
+  apiToFormSchema,
+} from "@/types/invoice"
 
 // 导入分块组件
 import InvoiceInformation from "@/components/invoice/InvoiceInformation"
@@ -23,20 +27,24 @@ import InvoiceDetails from "@/components/invoice/InvoiceDetails"
 import InvoiceItems from "@/components/invoice/InvoiceItems"
 import InvoiceNotesAndTotals from "@/components/invoice/InvoiceTotal"
 
-
-
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
   // 获取发票数据（添加 refetch 函数）
-  const { data: invoice, isLoading: isLoadingInvoice, refetch } = useInvoice(id ?? "")
+  const {
+    data: invoice,
+    isLoading: isLoadingInvoice,
+    refetch,
+  } = useInvoice(id ?? "")
   const { data: products = [] } = useProducts()
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
     usePaymentTerms()
 
-  const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(id ?? "")
+  const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(
+    id ?? ""
+  )
 
   const [totals, setTotals] = useState({
     subtotal: "0.00",
@@ -75,16 +83,13 @@ const EditInvoiceContainer: React.FC = () => {
   useEffect(() => {
     const refreshData = async () => {
       try {
-        await refetch();
-         ;
+        await refetch()
       } catch (error) {
-        console.error("Failed to refresh invoice data:", error);
+        console.error("Failed to refresh invoice data:", error)
       }
-    }; 
-    refreshData();
-  }, [refetch]);
-
-
+    }
+    refreshData()
+  }, [refetch])
 
   const [isInvoiceReady, setIsInvoiceReady] = useState(false)
   useEffect(() => {
@@ -183,18 +188,24 @@ const EditInvoiceContainer: React.FC = () => {
     return () => subscription.unsubscribe()
   }, [form, products])
 
-
-  const paymentTermId = useWatch({ control: form.control, name: "paymentTerms" })
+  const paymentTermId = useWatch({
+    control: form.control,
+    name: "paymentTerms",
+  })
   const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
-  const formattedInvoiceDate = invoiceDate ? format(new Date(invoiceDate), "yyyy-MM-dd") : ""
-  const { data: dueDateData } = useDueDate(paymentTermId || "", formattedInvoiceDate)
+  const formattedInvoiceDate = invoiceDate
+    ? format(new Date(invoiceDate), "yyyy-MM-dd")
+    : ""
+  const { data: dueDateData } = useDueDate(
+    paymentTermId || "",
+    formattedInvoiceDate
+  )
   useEffect(() => {
     if (dueDateData?.dueDate) {
       form.setValue("dueDate", new Date(dueDateData.dueDate))
       console.log("Due Date updated:", new Date(dueDateData.dueDate))
     }
   }, [dueDateData, form])
-
 
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
@@ -205,7 +216,9 @@ const EditInvoiceContainer: React.FC = () => {
       let errorMessage = "Failed to update invoice."
       if (error?.response?.data?.message) {
         const backendMessage = error.response.data.message
-        errorMessage = Array.isArray(backendMessage) ? backendMessage.join("; ") : backendMessage
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
       } else if (error?.message) {
         errorMessage = error.message
       } else if (typeof error === "string") {
@@ -224,44 +237,42 @@ const EditInvoiceContainer: React.FC = () => {
     )
   }
 
-
   const CustomFormActions = () => (
     <div className="flex justify-end mb-4 space-x-2">
-        <Button
-          type="button"
-          onClick={() => form.handleSubmit(onSubmit)()}
-          disabled={isEditing}
-          className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
-        >
-          <Save className="h-4 w-4" />
-          {isEditing ? "Updating..." : "Receive Payment"}
-        </Button>
-      </div>
-  );
+      <Button
+        type="button"
+        onClick={() => form.handleSubmit(onSubmit)()}
+        disabled={isEditing}
+        className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
+      >
+        <Save className="h-4 w-4" />
+        {isEditing ? "Updating..." : "Receive Payment"}
+      </Button>
+    </div>
+  )
 
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
-      <div className="px-4 py-5 sm:p-6">     
- 
+      <div className="px-4 py-5 sm:p-6">
         <CustomFormActions />
-       
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <InvoiceInformation 
-              form={form} 
-              customers={customers} 
-              isLoadingCustomers={isLoadingCustomers} 
-              paymentTerms={paymentTerms} 
+            <InvoiceInformation
+              form={form}
+              customers={customers}
+              isLoadingCustomers={isLoadingCustomers}
+              paymentTerms={paymentTerms}
               isLoadingPaymentTerms={isLoadingPaymentTerms}
             />
             <InvoiceDetails form={form} />
-            <InvoiceItems 
-              form={form} 
-              products={products} 
-              isInvoiceReady={isInvoiceReady} 
+            <InvoiceItems
+              form={form}
+              products={products}
+              isInvoiceReady={isInvoiceReady}
             />
             <InvoiceNotesAndTotals form={form} totals={totals} />
-            
+
             <div className="pt-5">
               <div className="flex justify-end space-x-2">
                 <Button
