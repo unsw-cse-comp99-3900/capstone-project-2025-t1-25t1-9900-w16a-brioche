@@ -1,6 +1,12 @@
 // src/components/invoice/InvoiceNotesAndTotals.tsx
 import React from "react"
-import { FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 
 interface InvoiceNotesAndTotalsProps {
@@ -14,7 +20,10 @@ interface InvoiceNotesAndTotalsProps {
   }
 }
 
-const InvoiceNotesAndTotals: React.FC<InvoiceNotesAndTotalsProps> = ({ form, totals }) => {
+const InvoiceNotesAndTotals: React.FC<InvoiceNotesAndTotalsProps> = ({
+  form,
+  totals,
+}) => {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {/* Notes column */}

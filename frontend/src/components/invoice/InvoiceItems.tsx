@@ -10,7 +10,7 @@ import SectionHeader from "@/components/common/SectionHeader"
 
 interface InvoiceItemsProps {
   form: any // Replace with correct form type
-  products: any[]  // Replace with correct product type
+  products: any[] // Replace with correct product type
   isInvoiceReady?: boolean // Made optional to match original behavior
 }
 
@@ -91,17 +91,12 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                                 const selectedProduct = products.find(
                                   (p) => p.id === selectedProductId
                                 )
-                                console.log(
-                                  "selectedProduct",
-                                  selectedProduct
-                                )
+                                console.log("selectedProduct", selectedProduct)
 
                                 if (selectedProduct?.sale) {
-                                  const price =
-                                    selectedProduct.sale.price || 0
+                                  const price = selectedProduct.sale.price || 0
                                   const taxPercent =
-                                    selectedProduct.sale.taxRate
-                                      ?.percent || 0
+                                    selectedProduct.sale.taxRate?.percent || 0
 
                                   form.setValue(
                                     `items.${index}.itemPrice`,
@@ -109,22 +104,18 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                                   )
                                   form.setValue(
                                     `items.${index}.taxCode`,
-                                    selectedProduct.sale.taxRate?.id ||
-                                      ""
+                                    selectedProduct.sale.taxRate?.id || ""
                                   )
 
                                   const qty = Number(
-                                    form.getValues(
-                                      `items.${index}.qty`
-                                    ) || 0
+                                    form.getValues(`items.${index}.qty`) || 0
                                   )
 
                                   if (qty && price && taxPercent) {
                                     const grossTotal = price * qty
                                     const taxAmount =
                                       grossTotal -
-                                      grossTotal /
-                                        (1 + taxPercent / 100)
+                                      grossTotal / (1 + taxPercent / 100)
                                     form.setValue(
                                       `items.${index}.tax`,
                                       taxAmount.toFixed(2)
@@ -135,10 +126,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                             >
                               <option value="">None</option>
                               {products.map((product) => (
-                                <option
-                                  key={product.id}
-                                  value={product.id}
-                                >
+                                <option key={product.id} value={product.id}>
                                   {product.name}
                                 </option>
                               ))}
@@ -155,11 +143,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input
-                              {...field}
-                              className="w-24"
-                              readOnly
-                            />
+                            <Input {...field} className="w-24" readOnly />
                           </FormControl>
                         </FormItem>
                       )}
@@ -172,10 +156,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Textarea
-                              {...field}
-                              className="min-h-10 w-32"
-                            />
+                            <Textarea {...field} className="min-h-10 w-32" />
                           </FormControl>
                         </FormItem>
                       )}
@@ -217,9 +198,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                             <select
                               className="w-24 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                               value={field.value || ""}
-                              onChange={(e) =>
-                                field.onChange(e.target.value)
-                              }
+                              onChange={(e) => field.onChange(e.target.value)}
                             >
                               <option value="">None</option>
                               {Array.from(
@@ -227,21 +206,13 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                                   products
                                     .map((p) => p.sale?.taxRate)
                                     .filter(
-                                      (
-                                        tr
-                                      ): tr is NonNullable<typeof tr> =>
+                                      (tr): tr is NonNullable<typeof tr> =>
                                         !!tr?.id
                                     )
-                                    .map((taxRate) => [
-                                      taxRate.id,
-                                      taxRate,
-                                    ])
+                                    .map((taxRate) => [taxRate.id, taxRate])
                                 ).values()
                               ).map((taxRate) => (
-                                <option
-                                  key={taxRate.id}
-                                  value={taxRate.id}
-                                >
+                                <option key={taxRate.id} value={taxRate.id}>
                                   {taxRate.name}
                                 </option>
                               ))}
@@ -275,19 +246,13 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
                               {...field}
                               className="w-24"
                               value={(
+                                Number(form.watch(`items.${index}.qty`) || 0) *
                                 Number(
-                                  form.watch(`items.${index}.qty`) || 0
-                                ) *
-                                Number(
-                                  form.watch(
-                                    `items.${index}.itemPrice`
-                                  ) || 0
+                                  form.watch(`items.${index}.itemPrice`) || 0
                                 ) *
                                 (1 -
                                   Number(
-                                    form.watch(
-                                      `items.${index}.discount`
-                                    ) || 0
+                                    form.watch(`items.${index}.discount`) || 0
                                   ) /
                                     100)
                               ).toFixed(2)}

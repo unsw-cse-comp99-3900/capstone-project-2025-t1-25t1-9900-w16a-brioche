@@ -1,16 +1,26 @@
 import React from "react"
 import { format } from "date-fns"
-import { FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import SectionHeader from "@/components/common/SectionHeader"
 import { CalendarIcon, User, Clock, CalendarDays, FileText } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface InvoiceInformationProps {
-  form: any  
-  customers: any[] 
+  form: any
+  customers: any[]
   paymentTerms: any[]
   isLoadingCustomers: boolean
   isLoadingPaymentTerms: boolean

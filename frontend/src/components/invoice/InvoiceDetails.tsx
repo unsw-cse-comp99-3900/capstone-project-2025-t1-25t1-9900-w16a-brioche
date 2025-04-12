@@ -1,8 +1,13 @@
-
 import React from "react"
-import { FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Hash, Percent,} from "lucide-react"
+import { Hash, Percent } from "lucide-react"
 import SectionHeader from "@/components/common/SectionHeader"
 
 interface InvoiceDetailsProps {
@@ -10,8 +15,7 @@ interface InvoiceDetailsProps {
 }
 
 const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ form }) => {
-  
-    return (
+  return (
     <div>
       <SectionHeader title="Additional Details" icon={Hash} />
       <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
