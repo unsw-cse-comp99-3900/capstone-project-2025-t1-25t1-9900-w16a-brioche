@@ -38,7 +38,7 @@ const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="customer"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-3">
               <FormLabel className="flex items-center gap-1">
                 <User className="h-4 w-4 text-secondary-500" />
@@ -67,7 +67,7 @@ const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="invoiceDate"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-3">
               <FormLabel className="flex items-center gap-1">
                 <CalendarDays className="h-4 w-4 text-secondary-500" />
@@ -109,7 +109,7 @@ const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="paymentTerms"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-3">
               <FormLabel className="flex items-center gap-1">
                 <Clock className="h-4 w-4 text-secondary-500" />
@@ -138,7 +138,7 @@ const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
         <FormField
           control={form.control}
           name="dueDate"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem className="sm:col-span-3">
               <FormLabel className="flex items-center gap-1">
                 <CalendarDays className="h-4 w-4 text-secondary-500" />
