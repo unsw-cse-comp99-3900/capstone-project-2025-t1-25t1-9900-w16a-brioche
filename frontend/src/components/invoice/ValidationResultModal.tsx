@@ -48,8 +48,7 @@ export const ValidationResultModal: React.FC<ValidationResultModalProps> = ({
 }) => {
   if (!isOpen || !result) return null
 
-  console.log("result", result)
-
+// Removed unnecessary debug log to keep production logs clean.
   const hasErrors = result.violations.some((v) => v.severity === "Error")
 
   const hasErrorsWarnings = result.violations.some(
