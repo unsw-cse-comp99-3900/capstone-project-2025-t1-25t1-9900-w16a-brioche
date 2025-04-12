@@ -8,9 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { UseFormReturn } from "react-hook-form"
+import { InvoiceFormValues } from "@/types/invoice"
 
 interface InvoiceNotesAndTotalsProps {
-  form: any // Replace with the correct form type
+  form: UseFormReturn<InvoiceFormValues>
   totals: {
     subtotal: string
     discount: string
@@ -31,7 +33,7 @@ const InvoiceNotesAndTotals: React.FC<InvoiceNotesAndTotalsProps> = ({
         <FormField
           control={form.control}
           name="note"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">NOTE:</FormLabel>
               <FormControl>
@@ -48,7 +50,7 @@ const InvoiceNotesAndTotals: React.FC<InvoiceNotesAndTotalsProps> = ({
         <FormField
           control={form.control}
           name="paymentDetails"
-          render={({ field }: any) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">PAYMENT DETAILS:</FormLabel>
               <FormControl>

@@ -1,20 +1,21 @@
-// src/components/invoice/InvoiceItems.tsx
 import React from "react"
-import { useFieldArray } from "react-hook-form"
+import { useFieldArray, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormControl } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Trash, Plus, FileText } from "lucide-react"
 import SectionHeader from "@/components/common/SectionHeader"
+import { InvoiceFormValues } from "@/types/invoice"
+import useProducts from "@/hooks/product/useProducts"
 
 interface InvoiceItemsProps {
-  form: any // Replace with correct form type
-  products: any[] // Replace with correct product type
-  isInvoiceReady?: boolean // Made optional to match original behavior
+  form: UseFormReturn<InvoiceFormValues>
+  isInvoiceReady?: boolean
 }
 
-const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form, products }) => {
+const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form }) => {
+  const { data: products = [] } = useProducts()
   const { fields, append, remove } = useFieldArray({
     name: "items",
     control: form.control,

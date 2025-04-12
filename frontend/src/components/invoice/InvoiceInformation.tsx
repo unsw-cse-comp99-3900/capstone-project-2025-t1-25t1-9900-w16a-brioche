@@ -17,27 +17,24 @@ import {
 import SectionHeader from "@/components/common/SectionHeader"
 import { CalendarIcon, User, Clock, CalendarDays, FileText } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { UseFormReturn } from "react-hook-form"
+import { InvoiceFormValues } from "@/types/invoice"
+import useCustomers from "@/hooks/customer/useCustomers"
+import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
 
 interface InvoiceInformationProps {
-  form: any
-  customers: any[]
-  paymentTerms: any[]
-  isLoadingCustomers: boolean
-  isLoadingPaymentTerms: boolean
+  form: UseFormReturn<InvoiceFormValues>
 }
 
-const InvoiceInformation: React.FC<InvoiceInformationProps> = ({
-  form,
-  customers,
-  paymentTerms,
-  isLoadingCustomers,
-  isLoadingPaymentTerms,
-}) => {
+const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
+  const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
+  const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
+    usePaymentTerms()
+
   return (
     <div>
       <SectionHeader title="Invoice Information" icon={FileText} />
       <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-        {/* Customer */}
         <FormField
           control={form.control}
           name="customer"

@@ -1,4 +1,3 @@
-// src/components/invoice/EditInvoiceContainer.tsx
 import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,8 +11,7 @@ import { Form } from "@/components/ui/form"
 import useEditInvoice from "@/hooks/invoice/useEditInvoice"
 import useInvoice from "@/hooks/invoice/useInvoice"
 import useProducts from "@/hooks/product/useProducts"
-import useCustomers from "@/hooks/customer/useCustomers"
-import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
+
 import { useDueDate } from "@/hooks/payment/useDueDate"
 import {
   invoiceFormSchema,
@@ -21,7 +19,6 @@ import {
   apiToFormSchema,
 } from "@/types/invoice"
 
-// 导入分块组件
 import InvoiceInformation from "@/components/invoice/InvoiceInformation"
 import InvoiceDetails from "@/components/invoice/InvoiceDetails"
 import InvoiceItems from "@/components/invoice/InvoiceItems"
@@ -31,16 +28,12 @@ const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  // 获取发票数据（添加 refetch 函数）
   const {
     data: invoice,
     isLoading: isLoadingInvoice,
     refetch,
   } = useInvoice(id ?? "")
   const { data: products = [] } = useProducts()
-  const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
-  const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
-    usePaymentTerms()
 
   const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(
     id ?? ""
@@ -122,7 +115,6 @@ const EditInvoiceContainer: React.FC = () => {
         const lineDiscounted = lineGross * (1 - discountPercent / 100)
         const tax = lineDiscounted - lineDiscounted / (1 + taxPercent / 100)
 
-        // Update line item tax when discount changes
         if (name?.includes(`items.${index}.discount`)) {
           form.setValue(`items.${index}.tax`, tax.toFixed(2))
         }
@@ -131,7 +123,6 @@ const EditInvoiceContainer: React.FC = () => {
         lineItemTotalTax += tax
       })
 
-      // Invoice-level discount
       let invoiceDiscount = 0
       if (discountInput.includes("%")) {
         invoiceDiscount =
@@ -258,19 +249,9 @@ const EditInvoiceContainer: React.FC = () => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <InvoiceInformation
-              form={form}
-              customers={customers}
-              isLoadingCustomers={isLoadingCustomers}
-              paymentTerms={paymentTerms}
-              isLoadingPaymentTerms={isLoadingPaymentTerms}
-            />
+            <InvoiceInformation form={form} />
             <InvoiceDetails form={form} />
-            <InvoiceItems
-              form={form}
-              products={products}
-              isInvoiceReady={isInvoiceReady}
-            />
+            <InvoiceItems form={form} isInvoiceReady={isInvoiceReady} />
             <InvoiceNotesAndTotals form={form} totals={totals} />
 
             <div className="pt-5">
