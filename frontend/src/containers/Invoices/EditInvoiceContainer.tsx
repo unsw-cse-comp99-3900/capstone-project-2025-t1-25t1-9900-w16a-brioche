@@ -204,7 +204,7 @@ const EditInvoiceContainer: React.FC = () => {
       toast.success("Invoice updated successfully")
       navigate("/invoices")
     } catch (
-      error: any // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
     ) {
       let errorMessage = "Failed to update invoice."
       if (error?.response?.data?.message) {
