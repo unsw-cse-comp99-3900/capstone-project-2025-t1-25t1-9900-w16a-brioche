@@ -108,7 +108,9 @@ const googleAI = createGoogleGenerativeAI({
 const validateInvoiceWithAI = async ({
   invoice,
 }: ValidateInvoiceParams): Promise<ValidationOutcome> => {
-  console.log("invoice for validation", invoice)
+  if (import.meta.env.MODE !== "production") {
+    console.log("invoice for validation", invoice)
+  }
 
   // Select relevant fields
   const invoiceDataForPrompt = JSON.stringify({
