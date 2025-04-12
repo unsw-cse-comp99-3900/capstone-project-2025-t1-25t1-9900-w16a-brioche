@@ -247,7 +247,7 @@ const DashboardHeader = () => {
                           <CollapsibleContent className="pl-11 pr-3 space-y-1 mt-1">
                             {/* Products & Services */}
                             <a
-                              href="/management/products"
+                              href="/products"
                               className={cn(
                                 "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                                 currentPath.includes("/management/products")
@@ -260,7 +260,7 @@ const DashboardHeader = () => {
 
                             {/* Customers */}
                             <a
-                              href="/management/customers"
+                              href="/customers"
                               className={cn(
                                 "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                                 currentPath.includes("/management/customers")
@@ -273,7 +273,7 @@ const DashboardHeader = () => {
 
                             {/* Invoice History */}
                             <a
-                              href="/management/invoices"
+                              href="/invoices"
                               className={cn(
                                 "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                                 currentPath.includes("/management/invoices")
