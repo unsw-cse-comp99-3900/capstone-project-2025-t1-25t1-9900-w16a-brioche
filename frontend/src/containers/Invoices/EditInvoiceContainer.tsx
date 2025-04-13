@@ -1,66 +1,39 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom" //
+import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFieldArray, useWatch } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import SectionHeader from "@/components/common/SectionHeader"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import {
-  Calendar as CalendarIcon,
-  Plus,
-  Save,
-  X,
-  User,
-  CalendarDays,
-  Clock,
-  Hash,
-  Percent,
-  FileText,
-} from "lucide-react"
+import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
-import { Trash } from "lucide-react"
-import useEditInvoice from "@/hooks/invoice/useEditInvoice" //
-import useInvoice from "@/hooks/invoice/useInvoice"
+import { format } from "date-fns"
+import { Save, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Form } from "@/components/ui/form"
 
-// Import types from invoice.ts
+import useEditInvoice from "@/hooks/invoice/useEditInvoice"
+import useInvoice from "@/hooks/invoice/useInvoice"
+import useProducts from "@/hooks/product/useProducts"
+
+import { useDueDate } from "@/hooks/payment/useDueDate"
 import {
   invoiceFormSchema,
   InvoiceFormValues,
   apiToFormSchema,
 } from "@/types/invoice"
-import useProducts from "@/hooks/product/useProducts"
-import useCustomers from "@/hooks/customer/useCustomers"
-import usePaymentTerms from "@/hooks/payment/usePaymentTerms"
-import { useDueDate } from "@/hooks/payment/useDueDate"
+
+import InvoiceInformation from "@/components/invoice/InvoiceInformation"
+import InvoiceDetails from "@/components/invoice/InvoiceDetails"
+import InvoiceItems from "@/components/invoice/InvoiceItems"
+import InvoiceNotesAndTotals from "@/components/invoice/InvoiceTotal"
 
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
 
-  // Fetch the invoice data
-  const { data: invoice, isLoading: isLoadingInvoice } = useInvoice(id ?? "")
-
+  const {
+    data: invoice,
+    isLoading: isLoadingInvoice,
+    refetch,
+  } = useInvoice(id ?? "")
   const { data: products = [] } = useProducts()
-  const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
-  const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
-    usePaymentTerms()
 
   const { mutateAsync: editInvoice, isPending: isEditing } = useEditInvoice(
     id ?? ""
@@ -82,6 +55,9 @@ const EditInvoiceContainer: React.FC = () => {
       dueDate: undefined,
       referenceCode: "",
       invoiceDiscount: "",
+      note: "",
+      paymentDetails: "",
+      paymentTerms: "",
       items: [
         {
           item: "",
@@ -95,40 +71,26 @@ const EditInvoiceContainer: React.FC = () => {
         },
       ],
     },
-    values: invoice ? apiToFormSchema(invoice) : undefined,
   })
 
   useEffect(() => {
-    if (invoice && invoice.lineItems) {
-      // Ensure that the items data is fully loaded
-      form.setValue("items", apiToFormSchema(invoice).items)
+    const refreshData = async () => {
+      try {
+        await refetch()
+      } catch (error) {
+        console.error("Failed to refresh invoice data:", error)
+      }
+    }
+    refreshData()
+  }, [refetch])
+
+  const [isInvoiceReady, setIsInvoiceReady] = useState(false)
+  useEffect(() => {
+    if (invoice) {
+      form.reset(apiToFormSchema(invoice))
+      setIsInvoiceReady(true)
     }
   }, [invoice, form])
-
-  const paymentTermId = useWatch({
-    control: form.control,
-    name: "paymentTerms",
-  })
-  const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
-
-  const formattedInvoiceDate = invoiceDate
-    ? format(new Date(invoiceDate), "yyyy-MM-dd")
-    : ""
-
-  const { data: dueDateData } = useDueDate(
-    paymentTermId || "",
-    formattedInvoiceDate
-  )
-
-  useEffect(() => {
-    if (!dueDateData?.dueDate) {
-      console.log("API did not return a valid dueDate, using invoiceDate.")
-      return
-    }
-
-    form.setValue("dueDate", new Date(dueDateData.dueDate))
-    console.log("Due Date updated:", new Date(dueDateData.dueDate))
-  }, [dueDateData, form])
 
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
@@ -161,7 +123,6 @@ const EditInvoiceContainer: React.FC = () => {
         lineItemTotalTax += tax
       })
 
-      // Invoice-level discount
       let invoiceDiscount = 0
       if (discountInput.includes("%")) {
         invoiceDiscount =
@@ -218,22 +179,34 @@ const EditInvoiceContainer: React.FC = () => {
     return () => subscription.unsubscribe()
   }, [form, products])
 
-  const { fields, append, remove } = useFieldArray({
-    name: "items",
+  const paymentTermId = useWatch({
     control: form.control,
+    name: "paymentTerms",
   })
+  const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
+  const formattedInvoiceDate = invoiceDate
+    ? format(new Date(invoiceDate), "yyyy-MM-dd")
+    : ""
+  const { data: dueDateData } = useDueDate(
+    paymentTermId || "",
+    formattedInvoiceDate
+  )
+  useEffect(() => {
+    if (dueDateData?.dueDate) {
+      form.setValue("dueDate", new Date(dueDateData.dueDate))
+      console.log("Due Date updated:", new Date(dueDateData.dueDate))
+    }
+  }, [dueDateData, form])
 
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
       await editInvoice(data)
-
       toast.success("Invoice updated successfully")
       navigate("/invoices")
     } catch (
       error: any // eslint-disable-line @typescript-eslint/no-explicit-any
     ) {
       let errorMessage = "Failed to update invoice."
-
       if (error?.response?.data?.message) {
         const backendMessage = error.response.data.message
         errorMessage = Array.isArray(backendMessage)
@@ -244,25 +217,9 @@ const EditInvoiceContainer: React.FC = () => {
       } else if (typeof error === "string") {
         errorMessage = error
       }
-
-      toast.error("Failed to update invoice", {
-        description: errorMessage,
-      })
+      toast.error("Failed to update invoice", { description: errorMessage })
       console.error("Error updating invoice:", error)
     }
-  }
-
-  const addNewRow = () => {
-    append({
-      item: "",
-      itemPrice: "",
-      description: "",
-      qty: "",
-      discount: "",
-      taxCode: "",
-      tax: "",
-      amount: "",
-    })
   }
 
   if (isLoadingInvoice) {
@@ -273,615 +230,49 @@ const EditInvoiceContainer: React.FC = () => {
     )
   }
 
+  const CustomFormActions = () => (
+    <div className="flex justify-end mb-4 space-x-2">
+      <Button
+        type="button"
+        onClick={() => form.handleSubmit(onSubmit)()}
+        disabled={isEditing}
+        className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
+      >
+        <Save className="h-4 w-4" />
+        {isEditing ? "Updating..." : "Receive Payment"}
+      </Button>
+    </div>
+  )
+
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
       <div className="px-4 py-5 sm:p-6">
-        {/* Top Action Buttons */}
-        <div className="flex justify-end mb-4 space-x-2">
-          <Button
-            type="button"
-            onClick={() => form.handleSubmit(onSubmit)()}
-            disabled={isEditing}
-            className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
-          >
-            <Save className="h-4 w-4" />
-            {isEditing ? "Updating..." : "Update"}
-          </Button>
-        </div>
+        <CustomFormActions />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Basic Invoice Information */}
-            <div>
-              <SectionHeader title="Invoice Information" icon={FileText} />
-              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                {/* Customer */}
-                <FormField
-                  control={form.control}
-                  name="customer"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <User className="h-4 w-4 text-secondary-500" />
-                        Customer <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          disabled={isLoadingCustomers}
-                        >
-                          <option value="">None</option>
-                          {customers.map((customer) => (
-                            <option key={customer.id} value={customer.name}>
-                              {customer.name}
-                            </option>
-                          ))}
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <InvoiceInformation form={form} />
+            <InvoiceDetails form={form} />
+            <InvoiceItems form={form} isInvoiceReady={isInvoiceReady} />
+            <InvoiceNotesAndTotals form={form} totals={totals} />
 
-                {/* Invoice Date */}
-                <FormField
-                  control={form.control}
-                  name="invoiceDate"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <CalendarDays className="h-4 w-4 text-secondary-500" />
-                        Invoice date <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "dd/MM/yyyy")
-                              ) : (
-                                <span>dd/MM/yyyy</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Payment Terms */}
-                <FormField
-                  control={form.control}
-                  name="paymentTerms"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <Clock className="h-4 w-4 text-secondary-500" />
-                        Payment terms
-                      </FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          disabled={isLoadingPaymentTerms}
-                        >
-                          <option value="">None</option>
-                          {paymentTerms.map((term) => (
-                            <option key={term.id} value={term.id}>
-                              {term.name}
-                            </option>
-                          ))}
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Due Date */}
-                <FormField
-                  control={form.control}
-                  name="dueDate"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <CalendarDays className="h-4 w-4 text-secondary-500" />
-                        Due date
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className="w-full pl-3 text-left font-normal"
-                            >
-                              {field.value ? (
-                                format(field.value, "dd/MM/yyyy")
-                              ) : (
-                                <span>dd/MM/yyyy</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* Additional Invoice Information */}
-            <div>
-              <SectionHeader title="Additional Details" icon={Hash} />
-              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                {/* Reference Code */}
-                <FormField
-                  control={form.control}
-                  name="referenceCode"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-2">
-                      <FormLabel className="flex items-center gap-1">
-                        <Hash className="h-4 w-4 text-secondary-500" />
-                        Reference code
-                      </FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Invoice Discount */}
-                <FormField
-                  control={form.control}
-                  name="invoiceDiscount"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-2">
-                      <FormLabel className="flex items-center gap-1">
-                        <Percent className="h-4 w-4 text-secondary-500" />
-                        Invoice discount
-                      </FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="e.g. 12.50% or $12.50" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* Invoice Items */}
-            <div>
-              <SectionHeader title="Invoice Items" icon={FileText} />
-              <div className="mt-6">
-                {/* Invoice Items Table */}
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-200">
-                      <tr>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Item
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Item price
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Description
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Qty
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Discount(%)
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Tax code
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Tax
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Amount
-                        </th>
-                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {fields.map((field, index) => (
-                        <tr key={field.id}>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.item`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <select
-                                      className="w-48 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                      value={field.value || ""}
-                                      onChange={(e) => {
-                                        const selectedProductId = e.target.value
-                                        field.onChange(selectedProductId)
-
-                                        const selectedProduct = products.find(
-                                          (p) => p.id === selectedProductId
-                                        )
-                                        console.log(
-                                          "selectedProduct",
-                                          selectedProduct
-                                        )
-
-                                        if (selectedProduct?.sale) {
-                                          const price =
-                                            selectedProduct.sale.price || 0
-                                          const taxPercent =
-                                            selectedProduct.sale.taxRate
-                                              ?.percent || 0
-
-                                          form.setValue(
-                                            `items.${index}.itemPrice`,
-                                            price.toString()
-                                          )
-                                          form.setValue(
-                                            `items.${index}.taxCode`,
-                                            selectedProduct.sale.taxRate?.id ||
-                                              ""
-                                          )
-
-                                          const qty = Number(
-                                            form.getValues(
-                                              `items.${index}.qty`
-                                            ) || 0
-                                          )
-
-                                          if (qty && price && taxPercent) {
-                                            const grossTotal = price * qty
-                                            const taxAmount =
-                                              grossTotal -
-                                              grossTotal /
-                                                (1 + taxPercent / 100)
-                                            form.setValue(
-                                              `items.${index}.tax`,
-                                              taxAmount.toFixed(2)
-                                            )
-                                          }
-                                        }
-                                      }}
-                                    >
-                                      <option value="">None</option>
-                                      {products.map((product) => (
-                                        <option
-                                          key={product.id}
-                                          value={product.id}
-                                        >
-                                          {product.name}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.itemPrice`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      className="w-24"
-                                      readOnly
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.description`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Textarea
-                                      {...field}
-                                      className="min-h-10 w-32"
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.qty`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input {...field} className="w-16" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.discount`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input {...field} className="w-20" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.taxCode`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <select
-                                      className="w-24 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                      value={field.value || ""}
-                                      onChange={(e) =>
-                                        field.onChange(e.target.value)
-                                      }
-                                    >
-                                      <option value="">None</option>
-                                      {Array.from(
-                                        new Map(
-                                          products
-                                            .map((p) => p.sale?.taxRate)
-                                            .filter(
-                                              (
-                                                tr
-                                              ): tr is NonNullable<typeof tr> =>
-                                                !!tr?.id
-                                            )
-                                            .map((taxRate) => [
-                                              taxRate.id,
-                                              taxRate,
-                                            ])
-                                        ).values()
-                                      ).map((taxRate) => (
-                                        <option
-                                          key={taxRate.id}
-                                          value={taxRate.id}
-                                        >
-                                          {taxRate.name}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.tax`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input {...field} className="w-20" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.amount`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      className="w-24"
-                                      value={(
-                                        Number(
-                                          form.watch(`items.${index}.qty`) || 0
-                                        ) *
-                                        Number(
-                                          form.watch(
-                                            `items.${index}.itemPrice`
-                                          ) || 0
-                                        ) *
-                                        (1 -
-                                          Number(
-                                            form.watch(
-                                              `items.${index}.discount`
-                                            ) || 0
-                                          ) /
-                                            100)
-                                      ).toFixed(2)}
-                                      readOnly
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </td>
-                          <td className="px-1 py-2 text-center">
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => remove(index)}
-                            >
-                              <Trash className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* Add New Row Button */}
-                <div className="mt-4">
-                  <Button
-                    type="button"
-                    onClick={addNewRow}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add new row
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Note and Totals */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {/* Notes */}
-              <div>
-                <FormField
-                  control={form.control}
-                  name="note"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">NOTE:</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Note to customer"
-                          className="min-h-24"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="paymentDetails"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold">
-                        PAYMENT DETAILS:
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Payment details"
-                          className="min-h-24"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {/* Totals */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Subtotal</span>
-                  <div className="flex items-center gap-2">
-                    <span>$</span>
-                    <span className="text-right min-w-16">
-                      {totals.subtotal}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Discount</span>
-                  <div className="flex items-center gap-2">
-                    <span>$</span>
-                    <span className="text-right min-w-16">
-                      {totals.discount}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Total (excluding tax)</span>
-                  <div className="flex items-center gap-2">
-                    <span>$</span>
-                    <span className="text-right min-w-16">
-                      {totals.totalExclTax}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <div className="flex items-center gap-2">
-                    <span>$</span>
-                    <span className="text-right min-w-16">{totals.tax}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between font-bold text-lg border-t pt-2">
-                  <span>Total</span>
-                  <div className="flex items-center gap-2">
-                    <span>$</span>
-                    <span className="text-right min-w-16">{totals.total}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Form Actions */}
             <div className="pt-5">
-              <div className="flex justify-end">
+              <div className="flex justify-end space-x-2">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/invoices")}
-                  className="bg-white py-2 px-4 border border-secondary-300 rounded-md shadow-sm text-sm font-medium text-secondary-700 hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center gap-1"
+                  className="flex items-center gap-1"
                 >
                   <X className="h-4 w-4" /> Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={isEditing}
-                  className="ml-3 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center gap-1"
+                  className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
                 >
                   <Save className="h-4 w-4" />
-                  {isEditing ? "Creating..." : "Update Invoice"}
+                  {isEditing ? "Updating..." : "Update"}
                 </Button>
               </div>
             </div>
