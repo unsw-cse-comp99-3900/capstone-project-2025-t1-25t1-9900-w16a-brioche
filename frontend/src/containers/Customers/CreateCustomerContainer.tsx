@@ -132,7 +132,7 @@ const CreateCustomerContainer: React.FC = () => {
                     <FormItem className="sm:col-span-3">
                       <FormLabel className="flex items-center gap-1">
                         <Building className="h-4 w-4 text-secondary-500" />
-                        Organization Name
+                        Display Name
                       </FormLabel>
                       <FormControl>
                         <Input {...field} />
