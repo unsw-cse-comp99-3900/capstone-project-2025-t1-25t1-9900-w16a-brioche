@@ -1,5 +1,19 @@
 import React from "react"
 
+/**
+ * @file UBLConversionContainer.tsx - Defines the UBLConversionContainer component, which explains the UBL XML conversion process.
+ * It details how invoices are converted from Reckon One format to UBL XML format.
+ */
+
+/**
+ * UBLConversion Component
+ *
+ * This component renders the UBL conversion section, explaining how invoices are converted from Reckon One
+ * to UBL XML format, including the mapping process and XML structure.
+ *
+ * @returns {JSX.Element} The UBL conversion section.
+ */
+
 const UBLConversion: React.FC = () => {
   return (
     <section id="ubl-conversion" className="mb-16">

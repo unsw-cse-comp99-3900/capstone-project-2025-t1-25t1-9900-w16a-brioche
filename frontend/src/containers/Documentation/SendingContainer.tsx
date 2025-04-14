@@ -1,3 +1,17 @@
+/**
+ * @file SendingContainer.tsx - Defines the SendingContainer component, which explains the process of sending invoices.
+ * It includes methods for sending via email and the PEPPOL network.
+ */
+
+/**
+ * SendingContainer Component
+ *
+ * This component renders the section on sending invoices, detailing the email and PEPPOL network methods,
+ * along with their requirements and processes.
+ *
+ * @returns {JSX.Element} The invoice sending section.
+ */
+
 import React from "react"
 
 const Sending: React.FC = () => {

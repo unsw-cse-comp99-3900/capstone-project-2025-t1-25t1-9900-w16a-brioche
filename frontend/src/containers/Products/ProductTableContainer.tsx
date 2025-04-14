@@ -1,3 +1,17 @@
+/**
+ * @file ProductTableContainer.tsx - Defines the ProductTableContainer component, which displays a table of products.
+ * It includes functionality for editing and deleting products, as well as displaying product details.
+ */
+
+/**
+ * ProductTableContainer Component
+ *
+ * This component renders a table of products, allowing users to view, edit, and delete products.
+ * It fetches product data and provides actions for managing products.
+ *
+ * @returns {JSX.Element} The product table container.
+ */
+
 import React, { useState } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {

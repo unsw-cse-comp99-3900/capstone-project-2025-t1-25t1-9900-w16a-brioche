@@ -1,6 +1,19 @@
+/**
+ * @file NotFoundContainer.tsx - Defines the NotFoundContainer component, which displays a 404 error page.
+ * It informs users that the requested page could not be found and provides navigation options.
+ */
+
 import React from "react"
 import { Link } from "react-router-dom"
 
+/**
+ * NotFoundContainer Component
+ *
+ * This component renders a 404 error page, informing users that the requested page could not be found.
+ * It includes navigation options to guide users back to available pages.
+ *
+ * @returns {JSX.Element} The 404 error page container.
+ */
 const NotFoundContainer: React.FC = () => {
   return (
     <div className="bg-white px-4 py-4 sm:px-4 sm:py-4 md:grid md:place-items-center lg:px-8">

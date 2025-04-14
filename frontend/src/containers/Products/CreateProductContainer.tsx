@@ -1,3 +1,17 @@
+/**
+ * @file CreateProductContainer.tsx - Defines the CreateProductContainer component, which manages the creation of new products.
+ * It includes form handling, validation, and submission logic.
+ */
+
+/**
+ * CreateProductContainer Component
+ *
+ * This component renders the main container for creating a new product, including form fields for product details,
+ * pricing, and tax information. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The product creation container.
+ */
+
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"

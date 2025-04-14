@@ -1,3 +1,13 @@
+/**
+ * @file FAQContainer.tsx - Container component for the FAQ section of the landing page
+ *
+ * Import required dependencies and components:
+ * - React for JSX support
+ * - FAQBackground for the section's background visuals
+ * - FAQHeader for the FAQ section title and description
+ * - FAQList for displaying the list of frequently asked questions
+ * - FAQHelpSection for additional help resources
+ */
 import React from "react"
 import FAQBackground from "@/components/landing/FAQ_Page/FAQBackground"
 import FAQHeader from "@/components/landing/FAQ_Page/FAQHeader"

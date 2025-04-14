@@ -1,4 +1,17 @@
 import React from "react"
+/**
+ * @file SMEGuidelinesContainer.tsx - Defines the SMEGuidelinesContainer component, which provides guidelines for SMEs using the e-invoicing platform.
+ * It includes getting started guide and benefits of e-invoicing.
+ */
+
+/**
+ * SMEGuidelines Component
+ *
+ * This component renders the SME guidelines section, detailing how to effectively use the e-invoicing platform,
+ * including getting started steps and benefits of using e-invoicing.
+ *
+ * @returns {JSX.Element} The SME guidelines section
+ */
 
 const SMEGuidelines: React.FC = () => {
   return (

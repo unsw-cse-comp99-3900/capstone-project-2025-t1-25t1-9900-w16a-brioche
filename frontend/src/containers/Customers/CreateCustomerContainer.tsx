@@ -1,3 +1,17 @@
+/**
+ * @file CreateCustomerContainer.tsx - Defines the CreateCustomerContainer component, which manages the creation of new customers.
+ * It includes form handling, validation, and submission logic.
+ */
+
+/**
+ * CreateCustomerContainer Component
+ *
+ * This component renders the main container for creating a new customer, including form fields for customer details,
+ * contact information, and additional notes. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The customer creation container.
+ */
+
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"

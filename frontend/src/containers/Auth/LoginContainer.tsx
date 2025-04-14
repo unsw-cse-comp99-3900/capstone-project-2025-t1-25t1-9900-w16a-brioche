@@ -1,3 +1,16 @@
+/**
+ * @file LoginContainer.tsx - Defines the LoginContainer component, which serves as the main container for the login page.
+ * It will include the login form and related functionalities.
+ */
+
+/**
+ * LoginContainer Component
+ *
+ * This component renders the main container for the login page, including the title and placeholder for the login form.
+ *
+ * @returns {JSX.Element} The login page container.
+ */
+
 import React from "react"
 
 const LoginContainer: React.FC = () => {

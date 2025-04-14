@@ -1,3 +1,17 @@
+/**
+ * @file EditInvoiceContainer.tsx - Defines the EditInvoiceContainer component, which manages the editing of existing invoices.
+ * It includes form handling, validation, and submission logic for updating invoices.
+ */
+
+/**
+ * EditInvoiceContainer Component
+ *
+ * This component renders the main container for editing an existing invoice, including form fields for invoice details,
+ * customer selection, and itemized billing. It handles form submission and validation for updates.
+ *
+ * @returns {JSX.Element} The invoice editing container.
+ */
+
 import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
