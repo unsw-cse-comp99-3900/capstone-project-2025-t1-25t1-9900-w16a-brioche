@@ -1,7 +1,15 @@
-import * as React from "react"
+/**
+ * @file Card.tsx - Reusable UI card component and its layout parts.
+ * Provides a structured, styled layout for content using Tailwind classes.
+ */
 
+import * as React from "react"
 import { cn } from "@/lib/utils"
 
+/**
+ * Card - Root container for card components.
+ * Applies background, border, rounded corners, and shadow.
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -17,6 +25,10 @@ const Card = React.forwardRef<
 ))
 Card.displayName = "Card"
 
+/**
+ * CardHeader - Container for the card's header section.
+ * Commonly used to wrap CardTitle and CardDescription.
+ */
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -29,6 +41,10 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
+/**
+ * CardTitle - Title text for a card.
+ * Styled for prominence using larger font and tracking.
+ */
 const CardTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -41,6 +57,10 @@ const CardTitle = React.forwardRef<
 ))
 CardTitle.displayName = "CardTitle"
 
+/**
+ * CardDescription - Subtext below the title, for brief explanation.
+ * Uses muted text and smaller font.
+ */
 const CardDescription = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -53,6 +73,10 @@ const CardDescription = React.forwardRef<
 ))
 CardDescription.displayName = "CardDescription"
 
+/**
+ * CardContent - Main body content of the card.
+ * Typically used for forms, text, tables, or charts.
+ */
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -61,6 +85,10 @@ const CardContent = React.forwardRef<
 ))
 CardContent.displayName = "CardContent"
 
+/**
+ * CardFooter - Footer section of the card, typically for actions.
+ * Aligns items horizontally by default.
+ */
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>

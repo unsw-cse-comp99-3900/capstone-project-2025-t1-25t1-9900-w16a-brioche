@@ -1,14 +1,44 @@
+/**
+ * @file Popover.tsx - Defines UI popover components using Radix UI primitives with custom styling and behavior.
+ */
+
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Popover Root Component
+ *
+ * The root component that manages the open/close state of the popover.
+ */
 const Popover = PopoverPrimitive.Root
 
+/**
+ * PopoverTrigger Component
+ *
+ * The trigger element that toggles the popover.
+ */
 const PopoverTrigger = PopoverPrimitive.Trigger
 
+/**
+ * PopoverAnchor Component
+ *
+ * Defines a fixed anchor element relative to which the popover will be positioned.
+ */
 const PopoverAnchor = PopoverPrimitive.Anchor
 
+/**
+ * PopoverContent Component
+ *
+ * Renders the content of the popover with custom animation, size, offset, and styling.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>} props - Popover content props.
+ * @param {string} [props.className] - Additional class names to apply to the content.
+ * @param {"start" | "center" | "end"} [props.align="center"] - Horizontal alignment of the content relative to the trigger.
+ * @param {number} [props.sideOffset=4] - Offset from the side of the trigger element.
+ * @returns {JSX.Element} The rendered popover content.
+ */
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>

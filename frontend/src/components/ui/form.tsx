@@ -1,4 +1,13 @@
+/**
+ * @file form.tsx - Reusable form UI primitives built on top of react-hook-form and radix-label.
+ *
+ * This module provides a set of components (`Form`, `FormField`, `FormItem`, etc.)
+ * for structured form layout, label handling, error display, and accessibility improvements.
+ *
+ * Designed for integration with `react-hook-form` and Shadcn UI.
+ */
 /* eslint-disable react-refresh/only-export-components */
+
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
@@ -14,6 +23,10 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
+/**
+ * Form - A wrapper around `FormProvider` from react-hook-form.
+ * Should be placed at the root of a form to allow context access.
+ */
 const Form = FormProvider
 
 type FormFieldContextValue<
@@ -23,10 +36,16 @@ type FormFieldContextValue<
   name: TName
 }
 
+/**
+ * Context for accessing current field name inside FormField children.
+ */
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )
 
+/**
+ * FormField - Wraps a Controller and provides field name context for children components.
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -40,6 +59,9 @@ const FormField = <
   )
 }
 
+/**
+ * Custom hook to access field-specific metadata like error, name, ARIA attributes.
+ */
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -63,6 +85,9 @@ const useFormField = () => {
   }
 }
 
+/**
+ * Context to share unique ID between label, control, and description/message within a FormItem.
+ */
 type FormItemContextValue = {
   id: string
 }
@@ -71,6 +96,10 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 )
 
+/**
+ * FormItem - Structural wrapper for a form field.
+ * Provides a unique ID to ensure ARIA attributes are linked correctly.
+ */
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -85,6 +114,10 @@ const FormItem = React.forwardRef<
 })
 FormItem.displayName = "FormItem"
 
+/**
+ * FormLabel - Renders a label linked to its corresponding input via `htmlFor`.
+ * Highlights red text if there's a validation error.
+ */
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
@@ -102,6 +135,10 @@ const FormLabel = React.forwardRef<
 })
 FormLabel.displayName = "FormLabel"
 
+/**
+ * FormControl - Wraps input/textarea/select component.
+ * Sets ARIA attributes (aria-invalid, aria-describedby) for accessibility.
+ */
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
@@ -124,6 +161,9 @@ const FormControl = React.forwardRef<
 })
 FormControl.displayName = "FormControl"
 
+/**
+ * FormDescription - Text that provides guidance or clarification for the input.
+ */
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -141,6 +181,10 @@ const FormDescription = React.forwardRef<
 })
 FormDescription.displayName = "FormDescription"
 
+/**
+ * FormMessage - Displays validation error messages.
+ * Falls back to children if error.message is undefined.
+ */
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>

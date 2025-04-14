@@ -1,9 +1,24 @@
+/**
+ * @file FileUploadLight.tsx - A lightweight file upload component with drag-and-drop support.
+ *
+ * This component allows users to upload files by clicking or dragging into a styled area.
+ * It uses `react-dropzone` for drop handling and shows file previews after upload.
+ * The `GridPattern` background adds a subtle visual texture.
+ */
+
 import { useRef, useState, memo } from "react"
 import { cn } from "@/lib/utils"
 import { useDropzone } from "react-dropzone"
 import { Upload } from "lucide-react"
 
-// GridPattern copied from the original component, but optimized rendering using memo
+/**
+ * GridPattern Component
+ *
+ * Renders a decorative grid background made of square blocks.
+ * This component is memoized for performance, as it does not change over time.
+ *
+ * @returns {JSX.Element} A static visual background pattern.
+ */
 const GridPattern = memo(() => {
   const columns = 41
   const rows = 11
@@ -29,21 +44,33 @@ const GridPattern = memo(() => {
 })
 GridPattern.displayName = "GridPattern"
 
+/**
+ * FileUploadLight Component
+ *
+ * Provides a simple UI for uploading a single file via drag-and-drop or file input.
+ * Includes previews of uploaded files with metadata (size, type, modified date).
+ *
+ * @param {Function} onChange - Optional callback triggered when a new file is selected.
+ * @returns {JSX.Element} A file upload container with visual feedback and file info.
+ */
 export const FileUploadLight = memo(
   ({ onChange }: { onChange?: (files: File[]) => void }) => {
     const [files, setFiles] = useState<File[]>([])
     const fileInputRef = useRef<HTMLInputElement>(null)
 
+    // Handles manual file input (click-based) and updates the file list.
     const handleFileChange = (newFiles: File[]) => {
       setFiles((prevFiles) => [...prevFiles, ...newFiles])
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       onChange && onChange(newFiles)
     }
 
+    // Opens the hidden file input when the user clicks the container.
     const handleClick = () => {
       fileInputRef.current?.click()
     }
 
+    // `useDropzone` provides drag-and-drop behavior without triggering file input click
     const { getRootProps, isDragActive } = useDropzone({
       multiple: false,
       noClick: true,

@@ -1,3 +1,8 @@
+/**
+ * @file Calendar.tsx - Custom styled calendar component based on react-day-picker.
+ * Includes customized navigation icons, style variants, and support for range mode.
+ */
+
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
@@ -5,8 +10,24 @@ import { DayPicker } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
+/**
+ * CalendarProps
+ *
+ * Inherits all props from DayPicker (react-day-picker), allowing full flexibility.
+ */
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+/**
+ * Calendar Component
+ *
+ * A styled wrapper around DayPicker with:
+ * - Lucide icons for navigation arrows
+ * - Tailwind-compatible layout and size styling
+ * - Support for range selection, outside days, accessibility states
+ *
+ * @param {CalendarProps} props - Calendar configuration (mode, selected, onSelect, etc.)
+ * @returns {JSX.Element} The customized calendar
+ */
 function Calendar({
   className,
   classNames,

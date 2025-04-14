@@ -1,13 +1,30 @@
+/**
+ * @file TextGenerateEffect.tsx - Defines a typing animation component that reveals text one character at a time.
+ */
+
 "use client"
 import React, { useEffect, useState } from "react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
 interface TextGenerateEffectProps {
+  /** The full text string to animate */
   words: string
+  /** Optional class name for styling the outer container */
   className?: string
 }
 
+/**
+ * TextGenerateEffect Component
+ *
+ * Displays animated text that appears one character at a time, simulating a typing effect.
+ * Includes a blinking cursor during the animation and supports custom styling via `className`.
+ *
+ * @param {TextGenerateEffectProps} props - Component props.
+ * @param {string} props.words - The text to animate.
+ * @param {string} [props.className] - Optional class name for styling.
+ * @returns {JSX.Element} - A text animation component with a blinking cursor.
+ */
 export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
   words,
   className,

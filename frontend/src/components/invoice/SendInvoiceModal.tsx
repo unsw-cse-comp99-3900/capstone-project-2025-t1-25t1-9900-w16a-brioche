@@ -1,3 +1,9 @@
+/**
+ * @file SendInvoiceModal.tsx - Renders a modal to send an invoice to a customer via email.
+ * It allows the user to edit the recipient's email and message, and triggers both a customer
+ * update and invoice sending action through API mutations.
+ */
+
 import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,6 +32,16 @@ interface SendInvoiceModalProps {
   onSuccess: () => void
 }
 
+/**
+ * SendInvoiceModal Component
+ *
+ * This modal is triggered when the user opts to send an invoice.
+ * It allows editing the email content, performs a customer update (if needed),
+ * and finally sends the invoice via email.
+ *
+ * @param {SendInvoiceModalProps} props - Metadata about the invoice, customer, and callbacks.
+ * @returns {JSX.Element} A modal dialog for sending an invoice by email.
+ */
 const SendInvoiceModal: React.FC<SendInvoiceModalProps> = ({
   customerId,
   invoiceId,
