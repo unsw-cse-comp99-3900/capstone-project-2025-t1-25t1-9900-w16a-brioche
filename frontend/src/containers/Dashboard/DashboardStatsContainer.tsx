@@ -1,3 +1,17 @@
+/**
+ * @file DashboardStatsContainer.tsx - Defines the DashboardStatsContainer component, which displays various statistics and insights for the dashboard.
+ * It includes charts and metrics for invoices, customers, and products.
+ */
+
+/**
+ * DashboardStatsContainer Component
+ *
+ * This component renders the main container for displaying dashboard statistics, including revenue, customer activity,
+ * product performance, and business trends. It handles data fetching and processing for insights.
+ *
+ * @returns {JSX.Element} The dashboard statistics container.
+ */
+
 import React, { useMemo, useEffect } from "react"
 import { useInvoices } from "@/hooks/invoice/useInvoices"
 import useCustomers from "@/hooks/customer/useCustomers"

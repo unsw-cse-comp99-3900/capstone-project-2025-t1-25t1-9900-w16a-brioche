@@ -1,3 +1,17 @@
+/**
+ * @file CustomerTableContainer.tsx - Defines the CustomerTableContainer component, which displays a table of customers.
+ * It includes functionality for sorting, searching, and managing customer actions like edit and delete.
+ */
+
+/**
+ * CustomerTableContainer Component
+ *
+ * This component renders a table of customers, providing features for sorting, searching, and performing actions such as editing and deleting customers.
+ * It handles loading states and error messages.
+ *
+ * @returns {JSX.Element} The customer table container.
+ */
+
 import React, { useState } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {

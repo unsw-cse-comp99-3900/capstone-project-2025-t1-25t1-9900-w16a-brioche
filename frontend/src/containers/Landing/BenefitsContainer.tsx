@@ -1,3 +1,17 @@
+/**
+ * @file BenefitsContainer.tsx - Defines the BenefitsContainer component, which showcases the benefits of the product.
+ * It includes background, header, cards, and call-to-action sections.
+ */
+
+/**
+ * BenefitsContainer Component
+ *
+ * This component renders the benefits section of the landing page, including background visuals, a header,
+ * benefit cards, and a call-to-action section.
+ *
+ * @returns {JSX.Element} The benefits section of the landing page.
+ */
+
 import React from "react"
 import BenefitsBackground from "@/components/landing/BenefitsPage/BenefitsBackground"
 import BenefitsHeader from "@/components/landing/BenefitsPage/BenefitsHeader"

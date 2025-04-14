@@ -1,3 +1,17 @@
+/**
+ * @file CreateProductContainer.tsx - Defines the CreateProductContainer component, which manages the creation of new products.
+ * It includes form handling, validation, and submission logic.
+ */
+
+/**
+ * CreateProductContainer Component
+ *
+ * This component renders the main container for creating a new product, including form fields for product details,
+ * pricing, and tax information. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The product creation container.
+ */
+
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -66,9 +80,26 @@ const CreateProductContainer: React.FC = () => {
       await createProduct.mutateAsync(data)
       toast.success("Product created successfully")
       navigate("/products")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to create product."
+
+      const backendMessage = error?.response?.data?.message
+      if (backendMessage) {
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      } else {
+        errorMessage = JSON.stringify(error)
+      }
+
       toast.error("Failed to create product", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error creating product:", error)
     }

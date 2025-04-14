@@ -1,3 +1,16 @@
+/**
+ * @file CustomerContentHeader.tsx - Defines the CustomerContentHeader component, which provides the header for customer management views.
+ * It includes navigation and action buttons for managing customers.
+ */
+
+/**
+ * CustomerContentHeader Component
+ *
+ * This component renders the header for customer management, including the page title, description, and a button to add new customers.
+ *
+ * @returns {JSX.Element} The customer management header.
+ */
+
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"

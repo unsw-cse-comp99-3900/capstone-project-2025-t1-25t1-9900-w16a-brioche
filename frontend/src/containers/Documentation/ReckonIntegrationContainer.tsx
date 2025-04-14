@@ -1,6 +1,19 @@
+/**
+ * @file ReckonIntegrationContainer.tsx - Defines the ReckonIntegrationContainer component, which details the integration with Reckon One.
+ * It covers authentication, book selection, and API endpoints.
+ */
+
 import React from "react"
 import { reckonIntegrationText } from "@/constants/Documentation/Integration"
 
+/**
+ * ReckonIntegrationContainer Component
+ *
+ * This component renders the section detailing the integration with Reckon One, including authentication, book selection,
+ * and available API endpoints.
+ *
+ * @returns {JSX.Element} The Reckon One integration section.
+ */
 const ReckonIntegration: React.FC = () => {
   return (
     <section id="reckon-integration" className="mb-16">
