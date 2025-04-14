@@ -38,7 +38,6 @@ import {
 import useEditProduct from "@/hooks/product/useEditProduct"
 import useProduct from "@/hooks/product/useProduct"
 import { toast } from "sonner"
-import useProducts from "@/hooks/product/useProducts"
 import useAccounts from "@/hooks/account/useAccounts"
 
 export const EditProductContainer: React.FC = () => {
@@ -49,14 +48,12 @@ export const EditProductContainer: React.FC = () => {
   const { mutateAsync: editProduct, isPending: isEditing } = useEditProduct(
     id ?? ""
   )
-  const { data: products = [], isLoading: isLoadingProducts } = useProducts()
   const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: "",
-      parentItem: "",
       itemType: ItemType.Product,
       itemCode: "",
       status: ItemStatus.Active,
@@ -113,38 +110,6 @@ export const EditProductContainer: React.FC = () => {
                       </FormLabel>
                       <FormControl>
                         <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Parent Item */}
-                <FormField
-                  control={form.control}
-                  name="parentItem"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <Package className="h-4 w-4 text-secondary-500" />
-                        Parent Item
-                      </FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          disabled={isLoadingProducts}
-                        >
-                          <option value="">No Parent</option>
-                          {products
-                            .filter((p) => p.id !== id) // Prevent self-reference
-                            .map((product) => (
-                              <option key={product.id} value={product.name}>
-                                {product.name}
-                              </option>
-                            ))}
-                        </select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
