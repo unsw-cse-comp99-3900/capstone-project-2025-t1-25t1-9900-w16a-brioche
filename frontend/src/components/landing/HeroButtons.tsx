@@ -1,7 +1,22 @@
+/**
+ * @file HeroButtons.tsx - Defines the group of primary and secondary buttons for the Hero section.
+ */
+
 import React from "react"
 import HeroButton from "@/components/landing/HeroButton"
 import { landingHero } from "@/constants/Landing/landingHero"
 
+/**
+ * HeroButtons Component
+ *
+ * This component renders a group of two call-to-action buttons for the Hero section.
+ * - The primary button typically navigates the user to the main dashboard.
+ * - The secondary button scrolls to a "How it works" section.
+ *
+ * Both buttons use the reusable `HeroButton` component and feature animated icons.
+ *
+ * @returns {JSX.Element} A flex container with two hero-styled buttons.
+ */
 const HeroButtons: React.FC = () => {
   return (
     <div className="mt-8 flex flex-col sm:flex-row gap-4">

@@ -1,11 +1,27 @@
+/**
+ * @file BenefitSlideButton.tsx - Defines a call-to-action button with a slide animation effect for the landing page benefits section.
+ */
+
 import React, { ReactNode } from "react"
 
 interface BenefitSlideButtonProps {
+  /** The URL the button should navigate to when clicked. */
   href: string
+  /** The text to display inside the button. */
   text: string
+  /** Optional icon to display inside the animated overlay. Defaults to a right arrow. */
   icon?: ReactNode
 }
 
+/**
+ * BenefitSlideButton Component
+ *
+ * This component renders a stylized anchor button with an animated slide-in effect.
+ * When hovered, it reveals an icon sliding in from the left while the text slides to the right.
+ *
+ * @param {BenefitSlideButtonProps} props - The props for the component.
+ * @returns {JSX.Element} A styled anchor tag acting as a slide animation CTA button.
+ */
 const BenefitSlideButton: React.FC<BenefitSlideButtonProps> = ({
   href,
   text,

@@ -1,7 +1,26 @@
+/**
+ * @file CTAContent.tsx - Defines the main content block for the call-to-action (CTA) section on the landing page.
+ * It includes a tagline, heading, description, and primary CTA button.
+ */
+
 import React from "react"
 import CTAButton from "@/components/landing/BenefitsPage/CTAButton"
 import { landingBenefits } from "@/constants/Landing/landingbenefits"
 
+/**
+ * CTAContent Component
+ *
+ * This component displays the main call-to-action content area, including:
+ * - A styled tagline
+ * - A bold heading
+ * - A descriptive paragraph
+ * - A primary CTA button
+ *
+ * The content is dynamically sourced from the `landingBenefits.landingCTA` configuration object.
+ * It is styled for center alignment and animated with AOS for entrance effects.
+ *
+ * @returns {JSX.Element} The call-to-action content section for the landing page.
+ */
 const CTAContent: React.FC = () => {
   return (
     <div className="relative max-w-5xl mx-auto text-center" data-aos="fade-up">

@@ -1,6 +1,20 @@
+/**
+ * @file FeaturesBackground.tsx - Defines a decorative background component for the features section with gradient and blurred shapes.
+ */
+
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 
+/**
+ * FeaturesBackground Component
+ *
+ * Renders a visually appealing background with a gradient layer,
+ * subtle grid pattern overlay, and animated blurred shapes.
+ * This component is intended to be placed behind a feature section
+ * to enhance visual interest without distracting from the content.
+ *
+ * @returns {JSX.Element} A styled background layer component.
+ */
 const FeaturesBackground: React.FC = () => {
   return (
     <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 via-white to-white">

@@ -1,3 +1,7 @@
+/**
+ * @file HeroShowcase.tsx - Displays the visual showcase section of the landing page's Hero area.
+ */
+
 import React from "react"
 import ProcessFlow from "@/components/landing/ProcessFlow"
 import BrowserFrame from "@/components/landing/BrowserFrame"
@@ -5,6 +9,15 @@ import ShowcaseBadge from "@/components/landing/ShowcaseBadge"
 import GlowEffect from "@/components/common/GlowEffect"
 import { landingHero } from "@/constants/Landing/landingHero"
 
+/**
+ * HeroShowcase Component
+ *
+ * This component renders the right-side visual section of the landing page Hero.
+ * It includes a browser-like frame with a screenshot, decorative glowing elements,
+ * a showcase badge, and a process flow diagram.
+ *
+ * @returns {JSX.Element} The rendered visual showcase section.
+ */
 const HeroShowcase: React.FC = () => {
   return (
     <div
