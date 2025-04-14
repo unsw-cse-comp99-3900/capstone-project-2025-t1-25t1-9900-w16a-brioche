@@ -1,3 +1,16 @@
+/**
+ * @file OverviewContainer.tsx - Defines the OverviewContainer component, which provides an overview of the e-invoicing platform.
+ * It outlines the platform's features and integration capabilities.
+ */
+
+/**
+ * OverviewContainer Component
+ *
+ * This component renders the overview section of the documentation, highlighting the platform's capabilities and integration with Reckon One.
+ *
+ * @returns {JSX.Element} The overview section of the documentation.
+ */
+
 import React from "react"
 
 const Overview: React.FC = () => {

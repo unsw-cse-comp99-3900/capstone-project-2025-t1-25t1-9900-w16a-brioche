@@ -1,3 +1,17 @@
+/**
+ * @file EditCustomerContainer.tsx - Defines the EditCustomerContainer component, which manages the editing of existing customers.
+ * It includes form handling, validation, and submission logic for updating customer details.
+ */
+
+/**
+ * EditCustomerContainer Component
+ *
+ * This component renders the main container for editing an existing customer, including form fields for customer details,
+ * contact information, and additional notes. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The customer editing container.
+ */
+
 import React from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
