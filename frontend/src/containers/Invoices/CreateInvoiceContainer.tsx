@@ -593,9 +593,14 @@ const CreateInvoiceContainer: React.FC = () => {
                                               price.toString()
                                             )
                                             form.setValue(
+                                              `items.${index}.description`,
+                                              selectedProduct.sale
+                                                ?.description || ""
+                                            )
+                                            form.setValue(
                                               `items.${index}.taxCode`,
                                               selectedProduct.sale.taxRate
-                                                ?.id || ""
+                                                ?.name || ""
                                             )
 
                                             const currentQty = form.getValues(
