@@ -1,3 +1,8 @@
+/**
+ * @file BookContainer.tsx - Defines the BookContainer component, which manages the display and interaction of book-related data.
+ * It handles loading states, error handling, and displays a list of books or relevant messages.
+ */
+
 import React from "react"
 import { Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,6 +16,15 @@ interface BookContainerProps {
   onBack?: () => void
 }
 
+/**
+ * BookContainer Component
+ *
+ * This component renders the main container for displaying books, including loading states, error messages,
+ * and a list of books with navigation options.
+ *
+ * @param {BookContainerProps} props - The properties for the BookContainer component.
+ * @returns {JSX.Element} The book display container.
+ */
 const BookContainer: React.FC<BookContainerProps> = ({
   onNavigate,
   isConnected,

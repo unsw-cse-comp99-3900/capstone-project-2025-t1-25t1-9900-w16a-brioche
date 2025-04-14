@@ -1,3 +1,17 @@
+/**
+ * @file CreateInvoiceContainer.tsx - Defines the CreateInvoiceContainer component, which manages the creation of new invoices.
+ * It includes form handling, validation, and submission logic.
+ */
+
+/**
+ * CreateInvoiceContainer Component
+ *
+ * This component renders the main container for creating a new invoice, including form fields for invoice details,
+ * customer selection, and itemized billing. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The invoice creation container.
+ */
+
 import React, { useState, useEffect } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"

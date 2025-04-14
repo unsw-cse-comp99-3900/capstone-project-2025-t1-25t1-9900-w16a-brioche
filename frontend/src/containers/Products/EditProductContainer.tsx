@@ -1,3 +1,17 @@
+/**
+ * @file EditProductContainer.tsx - Defines the EditProductContainer component, which manages the editing of existing products.
+ * It includes form handling, validation, and submission logic for updating products.
+ */
+
+/**
+ * EditProductContainer Component
+ *
+ * This component renders the main container for editing an existing product, including form fields for product details,
+ * pricing, and tax information. It handles form submission and validation for updates.
+ *
+ * @returns {JSX.Element} The product editing container.
+ */
+
 import React from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"

@@ -1,3 +1,15 @@
+/**
+ * @file HeroContainer.tsx - Defines the hero section component for the landing page
+ * Contains the hero section background, content and showcase components
+ */
+
+/**
+ * Import required dependencies and components:
+ * - React for JSX support
+ * - HeroBackground for the section's background visuals
+ * - HeroContent for the main content area
+ * - HeroShowcase for featuring key product visuals
+ */
 import React from "react"
 import HeroBackground from "@/components/landing/HeroBackground"
 import HeroContent from "@/components/landing/HeroContent"

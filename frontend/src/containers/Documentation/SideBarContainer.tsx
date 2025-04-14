@@ -1,5 +1,19 @@
+/**
+ * @file SideBarContainer.tsx - Defines the SideBarContainer component, which provides navigation for the documentation sections.
+ * It highlights the active section and allows users to switch between sections.
+ */
+
 import { navItems, renderIcon } from "@/constants/Documentation/SideBar"
 import React from "react"
+
+/**
+ * SideBarContainer Component
+ *
+ * This component renders the sidebar navigation for the documentation, allowing users to navigate between different sections.
+ *
+ * @param {SideBarProps} props - The properties for the SideBarContainer component.
+ * @returns {JSX.Element} The sidebar navigation component.
+ */
 
 interface SideBarProps {
   activeSection: string

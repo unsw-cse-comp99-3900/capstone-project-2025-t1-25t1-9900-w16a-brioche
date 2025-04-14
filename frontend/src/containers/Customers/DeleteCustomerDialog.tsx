@@ -1,3 +1,18 @@
+/**
+ * @file DeleteCustomerDialog.tsx - Defines the DeleteCustomerDialog component, which provides a confirmation dialog for deleting customers.
+ * It handles the deletion process and displays success or error messages.
+ */
+
+/**
+ * DeleteCustomerDialog Component
+ *
+ * This component renders a confirmation dialog for deleting a customer, including options to confirm or cancel the action.
+ * It manages the deletion process and displays appropriate feedback messages.
+ *
+ * @param {DeleteCustomerDialogProps} props - The properties for the DeleteCustomerDialog component.
+ * @returns {JSX.Element} The delete customer dialog.
+ */
+
 import React from "react"
 import {
   AlertDialog,
