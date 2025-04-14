@@ -1,6 +1,19 @@
+/**
+ * @file BenefitsGrid.tsx - Displays a grid of benefit cards using data from the landingBenefits constant.
+ */
+
 import React from "react"
 import { landingBenefits } from "@/constants/Landing/landingbenefits"
 
+/**
+ * BenefitsGrid Component
+ *
+ * This component renders a responsive grid layout that showcases key benefits.
+ * Each benefit is displayed with an icon, title, and description.
+ * It uses data from `landingBenefits.benefits`.
+ *
+ * @returns {JSX.Element} A grid of benefit cards.
+ */
 const BenefitsGrid: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

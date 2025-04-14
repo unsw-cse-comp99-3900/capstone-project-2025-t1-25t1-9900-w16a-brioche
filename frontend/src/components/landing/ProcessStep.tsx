@@ -1,12 +1,27 @@
+/**
+ * @file ProcessStep.tsx - Represents a single step in the process section, including a card, image, and timeline node.
+ */
+
 import React from "react"
 import ProcessCard from "@/components/landing/ProcessCard"
 import ProcessTimelineNode from "@/components/landing/ProcessTimelineNode"
 import ProcessImage from "@/components/landing/ProcessImage"
 
 interface ProcessStepProps {
+  /** The index of the process step (used to fetch data and determine layout) */
   stepIndex: number
 }
 
+/**
+ * ProcessStep Component
+ *
+ * This component visually displays a step in the landing page process flow.
+ * It includes a process card, image, and a timeline node, and alternates layout for even and odd steps.
+ *
+ * @param {ProcessStepProps} props - The component props.
+ * @param {number} props.stepIndex - The index of the step to display.
+ * @returns {JSX.Element} - A full visual step with text and image aligned appropriately.
+ */
 const ProcessStep: React.FC<ProcessStepProps> = ({ stepIndex }) => {
   const isEven = stepIndex % 2 === 1
 

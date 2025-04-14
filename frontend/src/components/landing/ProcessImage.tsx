@@ -1,11 +1,26 @@
+/**
+ * @file ProcessImage.tsx - Displays an image for a given process step with decorative effects and a step label.
+ */
+
 import React from "react"
 import GlowEffect from "@/components/common/GlowEffect"
 import { landingProcess } from "@/constants/Landing/landingProcess"
 
 interface ProcessImageProps {
+  /** The index of the process step whose image and metadata will be shown */
   stepIndex: number
 }
 
+/**
+ * ProcessImage Component
+ *
+ * This component displays a stylized image related to a specific process step.
+ * It includes visual enhancements such as glow effects, gradient overlays, and a floating step label.
+ *
+ * @param {ProcessImageProps} props - The component props.
+ * @param {number} props.stepIndex - The index of the step to pull data from.
+ * @returns {JSX.Element} - A styled image card representing a process step.
+ */
 const ProcessImage: React.FC<ProcessImageProps> = ({ stepIndex }) => {
   const step = landingProcess.steps[stepIndex]
 

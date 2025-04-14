@@ -1,6 +1,23 @@
+/**
+ * @file HeroBackground.tsx - Defines the decorative background component for the Hero section.
+ */
+
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 
+/**
+ * HeroBackground Component
+ *
+ * Provides a layered visual background for the Hero section.
+ * It includes:
+ * - A smooth gradient from top-left to bottom-right
+ * - A subtle grid pattern overlay using `GridPatternOverlay`
+ * - Multiple large, blurred, decorative gradient shapes
+ *
+ * All layers are positioned absolutely to ensure full coverage beneath the hero content.
+ *
+ * @returns {JSX.Element} A background layout element for the Hero section.
+ */
 const HeroBackground: React.FC = () => {
   return (
     <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50">

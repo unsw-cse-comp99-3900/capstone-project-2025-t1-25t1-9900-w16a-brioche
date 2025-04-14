@@ -1,6 +1,24 @@
+/**
+ * @file FAQHeader.tsx - Displays the header section for the FAQ block on the landing page.
+ * Includes a highlighted tag, main heading, and subheading with animation support.
+ */
+
 import React from "react"
 import { landingFAQ } from "@/constants/Landing/landingFAQ"
 
+/**
+ * FAQHeader Component
+ *
+ * This component renders the title section for the FAQ area.
+ * It includes:
+ * - A tag badge with gradient background and blurred border
+ * - A bold section heading
+ * - A descriptive subheading
+ *
+ * Animation support is enabled via `data-aos` attributes for fade-up effects.
+ *
+ * @returns {JSX.Element} The header section of the FAQ block.
+ */
 const FAQHeader: React.FC = () => {
   return (
     <div className="text-center mb-16" data-aos="fade-up">

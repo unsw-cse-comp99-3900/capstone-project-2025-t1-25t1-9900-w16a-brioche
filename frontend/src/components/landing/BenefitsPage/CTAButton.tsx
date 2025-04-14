@@ -1,6 +1,20 @@
+/**
+ * @file CTAButton.tsx - Defines the primary call-to-action button component used on the landing page.
+ */
+
 import React from "react"
 import { landingBenefits } from "@/constants/Landing/landingbenefits"
 
+/**
+ * CTAButton Component
+ *
+ * This component renders a styled anchor element that serves as the main call-to-action button
+ * on the landing page. It includes hover effects and a right arrow icon to indicate interaction.
+ *
+ * The button text and URL are dynamically retrieved from the `landingBenefits` configuration.
+ *
+ * @returns {JSX.Element} A call-to-action button linking to the desired CTA URL.
+ */
 const CTAButton: React.FC = () => {
   const { text, href } = landingBenefits.landingCTA.primaryButton
 

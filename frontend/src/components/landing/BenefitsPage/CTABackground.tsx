@@ -1,5 +1,20 @@
+/**
+ * @file CTABackground.tsx - Defines a visually rich and dynamic background component for CTA (Call to Action) sections.
+ */
+
 import React from "react"
 
+/**
+ * CTABackground Component
+ *
+ * This component renders a layered background design with gradients, SVG waves,
+ * geometric shapes, diagonal lines, and soft glow effects to enhance the visual
+ * appeal of call-to-action sections on landing pages.
+ *
+ * It is intended to be used as a decorative background behind prominent UI elements.
+ *
+ * @returns {JSX.Element} A background layer composed of various visual effects.
+ */
 const CTABackground: React.FC = () => {
   return (
     <>
