@@ -148,7 +148,7 @@ const CreateInvoiceContainer: React.FC = () => {
         const price = parseFloat(item.itemPrice || "0")
         const discountPercent = parseFloat(item.discount || "0")
         const taxPercent = (() => {
-          const selected = products.find((p) => p.id === item.item)
+          const selected = products.find((p) => p.name === item.item)
           return selected?.sale?.taxRate?.percent || 0
         })()
 
@@ -201,10 +201,10 @@ const CreateInvoiceContainer: React.FC = () => {
       if (!indexMatch) return
 
       const index = Number(indexMatch[1])
-      const itemId = value.items?.[index]?.item
+      const itemName = value.items?.[index]?.item
       const qty = Number(value.items?.[index]?.qty || 0)
 
-      const selected = products.find((p) => p.id === itemId)
+      const selected = products.find((p) => p.name === itemName)
       const price = selected?.sale?.price || 0
       const percent = selected?.sale?.taxRate?.percent || 0
 
