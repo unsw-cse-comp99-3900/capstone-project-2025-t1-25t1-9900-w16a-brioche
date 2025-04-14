@@ -1,17 +1,45 @@
+/**
+ * @file Dialog.tsx - A customizable dialog component built with Radix UI primitives.
+ *
+ * This module exports a flexible and accessible dialog/modal system using the Radix `@radix-ui/react-dialog` API.
+ * It includes the following components:
+ * - Dialog, DialogTrigger, DialogContent, DialogOverlay, DialogClose
+ * - DialogHeader, DialogFooter, DialogTitle, DialogDescription
+ *
+ * Custom utility classes are applied to match the design system and support animations, themes, and responsive styles.
+ */
+
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 
+/**
+ * Root component for the dialog. Controls open/close state.
+ */
 const Dialog = DialogPrimitive.Root
 
+/**
+ * Trigger component to open the dialog.
+ */
 const DialogTrigger = DialogPrimitive.Trigger
 
+/**
+ * Portal container for rendering dialog contents outside the DOM hierarchy.
+ */
 const DialogPortal = DialogPrimitive.Portal
 
+/**
+ * Close button component to programmatically close the dialog.
+ */
 const DialogClose = DialogPrimitive.Close
 
+/**
+ * DialogOverlay component
+ *
+ * Renders a semi-transparent black backdrop behind the dialog.
+ * Includes fade-in/fade-out animation transitions.
+ */
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -27,6 +55,12 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
+/**
+ * DialogContent component
+ *
+ * Renders the actual modal content inside a centered container.
+ * Includes animation and a close button (top-right).
+ */
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>

@@ -1,3 +1,9 @@
+/**
+ * @file InvoiceItems.tsx - Renders the dynamic invoice items table within the invoice creation form.
+ * It allows users to add, edit, and remove individual line items, including quantity, price, discount,
+ * tax code, and calculated amount. Product and tax data are synced from the backend.
+ */
+
 import React from "react"
 import { useFieldArray, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormControl } from "@/components/ui/form"
@@ -14,6 +20,17 @@ interface InvoiceItemsProps {
   isInvoiceReady?: boolean
 }
 
+/**
+ * InvoiceItems Component
+ *
+ * This component renders a line-item table for invoice entry. Each row corresponds to
+ * a single item selected from the product list. It supports auto-filling price and tax
+ * based on product selection, dynamic calculations of tax and total amount, and the
+ * ability to add or remove rows.
+ *
+ * @param {InvoiceItemsProps} props - Contains react-hook-form's form instance and optional flags.
+ * @returns {JSX.Element} A responsive table with invoice item inputs.
+ */
 const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form }) => {
   const { data: products = [] } = useProducts()
   const { fields, append, remove } = useFieldArray({

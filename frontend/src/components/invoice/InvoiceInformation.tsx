@@ -1,3 +1,10 @@
+/**
+ * @file InvoiceInformation.tsx - Renders the core invoice metadata input fields.
+ * This includes customer selection, invoice and due dates, and payment terms.
+ * It utilizes react-hook-form for form state management and integrates with
+ * external hooks to load customer and term data.
+ */
+
 import React from "react"
 import { format } from "date-fns"
 import {
@@ -26,6 +33,15 @@ interface InvoiceInformationProps {
   form: UseFormReturn<InvoiceFormValues>
 }
 
+/**
+ * InvoiceInformation Component
+ *
+ * A key section in the invoice creation form that collects metadata like customer,
+ * invoice date, due date, and selected payment terms.
+ *
+ * @param {InvoiceInformationProps} props - Contains the react-hook-form instance to control inputs.
+ * @returns {JSX.Element} A JSX section containing invoice metadata fields.
+ */
 const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
   const { data: customers = [], isLoading: isLoadingCustomers } = useCustomers()
   const { data: paymentTerms = [], isLoading: isLoadingPaymentTerms } =
