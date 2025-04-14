@@ -1,20 +1,21 @@
 /**
  * @file ViewInvoiceContainer.tsx - Displays an invoice view page with preview, download, and send options.
  */
-
 import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Send, Download, Edit } from "lucide-react"
-
 import useInvoice from "@/hooks/invoice/useInvoice"
 import useDownloadInvoice from "@/hooks/invoice/useDownloadInvoice"
 import useCustomers from "@/hooks/customer/useCustomers"
-
 import SendInvoiceModal from "@/components/invoice/SendInvoiceModal"
-
+import { ValidationResultModal } from "@/components/invoice/ValidationResultModal"
 import { format } from "date-fns"
 import { toast } from "sonner"
+import {
+  useValidateInvoicePeppol,
+  ValidationResult,
+} from "@/hooks/invoice/useValidateInvoicePeppol"
 
 /**
  * ViewInvoiceContainer Component
@@ -30,10 +31,37 @@ const ViewInvoiceContainer: React.FC = () => {
   const [isSending, setIsSending] = useState(false)
   const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [isLoadingPdf, setIsLoadingPdf] = useState(false)
+  const [validationResult, setValidationResult] =
+    useState<ValidationResult | null>(null)
+  const [isValidationModalOpen, setIsValidationModalOpen] = useState(false)
 
   const { data: invoice, isLoading } = useInvoice(id ?? "")
-
   const { mutate: downloadInvoice, isPending } = useDownloadInvoice()
+  const { mutate: validateInvoice, isPending: isValidating } =
+    useValidateInvoicePeppol()
+
+  const handleValidatePeppol = () => {
+    if (!invoice) {
+      toast.error("No invoice data available for validation.")
+      return
+    }
+    validateInvoice(
+      { invoice },
+      {
+        onSuccess: (result) => {
+          if (result.success && result.data) {
+            setValidationResult(result.data)
+            setIsValidationModalOpen(true)
+          } else if (result.error) {
+            toast.error(`Validation error: ${result.error}`)
+          }
+        },
+        onError: (error) => {
+          toast.error(`Failed to validate invoice: ${error.message}`)
+        },
+      }
+    )
+  }
 
   useEffect(() => {
     if (invoice && id) {
@@ -130,8 +158,9 @@ const ViewInvoiceContainer: React.FC = () => {
 
   return (
     <div className="px-4 py-5 sm:p-6">
-      {/* Action buttons */}
+      {/* Action buttons: Edit, Download, Validate, Send */}
       <div className="flex justify-end mb-4 space-x-2">
+        {/* Edit Invoice Button */}
         <Button
           type="button"
           onClick={() => navigate(`/invoices/${id}/edit`)}
@@ -141,6 +170,7 @@ const ViewInvoiceContainer: React.FC = () => {
           Edit
         </Button>
 
+        {/* Download Invoice Button */}
         <Button
           type="button"
           onClick={() => downloadInvoice({ invoiceId: id ?? "" })}
@@ -151,6 +181,17 @@ const ViewInvoiceContainer: React.FC = () => {
           {isPending ? "Downloading..." : "Download"}
         </Button>
 
+        {/* Validate PEPPOL Button */}
+        <Button
+          type="button"
+          onClick={handleValidatePeppol}
+          disabled={isValidating || !invoice}
+          className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
+        >
+          {isValidating ? "Validating..." : "Validate PEPPOL"}
+        </Button>
+
+        {/* Send Invoice Button */}
         <Button
           type="button"
           onClick={openSendInvoiceModal}
@@ -162,6 +203,17 @@ const ViewInvoiceContainer: React.FC = () => {
         </Button>
       </div>
 
+      {/* Validation Result Modal */}
+      {/* Displays validation results and allows editing */}
+      <ValidationResultModal
+        isOpen={isValidationModalOpen}
+        onClose={() => setIsValidationModalOpen(false)}
+        result={validationResult}
+        onEdit={() => navigate(`/invoices/${id}/edit`)}
+      />
+
+      {/* Send Invoice Modal */}
+      {/* Modal for sending the invoice via email */}
       {isModalOpen && (
         <SendInvoiceModal
           customerId={invoice?.customer?.id ?? ""}
@@ -186,8 +238,10 @@ const ViewInvoiceContainer: React.FC = () => {
         />
       )}
 
+      {/* Invoice Preview Section */}
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5 w-full">
         {/* PDF Preview */}
+        {/* Displays the invoice PDF if available */}
         {pdfUrl && (
           <div className="mt-8 mx-4">
             <div className="border rounded-lg overflow-hidden">
@@ -203,7 +257,8 @@ const ViewInvoiceContainer: React.FC = () => {
           </div>
         )}
 
-        {/* Fallback summary if PDF failed */}
+        {/* Fallback Summary */}
+        {/* Displays a summary if the PDF fails to load */}
         {invoice && !pdfUrl && (
           <div className="mt-4 p-4">
             <p className="text-sm text-gray-500">Unable to load PDF preview.</p>

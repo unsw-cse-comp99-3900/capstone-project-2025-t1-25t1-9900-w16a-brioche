@@ -19,7 +19,7 @@ const ReckonCallbackPage = () => {
       try {
         reckonCallback.mutate({ code, state })
         localStorage.setItem("sessionId", state)
-        navigate("/book")
+        navigate("/select")
       } catch (e) {
         console.error("Reckon callback error:", e)
         navigate("/select")
