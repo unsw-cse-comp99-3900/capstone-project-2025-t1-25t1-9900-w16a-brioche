@@ -4,7 +4,7 @@ const Overview: React.FC = () => {
   return (
     <section id="overview" className="mb-16">
       <h1 className="text-3xl font-extrabold text-secondary-900 tracking-tight sm:text-4xl">
-        E-Invoicing Platform Documentation
+        InvoiceFlow E-Invoicing Platform Documentation
       </h1>
       <p className="mt-4 text-xl text-secondary-500">
         This documentation outlines the business process flow and integration
@@ -38,7 +38,7 @@ const Overview: React.FC = () => {
               </svg>
             </div>
             <p className="ml-3 text-secondary-700">
-              Create invoices manually or by uploading CSV/Excel files
+              Create invoices manually or by uploading invoice PDFs
             </p>
           </li>
           <li className="flex items-start">
@@ -77,8 +77,11 @@ const Overview: React.FC = () => {
               </svg>
             </div>
             <p className="ml-3 text-secondary-700">
-              Validate invoices against Australian e-invoicing standards using
-              the ESS Validator
+              Validate invoices against core PEPPOL BIS Billing 3.0 rules using
+              AI-powered validation, including required fields such as
+              invoiceNumber, customerName, and lineItems. Validation follows
+              official rule IDs (e.g., ibt-001, ibt-131) and returns
+              user-friendly results.
             </p>
           </li>
           <li className="flex items-start">

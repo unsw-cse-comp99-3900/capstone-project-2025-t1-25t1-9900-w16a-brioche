@@ -13,13 +13,13 @@ export const processSteps: ProcessStep[] = [
   {
     id: "invoice-creation",
     title: "1. Invoice Creation",
-    subtitle: "CSV/Excel/Manual Entry",
+    subtitle: "PDF Upload / Manual Entry",
     color: "bg-primary-50",
     borderColor: "border-primary-200",
     textColor: "text-primary-700",
 
     subpoints: [
-      "Upload a CSV or Excel file with invoice data",
+      "Upload a PDF file containing invoice data",
       "Manually enter invoice details through our form",
     ],
     description: [
@@ -49,10 +49,9 @@ export const processSteps: ProcessStep[] = [
       "The UBL XML invoice is validated against Australian e-invoicing standards using the ESS Validator. This validation includes:",
     ],
     subpoints: [
-      "XML wellformedness checking",
-      "Schema validation against UBL 2.1 XSD",
-      "Business rules validation (EN16931)",
-      "PEPPOL rules validation (Australia-specific)",
+      "PEPPOL BIS Billing 3.0 rule validation",
+      "Checks for mandatory fields and common errors",
+      "Australian compliance rules (simulated via AI)",
     ],
   },
   {
