@@ -1,11 +1,30 @@
+/**
+ * @file ProcessCardTitle.tsx - Renders the title section for a process step card, including an icon and step number.
+ */
+
 import React from "react"
 
 interface ProcessCardTitleProps {
+  /** The title of the process step */
   title: string
+  /** The number of the process step */
   stepNumber: number
+  /** Whether the step index is even (controls layout direction) */
   isEven: boolean
 }
 
+/**
+ * ProcessCardTitle Component
+ *
+ * Displays the step title along with a stylized circular icon that changes based on the step number.
+ * Adjusts layout direction depending on whether the step index is even or odd.
+ *
+ * @param {ProcessCardTitleProps} props - Component props
+ * @param {string} props.title - Title of the step
+ * @param {number} props.stepNumber - Numeric indicator of the step
+ * @param {boolean} props.isEven - Layout direction flag for alternating layout
+ * @returns {JSX.Element} - Rendered step title with decorative icon
+ */
 const ProcessCardTitle: React.FC<ProcessCardTitleProps> = ({
   title,
   stepNumber,

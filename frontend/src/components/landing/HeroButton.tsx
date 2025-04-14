@@ -1,12 +1,35 @@
+/**
+ * @file HeroButton.tsx - Defines a reusable button component for the Hero section with support for primary and secondary variants.
+ */
+
 import React, { ReactNode } from "react"
 
 interface HeroButtonProps {
+  /** The button text or content */
   children: ReactNode
+  /** The destination URL when the button is clicked */
   href: string
+  /** The button style variant, either "primary" or "secondary" */
   variant: "primary" | "secondary"
+  /** Optional icon displayed next to the button text */
   icon?: ReactNode
 }
 
+/**
+ * HeroButton Component
+ *
+ * Renders a stylized link element designed for use in the Hero section.
+ * Supports two visual variants:
+ * - Primary: gradient-filled button with white text
+ * - Secondary: bordered button with muted text
+ *
+ * @param {HeroButtonProps} props - Props for the HeroButton component.
+ * @param {ReactNode} props.children - Button text or elements.
+ * @param {string} props.href - Destination URL.
+ * @param {"primary" | "secondary"} props.variant - Determines button styling.
+ * @param {ReactNode} [props.icon] - Optional icon placed after the text.
+ * @returns {JSX.Element} - A styled anchor element that looks like a button.
+ */
 const HeroButton: React.FC<HeroButtonProps> = ({
   children,
   href,

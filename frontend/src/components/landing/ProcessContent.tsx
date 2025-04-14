@@ -1,6 +1,19 @@
+/**
+ * @file ProcessContent.tsx - Displays the section header content for the process steps.
+ */
+
 import React from "react"
 import { landingProcess } from "@/constants/Landing/landingProcess"
 
+/**
+ * ProcessContent Component
+ *
+ * Renders the section header for the "Process" section, including a tag label,
+ * a headline, and a supporting subheading. All text content is sourced from the
+ * `landingProcess.content` constant.
+ *
+ * @returns {JSX.Element} - The rendered process section header
+ */
 const ProcessContent: React.FC = () => {
   return (
     <div className="text-center mb-20" data-aos="fade-up">

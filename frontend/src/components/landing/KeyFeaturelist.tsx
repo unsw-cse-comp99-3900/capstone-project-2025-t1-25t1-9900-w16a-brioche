@@ -1,9 +1,26 @@
+/**
+ * @file FeatureList.tsx - Renders a bullet-point list of features, each with a checkmark icon.
+ */
+
 import React from "react"
 
+/**
+ * Props for the FeatureList component.
+ */
 interface FeatureListProps {
   features: string[]
 }
 
+/**
+ * FeatureList Component
+ *
+ * Displays a list of product or service features with consistent layout,
+ * each feature prefixed by a checkmark icon.
+ *
+ * @param {FeatureListProps} props - Component props
+ * @param {string[]} props.features - List of feature texts to render
+ * @returns {JSX.Element} - The rendered feature list
+ */
 const FeatureList: React.FC<FeatureListProps> = ({ features }) => {
   return (
     <ul className="mt-4 space-y-2 text-gray-600">

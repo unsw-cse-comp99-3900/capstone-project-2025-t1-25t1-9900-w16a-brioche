@@ -1,3 +1,7 @@
+/**
+ * @file FeatureCard.tsx - Defines the FeatureCard component used in the landing page to display a key feature block with an icon, header, feature list, and highlight.
+ */
+
 import React from "react"
 import IconWrapper from "@/components/landing/IconWrapper"
 import FeatureHeader from "@/components/landing/KeyFeatureHeader"
@@ -5,12 +9,29 @@ import FeatureList from "@/components/landing/KeyFeaturelist"
 import FeatureHighlight from "@/components/landing/KeyFeatureHighlight"
 
 interface FeatureCardProps {
+  /** Title text of the feature card */
   title: string
+  /** Description text under the title */
   description: string
+  /** List of feature bullet points */
   features: string[]
+  /** Index of the card, used for staggered animation and icon selection */
   index: number
 }
 
+/**
+ * FeatureCard Component
+ *
+ * Renders a single card in the key features section with animation, gradient glow effect,
+ * icon, header, feature list, and highlight footer.
+ *
+ * @param {FeatureCardProps} props - Component props
+ * @param {string} props.title - The title of the feature
+ * @param {string} props.description - Description displayed under the title
+ * @param {string[]} props.features - Bullet points listed in the feature list
+ * @param {number} props.index - Index used to control animation delay and icon variant
+ * @returns {JSX.Element} A styled feature card component
+ */
 const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,

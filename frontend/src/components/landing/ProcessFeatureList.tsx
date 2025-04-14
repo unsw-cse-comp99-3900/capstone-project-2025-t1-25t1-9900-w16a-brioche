@@ -1,10 +1,33 @@
+/**
+ * @file ProcessFeatureList.tsx - Displays a list of bullet features for a process step, with alignment and icon depending on layout direction.
+ */
+
 import React from "react"
 
 interface ProcessFeatureListProps {
+  /**
+   * An array of strings representing each feature to display.
+   */
   features: string[]
+
+  /**
+   * Determines whether the current card is in even position.
+   * Used to decide the text alignment and icon positioning.
+   */
   isEven: boolean
 }
 
+/**
+ * ProcessFeatureList Component
+ *
+ * Renders a list of small bullet-point features under a process step,
+ * adjusting text alignment and icon position based on the step layout (even or odd).
+ *
+ * @param {ProcessFeatureListProps} props - Props for the component.
+ * @param {string[]} props.features - The list of features to display.
+ * @param {boolean} props.isEven - Whether the step is even-indexed, affecting the layout.
+ * @returns {JSX.Element} - A styled list of feature points.
+ */
 const ProcessFeatureList: React.FC<ProcessFeatureListProps> = ({
   features,
   isEven,

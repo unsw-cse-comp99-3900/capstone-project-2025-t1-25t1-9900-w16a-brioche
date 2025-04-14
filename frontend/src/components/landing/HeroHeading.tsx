@@ -1,6 +1,18 @@
+/**
+ * @file HeroHeading.tsx - Defines the main heading for the Hero section of the landing page.
+ */
+
 import React from "react"
 import { landingHero } from "@/constants/Landing/landingHero"
 
+/**
+ * HeroHeading Component
+ *
+ * This component renders the main heading text used in the Hero section.
+ * It includes highlighted text with a gradient style and an underline accent.
+ *
+ * @returns {JSX.Element} A styled headline element for the Hero section.
+ */
 const HeroHeading: React.FC = () => {
   return (
     <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
