@@ -5,16 +5,16 @@
 
 /**
  * FeatureSectionContainer Component
- * 
+ *
  * This component renders the features section of the landing page,
  * including a background component, feature content descriptions,
  * and a showcase of key product features.
- * 
+ *
  * The section includes:
  * - Background visual elements
  * - Feature content descriptions and headings
  * - Interactive feature showcase component
- * 
+ *
  * @returns {JSX.Element} The features section container component
  */
 

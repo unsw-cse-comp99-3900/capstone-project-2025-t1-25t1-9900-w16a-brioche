@@ -1,6 +1,6 @@
 /**
  * @file FAQContainer.tsx - Container component for the FAQ section of the landing page
- * 
+ *
  * Import required dependencies and components:
  * - React for JSX support
  * - FAQBackground for the section's background visuals

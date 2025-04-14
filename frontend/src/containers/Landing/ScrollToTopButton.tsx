@@ -1,6 +1,6 @@
 /**
  * @file ScrollToTopButton.tsx - A button component that scrolls the page back to top
- * 
+ *
  * Import required dependencies:
  * - React and hooks for component functionality
  * - ArrowUp icon from lucide-react library

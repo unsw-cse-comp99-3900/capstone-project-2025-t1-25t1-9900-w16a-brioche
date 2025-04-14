@@ -6,13 +6,12 @@ import React from "react"
 
 /**
  * SMEGuidelines Component
- * 
+ *
  * This component renders the SME guidelines section, detailing how to effectively use the e-invoicing platform,
  * including getting started steps and benefits of using e-invoicing.
- * 
+ *
  * @returns {JSX.Element} The SME guidelines section
  */
-
 
 const SMEGuidelines: React.FC = () => {
   return (
