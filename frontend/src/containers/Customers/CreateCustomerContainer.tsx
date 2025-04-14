@@ -58,9 +58,26 @@ const CreateCustomerContainer: React.FC = () => {
       await createCustomer.mutateAsync(data)
       toast.success("Customer created successfully")
       navigate("/customers")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to create customer."
+
+      const backendMessage = error?.response?.data?.message
+      if (backendMessage) {
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      } else {
+        errorMessage = JSON.stringify(error)
+      }
+
       toast.error("Failed to create customer", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error creating customer:", error)
     }
