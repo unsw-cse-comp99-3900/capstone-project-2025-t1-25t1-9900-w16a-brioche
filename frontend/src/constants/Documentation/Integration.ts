@@ -23,16 +23,12 @@ export const reckonIntegrationText = {
     title: "API Endpoints Used",
     list: [
       {
+        endpoint: "GET /ReckonAuth/login",
+        description: "Authenticate the user via ReckonAuth login endpoint",
+      },
+      {
         endpoint: "GET /books",
         description: " Retrieve the list of all books",
-      },
-      {
-        endpoint: "GET /{bookId}/classifications",
-        description: " Retrieve classifications for a given book",
-      },
-      {
-        endpoint: "GET PUT DELETE /{bookId}/classifications/{classificationId}",
-        description: "Get, update, or delete a specific classification by ID",
       },
       {
         endpoint: "GET POST /{bookId}/customers",
@@ -47,16 +43,16 @@ export const reckonIntegrationText = {
         description: "Retrieve a list of invoices or create a new",
       },
       {
-        endpoint: "GET POST /{bookId}/invoices",
-        description: "Retrieve a list of invoices or create a new",
-      },
-      {
-        endpoint: "GET POST /{bookId}/invoices",
-        description: "Retrieve a list of invoices or create a new",
-      },
-      {
         endpoint: "GET PUT DELETE /{bookId}/invoices/{invoiceId}",
         description: "Get, update, or delete an invoice by ID",
+      },
+      {
+        endpoint: "GET /{bookId}/invoices/{invoiceId}/pdf",
+        description: "Download or preview invoice PDF",
+      },
+      {
+        endpoint: "POST /{bookId}/invoices/{invoiceId}/email",
+        description: "Send invoice to recipient via email",
       },
       {
         endpoint: "GET POST /{bookId}/items",
@@ -68,15 +64,21 @@ export const reckonIntegrationText = {
       },
       {
         endpoint: "GET /{bookId}/ledgerAccounts",
-        description: "Retrieve a list of ledger accounts for a given",
-      },
-      {
-        endpoint: "GET /ReckonAuth/login",
-        description: "Login using ReckonAuth",
+        description: "Retrieve all ledger accounts for the specified book",
       },
       {
         endpoint: "GET /{bookId}/terms",
         description: "Retrieve a list of terms associated with a book",
+      },
+      {
+        endpoint: "GET /{bookId}/terms/{termId}/duedate/basedate/{invoiceDate}",
+        description:
+          "Calculate the due date based on selected payment term and invoice date",
+      },
+      {
+        endpoint: "POST /ReckonAuth/callback",
+        description:
+          "Callback endpoint to exchange OAuth code and state for tokens",
       },
       {
         endpoint: "GET /{bookId}/UserData",
