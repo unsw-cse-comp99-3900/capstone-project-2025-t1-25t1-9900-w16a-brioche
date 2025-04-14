@@ -65,7 +65,7 @@ const CreateProductContainer: React.FC = () => {
       itemCode: "",
       status: ItemStatus.Active,
       amountTaxStatus: ItemAmountTaxStatus.Inclusive,
-      price: 0,
+      price: undefined,
       description: "",
       ledgerAccount: "",
       taxRate: "GST", // Default to GST
@@ -257,9 +257,13 @@ const CreateProductContainer: React.FC = () => {
                           min="0"
                           {...field}
                           onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value) || 0)
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : parseFloat(e.target.value)
+                            )
                           }
-                          value={field.value}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormDescription>
