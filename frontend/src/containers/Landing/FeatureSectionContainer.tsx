@@ -1,3 +1,23 @@
+/**
+ * @file FeatureSectionContainer.tsx - Defines the feature section component for the landing page
+ * Contains the feature section background, content and showcase components
+ */
+
+/**
+ * FeatureSectionContainer Component
+ * 
+ * This component renders the features section of the landing page,
+ * including a background component, feature content descriptions,
+ * and a showcase of key product features.
+ * 
+ * The section includes:
+ * - Background visual elements
+ * - Feature content descriptions and headings
+ * - Interactive feature showcase component
+ * 
+ * @returns {JSX.Element} The features section container component
+ */
+
 import React from "react"
 import FeaturesBackground from "@/components/landing/FeaturesBackground"
 import FeaturesContent from "@/components/landing/FeaturesContent"

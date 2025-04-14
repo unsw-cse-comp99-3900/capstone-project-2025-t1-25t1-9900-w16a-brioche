@@ -1,3 +1,11 @@
+/**
+ * @file ScrollToTopButton.tsx - A button component that scrolls the page back to top
+ * 
+ * Import required dependencies:
+ * - React and hooks for component functionality
+ * - ArrowUp icon from lucide-react library
+ * - cn utility for conditional class name merging
+ */
 import React, { useState, useEffect } from "react"
 import { ArrowUp } from "lucide-react"
 import { cn } from "@/lib/utils"

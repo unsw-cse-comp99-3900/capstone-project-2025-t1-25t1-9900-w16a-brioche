@@ -1,3 +1,15 @@
+/**
+ * @file ProcessContainer.tsx - Defines the process section component for the landing page
+ * Contains the process section background, content and timeline components
+ */
+
+/**
+ * Import required dependencies and components:
+ * - React for JSX support
+ * - ProcessBackground for the section's background visuals
+ * - ProcessContent for the main content area
+ * - ProcessTimeline for displaying the process steps
+ */
 import React from "react"
 import ProcessBackground from "@/components/landing/ProcessBackground"
 import ProcessContent from "@/components/landing/ProcessContent"

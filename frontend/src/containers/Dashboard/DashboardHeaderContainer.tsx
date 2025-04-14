@@ -1,3 +1,16 @@
+/**
+ * @file DashboardHeaderContainer.tsx - Defines the DashboardHeaderContainer component, which provides the header for the dashboard view.
+ * It includes navigation and action buttons for managing invoices.
+ */
+
+/**
+ * DashboardHeaderContainer Component
+ *
+ * This component renders the header for the dashboard, including the page title, description, and buttons for creating and uploading invoices.
+ *
+ * @returns {JSX.Element} The dashboard header container.
+ */
+
 import React from "react"
 import PageHeader from "@/components/common/PageHeader"
 import { Link } from "react-router-dom"

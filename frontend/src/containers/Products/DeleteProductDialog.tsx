@@ -1,3 +1,26 @@
+/**
+ * @file DeleteProductDialog.tsx - Dialog component for confirming product deletion
+ * 
+ * This component provides a confirmation dialog when deleting products. It includes:
+ * - A warning message with the product name
+ * - Confirmation and cancel buttons
+ * - Error handling and success notifications
+ */
+
+/**
+ * DeleteProductDialog Component
+ * 
+ * A dialog component that handles the product deletion confirmation flow.
+ * It displays a warning message and manages the deletion process through an API call.
+ * 
+ * @param {Object} props Component props
+ * @param {string} props.productId - ID of the product to be deleted
+ * @param {string} props.productName - Name of the product to be deleted
+ * @param {boolean} props.isOpen - Controls dialog visibility
+ * @param {() => void} props.onClose - Callback function to close the dialog
+ * @returns {JSX.Element} The delete confirmation dialog
+ */
+
 import React from "react"
 import {
   AlertDialog,

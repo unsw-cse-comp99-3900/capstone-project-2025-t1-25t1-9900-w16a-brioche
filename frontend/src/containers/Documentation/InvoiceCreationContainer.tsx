@@ -1,3 +1,16 @@
+/**
+ * @file InvoiceCreationContainer.tsx - Defines the InvoiceCreationContainer component, which provides details on creating invoices.
+ * It covers manual entry and CSV/Excel upload methods.
+ */
+
+/**
+ * InvoiceCreationContainer Component
+ *
+ * This component renders the invoice creation section, detailing the methods for creating invoices manually or via CSV/Excel upload.
+ *
+ * @returns {JSX.Element} The invoice creation section.
+ */
+
 import React from "react"
 
 const InvoiceCreation: React.FC = () => {

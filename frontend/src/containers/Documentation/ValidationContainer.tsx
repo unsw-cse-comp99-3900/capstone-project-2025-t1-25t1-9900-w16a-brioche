@@ -1,4 +1,20 @@
 import React from "react"
+/**
+ * @file ValidationContainer.tsx - Defines the ValidationContainer component that displays the invoice validation process.
+ * Includes validation steps and results display.
+ */
+
+/**
+ * Validation Component
+ * 
+ * This component renders the validation section, detailing the invoice validation process,
+ * including XML wellformedness checks, schema validation, business rules validation,
+ * and PEPPOL rules validation. It also displays validation results and any errors
+ * or warnings that need to be addressed.
+ * 
+ * @returns {JSX.Element} The validation section
+ */
+
 
 const Validation: React.FC = () => {
   return (

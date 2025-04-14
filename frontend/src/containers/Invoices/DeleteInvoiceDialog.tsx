@@ -1,3 +1,18 @@
+/**
+ * @file DeleteInvoiceDialog.tsx - Defines the DeleteInvoiceDialog component, which provides a confirmation dialog for deleting invoices.
+ * It includes logic for handling the deletion process and user feedback.
+ */
+
+/**
+ * DeleteInvoiceDialog Component
+ *
+ * This component renders a dialog that asks the user to confirm the deletion of an invoice. It handles the deletion
+ * process and provides feedback to the user.
+ *
+ * @param {DeleteInvoiceDialogProps} props - The properties for the DeleteInvoiceDialog component.
+ * @returns {JSX.Element} The delete invoice confirmation dialog.
+ */
+
 import React from "react"
 import {
   AlertDialog,

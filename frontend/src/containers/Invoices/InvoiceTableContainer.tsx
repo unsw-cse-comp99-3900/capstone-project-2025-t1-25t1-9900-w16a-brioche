@@ -1,3 +1,20 @@
+/**
+ * @file InvoiceTableContainer.tsx - Defines the InvoiceTableContainer component for displaying and managing invoices in a table format.
+ * It includes functionality for viewing, editing and deleting invoices.
+ */
+
+/**
+ * InvoiceTableContainer Component
+ *
+ * This component renders a data table containing invoice information with the following features:
+ * - Displays invoice details in a paginated table format
+ * - Provides actions for editing and deleting invoices
+ * - Handles invoice status display with badges
+ * - Integrates with invoice data fetching and management hooks
+ *
+ * @returns {JSX.Element} The invoice table container component
+ */
+
 import React, { useState } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {
