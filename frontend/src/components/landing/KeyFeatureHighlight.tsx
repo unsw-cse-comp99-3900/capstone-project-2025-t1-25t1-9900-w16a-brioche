@@ -1,15 +1,33 @@
+/**
+ * @file FeatureHighlight.tsx - Displays a contextual highlight badge in a feature card, such as a key integration or capability.
+ */
+
 import React from "react"
 
+/**
+ * Props for the FeatureHighlight component.
+ */
 interface FeatureHighlightProps {
   index: number
 }
 
+// Predefined list of highlight messages
 const highlights = [
   "Reckon One API Integration",
   "ESS Validator Integration",
   "ESS PEPPOL Network Support",
 ]
 
+/**
+ * FeatureHighlight Component
+ *
+ * Displays a small badge-like element showing an integration or highlight
+ * message based on the card index.
+ *
+ * @param {FeatureHighlightProps} props - Component props
+ * @param {number} props.index - Used to select which highlight to display
+ * @returns {JSX.Element} The rendered highlight badge
+ */
 const FeatureHighlight: React.FC<FeatureHighlightProps> = ({ index }) => {
   return (
     <div className="mt-auto">

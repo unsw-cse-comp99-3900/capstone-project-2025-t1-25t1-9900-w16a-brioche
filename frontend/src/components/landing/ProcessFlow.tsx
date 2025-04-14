@@ -1,6 +1,18 @@
+/**
+ * @file ProcessFlow.tsx - Displays a mini process visualization in the hero section, representing 3 sequential steps with connecting arrows.
+ */
+
 import React from "react"
 import { landingHero } from "@/constants/Landing/landingHero"
 
+/**
+ * ProcessFlow Component
+ *
+ * Renders a compact horizontal process indicator with 3 colored steps connected by arrows.
+ * Typically used in the hero section to visually show the simplified workflow or onboarding process.
+ *
+ * @returns {JSX.Element} A styled box containing process steps and descriptions.
+ */
 const ProcessFlow: React.FC = () => {
   return (
     <div className="absolute -bottom-6 -right-6 bg-white rounded-lg shadow-lg p-3 border border-secondary-200">

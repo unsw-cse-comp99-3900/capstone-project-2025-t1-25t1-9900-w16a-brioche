@@ -1,9 +1,24 @@
+/**
+ * @file FeatureItem.tsx - Defines a list item component with a check icon and descriptive text, used for feature listings.
+ */
+
 import React from "react"
 
 interface FeatureItemProps {
+  /** The text label to display next to the check icon */
   text: string
 }
 
+/**
+ * FeatureItem Component
+ *
+ * A simple UI element used to list individual features or benefits.
+ * It consists of a checkmark icon followed by a short descriptive text.
+ *
+ * @param {FeatureItemProps} props - The component props
+ * @param {string} props.text - The description or label for the feature
+ * @returns {JSX.Element} A feature item with icon and text
+ */
 const FeatureItem: React.FC<FeatureItemProps> = ({ text }) => {
   return (
     <div className="flex items-center">

@@ -1,10 +1,26 @@
+/**
+ * @file ProcessTimelineNode.tsx - Displays a timeline node indicator with the step number.
+ */
+
 import React from "react"
 import { landingProcess } from "@/constants/Landing/landingProcess"
 
 type ProcessTimelineNodeProps = {
+  /** The index of the current step in the process */
   stepIndex: number
 }
 
+/**
+ * ProcessTimelineNode Component
+ *
+ * This component visually represents an individual step node within the process timeline.
+ * It renders a numbered circular badge with layered visual effects, used between process cards and illustrations.
+ * Visible only on medium-sized screens and above.
+ *
+ * @param {ProcessTimelineNodeProps} props - The component props.
+ * @param {number} props.stepIndex - The index of the current step in the process.
+ * @returns {JSX.Element} - A circular timeline node displaying the step number.
+ */
 const ProcessTimelineNode = ({
   stepIndex,
 }: ProcessTimelineNodeProps): React.ReactElement => {

@@ -1,9 +1,14 @@
+/**
+ * @file IconWrapper.tsx - Defines the IconWrapper component that displays a gradient circle with an icon inside.
+ */
+
 import React from "react"
 
 interface IconWrapperProps {
   index: number
 }
 
+// Predefined list of SVG icons to be used inside the wrapper
 const icons = [
   <svg
     className="h-6 w-6 text-white"
@@ -46,6 +51,16 @@ const icons = [
   </svg>,
 ]
 
+/**
+ * IconWrapper Component
+ *
+ * Renders a circular icon container positioned absolutely.
+ * The icon is selected from a predefined list using the `index` prop.
+ *
+ * @param {IconWrapperProps} props - Component props
+ * @param {number} props.index - Index to select which icon to render
+ * @returns {JSX.Element} The rendered icon inside a circular wrapper
+ */
 const IconWrapper: React.FC<IconWrapperProps> = ({ index }) => {
   return (
     <div className="absolute -top-6 -left-6 w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-blue-500 flex items-center justify-center shadow-lg z-10">
