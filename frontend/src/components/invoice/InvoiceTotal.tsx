@@ -1,4 +1,8 @@
-// src/components/invoice/InvoiceNotesAndTotals.tsx
+/**
+ * @file InvoiceNotesAndTotals.tsx - Displays invoice notes and payment details input fields,
+ * as well as a summary of calculated invoice totals including subtotal, discount, tax, and grand total.
+ */
+
 import React from "react"
 import {
   FormField,
@@ -22,6 +26,16 @@ interface InvoiceNotesAndTotalsProps {
   }
 }
 
+/**
+ * InvoiceNotesAndTotals Component
+ *
+ * This component is used at the bottom of the invoice creation form.
+ * It allows users to input notes and payment details, and displays calculated
+ * invoice totals including subtotal, discounts, taxes, and the final total amount.
+ *
+ * @param {InvoiceNotesAndTotalsProps} props - Contains the form instance and computed total values.
+ * @returns {JSX.Element} A UI section for notes and invoice total summary.
+ */
 const InvoiceNotesAndTotals: React.FC<InvoiceNotesAndTotalsProps> = ({
   form,
   totals,

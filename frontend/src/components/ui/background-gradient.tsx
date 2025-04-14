@@ -1,7 +1,23 @@
+/**
+ * @file BackgroundGradient.tsx - A reusable wrapper component that renders a colorful animated background gradient.
+ * Useful for highlighting UI sections like cards, buttons, or hero sections with a smooth animated gradient effect.
+ */
+
 import { cn } from "@/lib/utils"
 import React from "react"
 import { motion } from "motion/react"
 
+/**
+ * BackgroundGradient Component
+ *
+ * Wraps child content with a layered animated background made of radial gradients.
+ * The animation simulates a shifting, vibrant color wave. Hovering increases visibility.
+ *
+ * @param {React.ReactNode} children - The content to be displayed on top of the background.
+ * @param {string} [className] - Additional className for the content wrapper.
+ * @param {string} [containerClassName] - Additional className for the container.
+ * @param {boolean} [animate=true] - Whether to animate the background or keep it static.
+ */
 export const BackgroundGradient = ({
   children,
   className,

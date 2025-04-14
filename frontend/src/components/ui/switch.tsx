@@ -1,8 +1,23 @@
+/**
+ * @file Switch.tsx - Defines a styled toggle switch component using Radix UI's switch primitives.
+ */
+
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Switch Component
+ *
+ * A toggle switch component built on top of Radix UI's Switch primitives. It supports accessibility,
+ * theming, and custom styling via Tailwind CSS utility classes.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>} props - Props to customize the switch behavior and appearance.
+ * @param {string} [props.className] - Additional class names for the root switch element.
+ * @param {React.Ref} ref - React ref forwarded to the root switch element.
+ * @returns {JSX.Element} A custom styled switch component.
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>

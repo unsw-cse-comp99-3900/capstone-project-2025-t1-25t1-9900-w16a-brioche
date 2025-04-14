@@ -1,14 +1,31 @@
+/**
+ * @file Card3D.tsx - Provides a 3D interactive card system using motion effects.
+ * Includes CardContainer, CardBody, and CardItem components with preserved 3D transforms
+ * and context-based mouse interaction handling.
+ */
+
+"use client" // For Next.js environments
+
 /* eslint-disable react-refresh/only-export-components */
-"use client"
 
 import React, { createContext, useContext, useRef, useState } from "react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
+// Mouse enter state context
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
 >(undefined)
 
+/**
+ * CardContainer Component
+ *
+ * Wraps the card and handles mouse-based 3D tilt animation.
+ * It manages mouse enter state and rotation transform using refs and state.
+ *
+ * @param {object} props - Children and optional class styling.
+ * @returns {JSX.Element} 3D animated card wrapper with context provider.
+ */
 export const CardContainer = ({
   children,
   className,
@@ -21,6 +38,7 @@ export const CardContainer = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMouseEntered, setIsMouseEntered] = useState(false)
 
+  // Handle 3D perspective rotation based on mouse position
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return
     const { left, top, width, height } =
@@ -71,6 +89,14 @@ export const CardContainer = ({
   )
 }
 
+/**
+ * CardBody Component
+ *
+ * The container for all layered elements inside the 3D card.
+ *
+ * @param {object} props - Children and optional class styling.
+ * @returns {JSX.Element} Card content area with preserve-3d styling.
+ */
 export const CardBody = ({
   children,
   className,
@@ -85,6 +111,15 @@ export const CardBody = ({
   )
 }
 
+/**
+ * CardItem Component
+ *
+ * Represents a single floating element inside the CardBody that can animate in 3D space.
+ * Accepts translation and rotation props for 3D transformation.
+ *
+ * @param {object} props - Children and transform values.
+ * @returns {JSX.Element} A transformable motion div that responds to mouse state.
+ */
 export const CardItem = ({
   children,
   className,
@@ -147,7 +182,14 @@ export const CardItem = ({
   )
 }
 
-// Hook to use the mouse enter context
+/**
+ * useMouseEnter Hook
+ *
+ * Provides access to the mouse-enter state used across Card components.
+ * Must be used within a <CardContainer /> context.
+ *
+ * @returns {[boolean, Dispatch]} Mouse hover state and setter.
+ */
 export const useMouseEnter = () => {
   const context = useContext(MouseEnterContext)
   if (context === undefined) {

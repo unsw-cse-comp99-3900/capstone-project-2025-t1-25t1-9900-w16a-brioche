@@ -1,3 +1,8 @@
+/**
+ * @file InvoiceDetails.tsx - Renders additional invoice input fields such as reference code and invoice discount.
+ * It is a sub-section of the full invoice creation form and uses react-hook-form for controlled input management.
+ */
+
 import React from "react"
 import {
   FormField,
@@ -16,6 +21,15 @@ interface InvoiceDetailsProps {
   form: UseFormReturn<InvoiceFormValues>
 }
 
+/**
+ * InvoiceDetails Component
+ *
+ * This component renders a section of the invoice creation form
+ * that includes fields like reference code and invoice discount.
+ *
+ * @param {InvoiceDetailsProps} props - Contains react-hook-form instance with invoice form state.
+ * @returns {JSX.Element} A JSX element that renders the additional invoice fields section.
+ */
 const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ form }) => {
   return (
     <div>

@@ -1,9 +1,21 @@
+/**
+ * @file Checkbox.tsx - A customizable checkbox component built with Radix UI.
+ * This component handles checked and unchecked states with accessible markup.
+ */
+
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 
+/**
+ * Checkbox Component
+ *
+ * A wrapper around Radix Checkbox with custom styling and accessibility features.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>} props - Checkbox props.
+ * @returns {JSX.Element} A styled checkbox component with checked indicator.
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
