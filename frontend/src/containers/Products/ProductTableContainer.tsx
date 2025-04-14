@@ -12,7 +12,7 @@
  * @returns {JSX.Element} The product table container.
  */
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {
   DropdownMenu,
@@ -48,7 +48,11 @@ const ProductTableContainer: React.FC = () => {
   })
 
   // Fetch all products
-  const { data: products = [], isLoading, error } = useProducts()
+  const { data: products = [], isLoading, error, refetch } = useProducts()
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   // Make priceGross a top-level property
   const transformedProducts = products.map((product) =>
