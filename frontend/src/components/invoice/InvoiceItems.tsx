@@ -132,8 +132,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form }) => {
                                   )
                                   form.setValue(
                                     `items.${index}.description`,
-                                    selectedProduct.sale
-                                      ?.description || ""
+                                    selectedProduct.sale?.description || ""
                                   )
                                   form.setValue(
                                     `items.${index}.taxCode`,
