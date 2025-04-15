@@ -1,3 +1,21 @@
+/**
+ * @file useTestInvoices.ts - Defines the `useInvoices` hook to fetch invoice data from a mock/test endpoint.
+ *
+ * - Calls `/api/invoices/test` and parses the response using `invoiceResponseSchema`.
+ * - Intended for testing or local development without requiring book context or authorization.
+ */
+
+/**
+ * useInvoices Hook (Test Version)
+ *
+ * * Fetches invoice list from the test endpoint `/api/invoices/test`.
+ * * Parses the response with Zod for type-safe validation.
+ * * Uses `tanstack/react-query` for caching and re-fetching behavior.
+ * * This version does NOT use auth headers or `bookId`.
+ *
+ * @returns {UseQueryResult<Invoice[]>} A list of validated invoices from test API.
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import api from "@/lib/axios"
 import { invoiceResponseSchema, type Invoice } from "@/types/invoice"

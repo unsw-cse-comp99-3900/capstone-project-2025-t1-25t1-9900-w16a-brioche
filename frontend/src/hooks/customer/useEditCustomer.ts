@@ -1,3 +1,22 @@
+/**
+ * @file useEditCustomer.ts - Defines the `useEditCustomer` hook for updating a customer's details via the Reckon API.
+ * * Uses React Query's mutation API to send a PUT request.
+ * * Applies Zod validation to transform and validate the form input.
+ * * Automatically invalidates the customer list query after successful update.
+ */
+
+/**
+ * useEditCustomer Hook
+ *
+ * * Sends an authenticated PUT request to update an existing customer's information.
+ * * Uses Zod schema (`apiRequestSchema`) to validate and transform input form values.
+ * * Dynamically resolves the current book ID and includes it in the API path.
+ * * On success, invalidates the `customers` query to refresh the UI.
+ *
+ * @param {string} customerId - The ID of the customer to update.
+ * @returns {UseMutationResult<void, Error, CustomerFormValues>} React Query mutation object.
+ */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type CustomerFormValues, apiRequestSchema } from "@/types/customer"

@@ -1,3 +1,21 @@
+/**
+ * @file useCreateInvoice.ts - Defines the `useCreateInvoice` hook for submitting a new invoice to the Reckon API.
+ * * Uses React Query's mutation API to handle the invoice creation process.
+ * * Transforms form input to API format using `formToApiSchema`.
+ * * Automatically triggers a refetch of the invoice list on successful creation.
+ */
+
+/**
+ * useCreateInvoice Hook
+ *
+ * * Sends a POST request to the Reckon API to create a new invoice.
+ * * Converts form input to the API structure via a helper transformer (`formToApiSchema`).
+ * * Dynamically inserts the book ID based on current session context.
+ * * On success, invalidates the `invoices` query to refresh the invoice table.
+ *
+ * @returns {UseMutationResult<Invoice, Error, InvoiceFormValues>} Mutation result object containing mutate, state, and error fields.
+ */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import {

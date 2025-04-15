@@ -1,3 +1,22 @@
+/**
+ * @file useAccounts.ts - Defines the `useAccounts` hook, which fetches ledger accounts from the Reckon API.
+ * * This hook uses React Query for caching and asynchronous handling.
+ * * Zod is used to validate and transform the response schema at runtime.
+ * * Book ID is dynamically resolved from local storage to target the correct Reckon book.
+ */
+
+/**
+ * useAccounts Hook
+ *
+ * * Fetches all ledger accounts associated with the current Reckon book.
+ * * Sends an authenticated GET request to the `/ledgeraccounts` endpoint.
+ * * Validates the response using a Zod schema to ensure type safety.
+ *
+ * @param {number} page - The page number to fetch (default: 1).
+ * @param {number} perPage - Number of accounts to retrieve per page (default: 9999 for all).
+ * @returns {UseQueryResult<Account[]>} - Contains the data, loading state, and error from the React Query result.
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { accountResponseSchema, type Account } from "@/types/account"
