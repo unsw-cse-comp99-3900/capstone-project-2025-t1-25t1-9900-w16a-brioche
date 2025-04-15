@@ -1,3 +1,33 @@
+/**
+ * @file useProcessInvoicePdf.ts - Defines hooks for processing invoice PDFs using Google Generative AI (Gemini) and extracting structured invoice data.
+ * * `useProcessInvoicePdf` handles PDF upload, sends it to Gemini API, and transforms output to our invoice format.
+ * * `useExtractedPdfData` provides access to the cached extracted data via React Query.
+ * * Includes in-file Zod schema for AI response validation.
+ */
+
+/**
+ * useProcessInvoicePdf Hook
+ *
+ * * Accepts a File object representing a PDF invoice.
+ * * Uses Google Gemini AI (`generateObject`) to extract structured invoice metadata.
+ * * Validates response against a custom Zod schema (`extractedDataSchema`).
+ * * Transforms AI output into `InvoiceFormValues` format, suitable for pre-filling forms.
+ * * On success, stores extracted data in React Query cache under `["invoice", "pdf-data"]`.
+ *
+ * @returns {UseMutationResult<ProcessPdfResult, Error, File>} A mutation object for uploading and processing invoice PDFs.
+ */
+
+/**
+ * useExtractedPdfData Hook
+ *
+ * * Reads cached data from `["invoice", "pdf-data"]` using React Query.
+ * * By default disabled (enabled: false) to avoid auto-fetching.
+ * * Provides persistent access to parsed invoice data for preview/editing.
+ *
+ * @param options.enabled - Set to true if you want to access extracted data immediately.
+ * @returns {UseQueryResult<Partial<InvoiceFormValues> | null>} Cached extracted invoice data.
+ */
+
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
 import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { generateObject } from "ai"
