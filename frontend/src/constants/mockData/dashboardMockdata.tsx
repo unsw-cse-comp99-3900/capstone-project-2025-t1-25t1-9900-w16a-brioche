@@ -1,4 +1,22 @@
+/**
+ * @file dashboardMockdata.tsx - Provides mock data for invoices, customers, and products.
+ *
+ * ** Used for UI development, component previews, or testing API-bound components.
+ * ** Includes invoice status variants, associated customer/product metadata.
+ */
+
 import { InvoiceStatus } from "@/types/invoice"
+
+/**
+ * sampleData Object
+ *
+ * Contains mock records of invoices, customers, and products for development use.
+ *
+ * @returns {object} - Mock dataset including:
+ * - invoices with status variety and line items
+ * - customers (15 generated)
+ * - products (10 generated)
+ */
 
 export const sampleData = {
   invoices: [

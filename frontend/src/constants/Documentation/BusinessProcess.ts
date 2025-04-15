@@ -1,3 +1,18 @@
+/**
+ * @file BusinessProcess.ts - Defines the `processSteps` array used to describe the step-by-step
+ * business process for invoice handling in the application.
+ *
+ * ** Contains descriptive metadata and UI styles for each process step.
+ * ** Used to render the visual flow of invoice creation, validation, and delivery.
+ */
+
+/**
+ * ProcessStep Interface
+ *
+ * Represents a single step in the invoice process flow, including metadata and UI-related styles.
+ *
+ * @returns {ProcessStep} - A step object with display attributes and step-level details.
+ */
 export interface ProcessStep {
   id: string
   title: string
@@ -9,6 +24,14 @@ export interface ProcessStep {
   subpoints?: string[]
 }
 
+/**
+ * processSteps Array
+ *
+ * Defines the three core steps of the invoice workflow: creation, validation, and sending.
+ * Each step contains a title, UI styles, descriptions, and subpoints to support rendering.
+ *
+ * @returns {ProcessStep[]} - Array of ordered process steps used in the invoice pipeline.
+ */
 export const processSteps: ProcessStep[] = [
   {
     id: "invoice-creation",

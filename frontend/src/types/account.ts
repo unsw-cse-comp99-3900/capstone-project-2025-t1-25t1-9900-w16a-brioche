@@ -1,3 +1,19 @@
+/**
+ * @file account.ts - Defines schemas for account data used in Reckon API interactions.
+ *
+ * ** Includes validation schema for individual account data and response structure.
+ * ** Uses Zod schema validation to enforce data integrity and type safety.
+ */
+
+/**
+ * Account data schema based on Reckon API response
+ *
+ * This schema defines the structure of an account object as returned by the Reckon API.
+ * Validates fields such as id, name, and optional fields (like description, status).
+ *
+ * @returns {object} - Zod validation schema for account data.
+ */
+
 import { z } from "zod"
 
 /**

@@ -1,7 +1,18 @@
+/**
+ * @file product.ts - Defines schemas for product-related data, validation, and transformations.
+ *
+ * ** Contains schemas for product data validation, including item types, statuses, prices, and tax information.
+ * ** Includes transformations for converting form data to API requests and vice versa.
+ */
 import { z } from "zod"
 
 /**
- * Enums based on API documentation
+ * ItemType Enum
+ *
+ * Defines the type of items: either `Product` or `Service`.
+ * Used to distinguish between product and service items in the inventory or invoice system.
+ *
+ * @returns {object} - Enum with values for Product and Service item types.
  */
 export const ItemType = {
   Product: "Product",
