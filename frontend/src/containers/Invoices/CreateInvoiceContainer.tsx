@@ -105,6 +105,7 @@ const CreateInvoiceContainer: React.FC = () => {
           amount: "",
         },
       ],
+      paymentDetails: "Please remit payment to:\nANZ Bank\nBSB: 111222\nAccount Number: 987654321\nThank you"
     },
   })
 
@@ -259,6 +260,19 @@ const CreateInvoiceContainer: React.FC = () => {
   }
 
   const addNewRow = () => {
+    // Check if we have at least one row and the last row has an item selected
+    const currentRows = form.getValues("items") || [];
+    
+    if (currentRows.length > 0) {
+      const lastRow = currentRows[currentRows.length - 1];
+      
+      if (!lastRow.item) {
+        // Show error toast if the last row doesn't have an item selected
+        toast.error("Please select an item for the current row before adding a new one.");
+        return;
+      }
+    }
+
     append({
       item: "",
       itemPrice: "",
@@ -336,7 +350,7 @@ const CreateInvoiceContainer: React.FC = () => {
                           }}
                           disabled={isLoadingCustomers}
                         >
-                          <option value="">None</option>
+                          {!field.value && <option value=""> </option>}
                           {customers.map((customer) => (
                             <option key={customer.id} value={customer.name}>
                               {customer.name}
@@ -522,7 +536,7 @@ const CreateInvoiceContainer: React.FC = () => {
                     <thead className="bg-gray-200">
                       <tr>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                          Item
+                          Item <span className="text-red-500">*</span>
                         </th>
                         <th className="px-3 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                           Item price
@@ -638,7 +652,7 @@ const CreateInvoiceContainer: React.FC = () => {
                                         }
                                       }}
                                     >
-                                      <option value="">None</option>
+                                      {!field.value && <option value=""> </option>}
                                       {products.map((product) => (
                                         <option
                                           key={product.id}
@@ -720,61 +734,38 @@ const CreateInvoiceContainer: React.FC = () => {
                             />
                           </td>
                           <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.taxCode`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <select
-                                      className="w-24 flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                      value={field.value || ""}
-                                      onChange={(e) =>
-                                        field.onChange(e.target.value)
-                                      }
-                                    >
-                                      <option value="">None</option>
-                                      {Array.from(
-                                        new Map(
-                                          products
-                                            .map((p) => p.sale?.taxRate)
-                                            .filter(
-                                              (
-                                                tr
-                                              ): tr is NonNullable<typeof tr> =>
-                                                !!tr?.id
-                                            )
-                                            .map((taxRate) => [
-                                              taxRate.id,
-                                              taxRate,
-                                            ])
-                                        ).values()
-                                      ).map((taxRate) => (
-                                        <option
-                                          key={taxRate.id}
-                                          value={taxRate.name}
-                                        >
-                                          {taxRate.name}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
+                          <FormField
+                            control={form.control}
+                            name={`items.${index}.taxCode`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    className="w-24"
+                                    readOnly
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
                           </td>
                           <td className="px-1 py-2">
-                            <FormField
-                              control={form.control}
-                              name={`items.${index}.tax`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input {...field} className="w-20" />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
+                          <FormField
+                            control={form.control}
+                            name={`items.${index}.tax`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    className="w-20"
+                                    readOnly
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
                           </td>
                           <td className="px-1 py-2">
                             <FormField
