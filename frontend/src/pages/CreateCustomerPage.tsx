@@ -1,3 +1,17 @@
+/**
+ * @file CreateCustomerPage.tsx - Defines the CreateCustomerPage component, which renders the page layout for creating a new customer.
+ * * It includes the page header and the CreateCustomerContainer component.
+ */
+
+/**
+ * CreateCustomerPage Component
+ *
+ * * This component renders the main layout for the create customer page, including a decorative background,
+ *   a header with title and icon, and the form container for customer creation.
+ *
+ * @returns {JSX.Element} The full page structure for creating a new customer.
+ */
+
 import React from "react"
 import { UserPlus } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

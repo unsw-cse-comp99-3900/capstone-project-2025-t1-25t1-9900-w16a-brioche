@@ -1,3 +1,17 @@
+/**
+ * @file ViewInvoicePage.tsx - Defines the ViewInvoicePage component, which renders the page layout for viewing an invoice.
+ * * It includes the page header and the ViewInvoicContainer component.
+ */
+
+/**
+ * ViewInvoicePage Component
+ *
+ * * This component renders the main layout for the view invoice page, including a decorative background,
+ *   a header with title and icon, and the container that displays invoice details.
+ *
+ * @returns {JSX.Element} The full page structure for viewing an invoice.
+ */
+
 import React from "react"
 import { Eye } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
