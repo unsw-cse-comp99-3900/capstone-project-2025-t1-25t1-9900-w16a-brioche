@@ -1,3 +1,17 @@
+/**
+ * @file EditInvoicePage.tsx - Defines the EditInvoicePage component, which renders the page layout for editing an existing invoice.
+ * * It includes the page header and the EditInvoiceContainer component.
+ */
+
+/**
+ * EditInvoicePage Component
+ *
+ * * This component renders the main layout for the update invoice page, including a decorative background,
+ *   a header with title and icon, and the form container for invoice editing.
+ *
+ * @returns {JSX.Element} The full page structure for updating an invoice.
+ */
+
 import React from "react"
 import { FileText } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

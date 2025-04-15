@@ -1,3 +1,20 @@
+/**
+ * @file SelectIntegrationPage.tsx - Defines the SelectIntegrationPage component, which allows users to choose and connect to an invoice API such as Reckon.
+ * * It supports selecting a demo account, authenticating via Reckon, and selecting available books for integration.
+ */
+
+/**
+ * SelectIntegrationPage Component
+ *
+ * * This component renders the integration selection interface, where users can:
+ *   - Choose between Reckon and other invoice APIs
+ *   - Connect to Reckon via OAuth and select a book
+ *   - Use a demo account for testing purposes
+ *   - Navigate to the dashboard after successful setup
+ *
+ * @returns {JSX.Element} The full page layout for selecting and managing invoice API integration.
+ */
+
 import React, { useState, useEffect } from "react"
 import { FileText } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
