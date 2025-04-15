@@ -1,3 +1,22 @@
+/**
+ * @file useInvoicePdf.ts - Defines the `useInvoicePdf` hook for generating, downloading, or previewing invoice PDFs via the Reckon API.
+ * * Supports both download and preview modes using blob handling.
+ * * Dynamically resolves the book and invoice ID, and handles cleanup of object URLs.
+ */
+
+/**
+ * useInvoicePdf Hook
+ *
+ * * Performs a GET request to retrieve an invoice PDF in blob format.
+ * * Supports two actions:
+ *   - `"download"`: triggers browser download of the invoice.
+ *   - `"preview"`: returns a blob URL for preview in-browser with cleanup support.
+ * * Uses the browser’s Blob API and URL.createObjectURL for download/preview logic.
+ *
+ * @returns {UseMutationResult<Object, Error, { invoiceId: string; action?: "download" | "preview" }>}
+ *  The mutation result with logic for success, preview URL, and cleanup method.
+ */
+
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { getBookId } from "@/lib/utils"

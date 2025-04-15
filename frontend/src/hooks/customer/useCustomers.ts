@@ -1,3 +1,22 @@
+/**
+ * @file useCustomers.ts - Defines the `useCustomers` hook for retrieving a list of customers from the Reckon API.
+ * * Uses React Query to manage server-state and cache customer data.
+ * * Validates the response structure with Zod using `customerResponseSchema`.
+ * * Supports pagination via optional `page` and `perPage` parameters.
+ */
+
+/**
+ * useCustomers Hook
+ *
+ * * Fetches a paginated list of customers for the current Reckon book.
+ * * Automatically resolves the current book ID and appends it to the API request path.
+ * * Validates the API response using Zod and returns a typed customer list.
+ *
+ * @param {number} page - Page number to request (default: 1).
+ * @param {number} perPage - Number of customers per page (default: 9999 for all).
+ * @returns {UseQueryResult<Customer[]>} React Query result containing the customer data, loading state, and error (if any).
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { customerResponseSchema, type Customer } from "@/types/customer"

@@ -1,3 +1,19 @@
+/**
+ * @file useConnectReckon.ts - Defines the `useConnectReckon` hook for initiating Reckon API authentication.
+ * * Sends a session/user ID to the backend to retrieve a Reckon login redirect URL.
+ * * Returns the URL so that the frontend can redirect the user.
+ */
+
+/**
+ * useConnectReckon Hook
+ *
+ * * Accepts a `userId` (used as sessionId) and sends it to `/Reckonauth/login`.
+ * * Backend responds with a `redirectUrl` string to initiate Reckon OAuth flow.
+ * * Can be used in onboarding or integration flows where third-party auth is required.
+ *
+ * @returns {UseMutationResult<string, Error, string>} Mutation that returns the Reckon redirect URL.
+ */
+
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 
