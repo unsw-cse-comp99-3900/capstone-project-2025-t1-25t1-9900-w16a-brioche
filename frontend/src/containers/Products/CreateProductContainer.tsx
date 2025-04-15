@@ -37,7 +37,6 @@ import {
   Save,
   X,
   DollarSign,
-  Layers,
   BarcodeIcon,
   LucideCircleDot,
 } from "lucide-react"
@@ -50,12 +49,10 @@ import {
 } from "@/types/product"
 import { useCreateProduct } from "@/hooks/product/useCreateProduct"
 import { toast } from "sonner"
-import useAccounts from "@/hooks/account/useAccounts"
 
 const CreateProductContainer: React.FC = () => {
   const navigate = useNavigate()
   const createProduct = useCreateProduct()
-  const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
@@ -67,7 +64,7 @@ const CreateProductContainer: React.FC = () => {
       amountTaxStatus: ItemAmountTaxStatus.Inclusive,
       price: undefined,
       description: "",
-      ledgerAccount: "",
+      ledgerAccount: "Sales",
       taxRate: "GST", // Default to GST
     },
   })
@@ -298,36 +295,6 @@ const CreateProductContainer: React.FC = () => {
                           <option value="WET">WET (29%)</option>
                           <option value="WGST">WGST (12.9%)</option>
                           <option value="">None</option>
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Ledger Account */}
-                <FormField
-                  control={form.control}
-                  name="ledgerAccount"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <Layers className="h-4 w-4 text-secondary-500" />
-                        Ledger Account <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          value={field.value}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          disabled={isLoadingAccounts}
-                        >
-                          <option value="">Select an account</option>
-                          {accounts.map((account) => (
-                            <option key={account.id} value={account.name}>
-                              {account.name}
-                            </option>
-                          ))}
                         </select>
                       </FormControl>
                       <FormMessage />
