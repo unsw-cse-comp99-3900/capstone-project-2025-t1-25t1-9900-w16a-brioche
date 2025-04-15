@@ -14,6 +14,7 @@ interface InvoiceItemsProps {
   isInvoiceReady?: boolean
 }
 
+
 const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form }) => {
   const { data: products = [] } = useProducts()
   const { fields, append, remove } = useFieldArray({
@@ -33,6 +34,7 @@ const InvoiceItems: React.FC<InvoiceItemsProps> = ({ form }) => {
       amount: "",
     })
   }
+  
 
   return (
     <div>

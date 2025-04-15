@@ -31,9 +31,13 @@ namespace InvoiceBackend.Services.ReckonApiService
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
-            if (!string.IsNullOrEmpty(requestBody) && (method == HttpMethod.Post || method == HttpMethod.Put))
+            if (!string.IsNullOrEmpty(requestBody) && (method == HttpMethod.Post || method == HttpMethod.Put || method == HttpMethod.Patch))
             {
-                request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                string contentType = method == HttpMethod.Patch 
+                    ? "application/merge-patch+json" 
+                    : "application/json";
+
+                request.Content = new StringContent(requestBody, Encoding.UTF8, contentType);
             }
 
             return await _httpClient.SendAsync(request);
