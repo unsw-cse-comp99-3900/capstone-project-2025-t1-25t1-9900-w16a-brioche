@@ -1,3 +1,9 @@
+/**
+ * @file InvoiceItems.tsx - Renders the dynamic invoice items table within the invoice creation form.
+ * It allows users to add, edit, and remove individual line items, including quantity, price, discount,
+ * tax code, and calculated amount. Product and tax data are synced from the backend.
+ */
+
 import React from "react"
 import { useFieldArray, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormControl } from "@/components/ui/form"
