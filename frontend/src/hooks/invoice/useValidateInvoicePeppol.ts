@@ -1,6 +1,24 @@
 /**
- * @file useValidateInvoicePeppol.ts - React hook for validating invoices against PEPPOL BIS Billing 3.0 using AI.
+ * @file useValidateInvoicePeppol.ts - React hook for validating invoices against PEPPOL BIS Billing 3.0 using Gemini AI.
+ * * Uses `generateObject` to interact with Google Gemini 2.0 API.
+ * * Converts invoice data to a validation-focused prompt.
+ * * Defines a strict Zod schema to validate AI output.
+ * * Returns structured `ValidationResult` with `violations` and severity.
  */
+
+/**
+ * useValidateInvoicePeppol Hook
+ *
+ * * Validates a given invoice object using Google's Gemini AI against PEPPOL BIS Billing 3.0.
+ * * Accepts `invoice` object and generates a prompt with PEPPOL-specific rule definitions.
+ * * Parses and validates AI response using `validationResultSchema`.
+ * * Categorizes issues as "Error" (mandatory violation) or "Warning" (optional/missing).
+ * * Exposes structured violations for use in UI or export.
+ *
+ * @returns {UseMutationResult<ValidationOutcome, Error, ValidateInvoiceParams>}
+ * A mutation that triggers the validation process and returns detailed results.
+ */
+
 import { useMutation } from "@tanstack/react-query"
 import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { generateObject } from "ai"
