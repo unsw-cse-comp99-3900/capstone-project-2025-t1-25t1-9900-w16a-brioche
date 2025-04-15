@@ -1,3 +1,17 @@
+/**
+ * @file DashboardPage.tsx - Defines the DashboardPage component, which renders the main dashboard view for the application.
+ * * It includes the dashboard header, statistics section, and a preview of recent invoices.
+ */
+
+/**
+ * DashboardPage Component
+ *
+ * * This component renders the main layout for the dashboard, including a decorative background,
+ *   a header section, key business statistics, and a table of recent invoices.
+ *
+ * @returns {JSX.Element} The dashboard page layout with summary and invoice information.
+ */
+
 import React from "react"
 import DashboardHeaderContainer from "@/containers/Dashboard/DashboardHeaderContainer"
 import DashboardStatsContainer from "@/containers/Dashboard/DashboardStatsContainer"

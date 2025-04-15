@@ -1,3 +1,17 @@
+/**
+ * @file ProductsPage.tsx - Defines the ProductsPage component, which renders the main page for managing products.
+ * * It includes the header and table components for displaying product data.
+ */
+
+/**
+ * ProductsPage Component
+ *
+ * * This component renders the main layout for the products page, including a decorative background,
+ *   a content header, and the table that displays product records.
+ *
+ * @returns {JSX.Element} The full page layout for viewing and managing products.
+ */
+
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 import ProductContentHeader from "@/containers/Products/ProductContentHeader"
