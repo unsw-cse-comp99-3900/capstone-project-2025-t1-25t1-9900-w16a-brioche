@@ -1,3 +1,18 @@
+/**
+ * @file Integration.ts - Defines static text used to explain the Reckon One integration process.
+ *
+ * ** Includes user-facing descriptions for authentication, book selection, and API usage.
+ * ** Provides a structured list of API endpoints involved in the integration process.
+ */
+
+/**
+ * reckonIntegrationText Object
+ *
+ * Contains sectioned instructional text for users on how Reckon One is integrated into the platform.
+ * Structured for use in UI pages or documentation panels related to API connectivity and usage.
+ *
+ * @returns {object} - Instructional content including intro text, step explanations, and API endpoint summaries.
+ */
 // reckonIntegrationText.ts
 
 export const reckonIntegrationText = {

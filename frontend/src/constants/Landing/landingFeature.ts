@@ -1,3 +1,19 @@
+/**
+ * @file landingFeature.ts - Defines landing page feature showcase content for the e-invoicing platform.
+ *
+ * ** Highlights key functionality of the platform such as invoice creation, validation, and delivery.
+ * ** Used to render a structured feature section with grouped benefits and subpoints.
+ */
+
+/**
+ * landingFeature Object
+ *
+ * Contains static content to highlight key platform features for SMEs on the landing page.
+ * Includes section headings and a list of feature groups with descriptions and subfeatures.
+ *
+ * @returns {object} - Data structure for rendering key feature highlights and details.
+ */
+
 export const landingFeature = {
   content: {
     tagText: "Key Features",
