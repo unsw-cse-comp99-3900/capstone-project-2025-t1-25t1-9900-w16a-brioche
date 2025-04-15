@@ -1,3 +1,17 @@
+/**
+ * @file CreateInvoicePage.tsx - Defines the CreateInvoicePage component, which renders the page layout for creating a new invoice.
+ * * It includes the page header and the CreateInvoiceContainer component.
+ */
+
+/**
+ * CreateInvoicePage Component
+ *
+ * * This component renders the main layout for the create invoice page, including a decorative background,
+ *   a header with title and icon, and the form container for invoice creation.
+ *
+ * @returns {JSX.Element} The full page structure for creating an invoice.
+ */
+
 import React from "react"
 import { FileText } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

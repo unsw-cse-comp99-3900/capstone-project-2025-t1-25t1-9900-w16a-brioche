@@ -1,3 +1,17 @@
+/**
+ * @file CustomersPage.tsx - Defines the CustomersPage component, which renders the main page for managing customers.
+ * * It includes the header and table components for displaying customer data.
+ */
+
+/**
+ * CustomersPage Component
+ *
+ * * This component renders the main layout for the customers page, including a decorative background,
+ *   a content header, and the table that displays customer records.
+ *
+ * @returns {JSX.Element} The full page layout for viewing and managing customers.
+ */
+
 import React from "react"
 import {
   CustomerContentHeader,
