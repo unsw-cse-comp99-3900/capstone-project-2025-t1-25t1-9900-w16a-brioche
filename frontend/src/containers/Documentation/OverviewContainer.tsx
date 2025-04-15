@@ -70,26 +70,6 @@ const Overview: React.FC = () => {
               </svg>
             </div>
             <p className="ml-3 text-secondary-700">
-              Convert invoices to UBL XML format compliant with Australian
-              standards
-            </p>
-          </li>
-          <li className="flex items-start">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-primary-500"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <p className="ml-3 text-secondary-700">
               Validate invoices against core PEPPOL BIS Billing 3.0 rules using
               AI-powered validation, including required fields such as
               invoiceNumber, customerName, and lineItems. Validation follows
@@ -113,7 +93,7 @@ const Overview: React.FC = () => {
               </svg>
             </div>
             <p className="ml-3 text-secondary-700">
-              Send validated invoices via email or the PEPPOL network
+              Send validated invoices via email with PDF attachment
             </p>
           </li>
         </ul>
