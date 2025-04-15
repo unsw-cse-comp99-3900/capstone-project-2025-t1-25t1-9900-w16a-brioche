@@ -1,3 +1,18 @@
+/**
+ * @file SideBar.tsx - Defines the navigation items and icon rendering logic for the documentation sidebar.
+ *
+ * ** Provides metadata for sidebar items (title, ID, and icon name).
+ * ** Includes a utility function to render matching Heroicons based on the icon name.
+ */
+
+/**
+ * NavItem Interface
+ *
+ * Represents a sidebar navigation item with title, ID, and associated icon key.
+ *
+ * @returns {NavItem} - Sidebar entry metadata used for dynamic sidebar rendering.
+ */
+
 import React from "react"
 
 export interface NavItem {
@@ -6,6 +21,13 @@ export interface NavItem {
   icon: string
 }
 
+/**
+ * navItems Array
+ *
+ * List of sidebar navigation items used in the documentation layout.
+ *
+ * @returns {NavItem[]} - Array of sidebar sections and their metadata.
+ */
 export const navItems: NavItem[] = [
   { id: "overview", title: "Overview", icon: "home" },
   { id: "business-process", title: "Business Process Flow", icon: "document" },
@@ -21,6 +43,14 @@ export const navItems: NavItem[] = [
   { id: "sme-guidelines", title: "SME Guidelines", icon: "information-circle" },
 ]
 
+/**
+ * renderIcon Function
+ *
+ * Renders an SVG icon component based on the provided icon name.
+ *
+ * @param {string} iconName - The icon identifier string (e.g., "home", "document").
+ * @returns {React.ReactNode} - JSX for the matching icon, or null if not found.
+ */
 export const renderIcon = (iconName: string): React.ReactNode => {
   switch (iconName) {
     case "home":
