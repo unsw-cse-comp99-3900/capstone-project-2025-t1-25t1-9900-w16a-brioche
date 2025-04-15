@@ -1,3 +1,17 @@
+/**
+ * @file CreateProductPage.tsx - Defines the CreateProductPage component, which renders the page layout for creating a new product.
+ * * It includes the page header and the CreateProductContainer component.
+ */
+
+/**
+ * CreateProductPage Component
+ *
+ * * This component renders the main layout for the create product page, including a decorative background,
+ *   a header with title and icon, and the form container for product creation.
+ *
+ * @returns {JSX.Element} The full page structure for creating a new product.
+ */
+
 import React from "react"
 import { PackagePlus } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

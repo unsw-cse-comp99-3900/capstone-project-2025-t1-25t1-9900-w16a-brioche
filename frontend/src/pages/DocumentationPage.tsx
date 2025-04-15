@@ -1,3 +1,17 @@
+/**
+ * @file DocumentationPage.tsx - Defines the DocumentationPage component, which renders the full documentation view with navigation and content sections.
+ * * It includes a sidebar for navigation and multiple containers for displaying individual documentation sections.
+ */
+
+/**
+ * DocumentationPage Component
+ *
+ * * This component renders the main layout for the documentation page, including a sidebar navigation and various documentation sections.
+ *   It manages section switching via internal state and provides smooth scroll behavior when navigating between sections.
+ *
+ * @returns {JSX.Element} The complete documentation layout with sidebar and content.
+ */
+
 import React, { useState } from "react"
 import SideBar from "@/containers/Documentation/SideBarContainer"
 import Overview from "@/containers/Documentation/OverviewContainer"

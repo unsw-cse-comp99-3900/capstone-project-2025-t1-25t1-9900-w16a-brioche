@@ -1,3 +1,17 @@
+/**
+ * @file EditCustomerPage.tsx - Defines the EditCustomerPage component, which renders the page layout for editing an existing customer.
+ * * It includes the page header and the EditCustomerContainer component.
+ */
+
+/**
+ * EditCustomerPage Component
+ *
+ * * This component renders the main layout for the edit customer page, including a decorative background,
+ *   a header with title and icon, and the form container for customer editing.
+ *
+ * @returns {JSX.Element} The full page structure for updating an existing customer.
+ */
+
 import React from "react"
 import { UserCog } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

@@ -1,3 +1,17 @@
+/**
+ * @file InvoicePdfUploadPage.tsx - Defines the InvoicePdfUploadPage component, which renders the page layout for uploading invoice PDFs.
+ * * It includes a decorative background and the InvoicePdfUploadContainer component.
+ */
+
+/**
+ * InvoicePdfUploadPage Component
+ *
+ * * This component renders the main layout for the invoice PDF upload page, including a decorative background
+ *   and the upload container for handling invoice PDF files.
+ *
+ * @returns {JSX.Element} The full page layout for uploading invoice PDFs.
+ */
+
 import React from "react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 import InvoicePdfUploadContainer from "@/containers/Invoices/InvoicePdfUploadContainer"
