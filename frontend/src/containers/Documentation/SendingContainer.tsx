@@ -33,7 +33,7 @@ const Sending: React.FC = () => {
       </p>
       <ul className="mt-2 list-disc pl-5 text-secondary-700">
         <li>Generates a PDF version of the invoice</li>
-        <li>Attaches both the PDF and UBL XML files to the email</li>
+        <li>Attaches a PDF version of the invoice to the email</li>
         <li>Sends the email to the customer's email address</li>
         <li>Updates the invoice status in Reckon One</li>
       </ul>
