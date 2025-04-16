@@ -6,7 +6,7 @@ describe("LoadingContainer", () => {
   it("renders the loading spinner", () => {
     render(<LoadingContainer />)
 
-    const loadingElement = screen.getByText(/loading/i) 
+    const loadingElement = screen.getByText(/loading/i)
     expect(loadingElement).toBeInTheDocument()
   })
 })
