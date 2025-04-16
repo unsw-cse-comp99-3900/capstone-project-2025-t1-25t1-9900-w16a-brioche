@@ -7,6 +7,7 @@ vi.mock("@clerk/clerk-react", () => ({
 }))
 vi.mock("react-router-dom", () => ({
   useLocation: () => ({ pathname: "/dashboard" }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Link: ({ to, children }: any) => <a href={to}>{children}</a>,
 }))
 
