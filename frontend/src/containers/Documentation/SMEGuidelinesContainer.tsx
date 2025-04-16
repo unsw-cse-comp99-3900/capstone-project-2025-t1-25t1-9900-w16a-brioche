@@ -237,9 +237,8 @@ const SMEGuidelines: React.FC = () => {
             Can I still send PDF invoices?
           </h4>
           <p className="mt-2 text-secondary-700">
-            Yes, when sending invoices by email, our platform currently attaches
-            only the PDF version. UBL XML attachments will be added in a future
-            update.
+            Yes, when sending invoices by email, our platform attaches a PDF
+            version of the invoice.
           </p>
         </div>
 
@@ -259,8 +258,7 @@ const SMEGuidelines: React.FC = () => {
           </h4>
           <p className="mt-2 text-secondary-700">
             Our platform provides delivery status updates for invoices sent via
-            email. PEPPOL status tracking will be added in future versions. You
-            can check the status of your invoices on the dashboard.
+            email. You can check the status in the dashboard.
           </p>
         </div>
 
