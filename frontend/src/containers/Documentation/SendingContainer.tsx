@@ -22,7 +22,7 @@ const Sending: React.FC = () => {
       </h2>
       <p className="mt-4 text-lg text-secondary-500">
         After an invoice has been validated, you can send it to your customer
-        via email or the PEPPOL network.
+        via email.
       </p>
 
       <h3 className="mt-8 text-xl font-medium text-secondary-900">
@@ -49,7 +49,7 @@ const Sending: React.FC = () => {
           <li>Your company name and logo</li>
           <li>Invoice number and amount</li>
           <li>Due date and payment instructions</li>
-          <li>PDF attachment (UBL XML is not yet supported)</li>
+          <li>PDF attachment</li>
         </ul>
         <p className="mt-2 text-sm text-secondary-700">
           You can customize the email message before sending.
