@@ -1,11 +1,20 @@
+/**
+ * @file Chart.tsx - Chart visualization utility components using Recharts.
+ * This module includes chart container, tooltip, legend and theme styling helpers.
+ */
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
-
 import { cn } from "@/lib/utils"
 
-// Format: { THEME_NAME: CSS_SELECTOR }
+/**
+ * Supported theme names and their corresponding CSS selectors.
+ */
 const THEMES = { light: "", dark: ".dark" } as const
 
+/**
+ * ChartConfig - Defines label and icon configuration for each chart line or bar.
+ */
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
@@ -20,8 +29,12 @@ type ChartContextProps = {
   config: ChartConfig
 }
 
+// Create chart config context
 const ChartContext = React.createContext<ChartContextProps | null>(null)
 
+/**
+ * Hook to access chart configuration from context.
+ */
 function useChart() {
   const context = React.useContext(ChartContext)
 
@@ -32,6 +45,9 @@ function useChart() {
   return context
 }
 
+/**
+ * ChartContainer - Root wrapper for charts. Applies style, layout and injects style config.
+ */
 const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
@@ -65,6 +81,9 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
+/**
+ * ChartStyle - Injects dynamic theme-specific CSS variables for chart elements.
+ */
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme || config.color
@@ -98,8 +117,14 @@ ${colorConfig
   )
 }
 
+/**
+ * ChartTooltip - Direct export from Recharts.
+ */
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+/**
+ * ChartTooltipContent - Custom tooltip content component with label and icons.
+ */
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
@@ -254,6 +279,9 @@ const ChartTooltipContent = React.forwardRef<
 )
 ChartTooltipContent.displayName = "ChartTooltip"
 
+/**
+ * ChartLegendContent - Custom legend content using configured icon or default indicator.
+ */
 const ChartLegend = RechartsPrimitive.Legend
 
 const ChartLegendContent = React.forwardRef<
@@ -314,7 +342,9 @@ const ChartLegendContent = React.forwardRef<
 )
 ChartLegendContent.displayName = "ChartLegend"
 
-// Helper to extract item config from a payload.
+/**
+ * getPayloadConfigFromPayload - Helper to extract config by key from nested payloads.
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

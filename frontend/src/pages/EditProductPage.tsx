@@ -1,3 +1,17 @@
+/**
+ * @file EditProductPage.tsx - Defines the EditProductPage component, which renders the page layout for editing an existing product.
+ * * It includes the page header and the EditProductContainer component.
+ */
+
+/**
+ * EditProductPage Component
+ *
+ * * This component renders the main layout for the edit product page, including a decorative background,
+ *   a header with title and icon, and the form container for product editing.
+ *
+ * @returns {JSX.Element} The full page structure for updating an existing product.
+ */
+
 import React from "react"
 import { MessageCircle } from "lucide-react"
 import GridPatternOverlay from "@/components/common/GridPatternOverlay"

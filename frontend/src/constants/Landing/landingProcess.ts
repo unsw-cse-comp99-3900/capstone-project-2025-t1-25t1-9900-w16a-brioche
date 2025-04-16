@@ -1,3 +1,19 @@
+/**
+ * @file landingProcess.ts - Defines the landing page process steps for how e-invoicing works.
+ *
+ * ** Breaks down the workflow into three core steps: Create, Validate, and Send.
+ * ** Includes associated images, feature tags, and descriptions for each step.
+ */
+
+/**
+ * landingProcess Object
+ *
+ * Contains structured content used to visually represent the e-invoicing process on the homepage.
+ * Includes a section title, a description, and a list of sequential steps with supporting data.
+ *
+ * @returns {object} - Data for rendering the 3-step e-invoicing workflow (Create → Validate → Send).
+ */
+
 export const landingProcess = {
   content: {
     tagText: "Simple Process",

@@ -1,3 +1,20 @@
+/**
+ * @file InvoiceTableContainer.tsx - Defines the InvoiceTableContainer component for displaying and managing invoices in a table format.
+ * It includes functionality for viewing, editing and deleting invoices.
+ */
+
+/**
+ * InvoiceTableContainer Component
+ *
+ * This component renders a data table containing invoice information with the following features:
+ * - Displays invoice details in a paginated table format
+ * - Provides actions for editing and deleting invoices
+ * - Handles invoice status display with badges
+ * - Integrates with invoice data fetching and management hooks
+ *
+ * @returns {JSX.Element} The invoice table container component
+ */
+
 import React, { useState } from "react"
 import { MoreHorizontal } from "lucide-react"
 import {
@@ -69,7 +86,7 @@ const InvoiceTableContainer: React.FC = () => {
   //email status badge styles
   const getEmailStatusBadge = (status: string) => {
     const styles = {
-      Sented: "bg-green-100 text-green-800",
+      Sent: "bg-green-100 text-green-800",
       Unsent: "bg-orange-100 text-orange-800",
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
@@ -124,17 +141,11 @@ const InvoiceTableContainer: React.FC = () => {
     {
       key: "emailStatus",
       header: "Email Status",
-      render: (invoice) => {
-        let computedEmailStatus = invoice.emailStatus || "-"
-        if (computedEmailStatus.toLowerCase() === "sent") {
-          computedEmailStatus = "Sented"
-        }
-        return (
-          <Badge className={getEmailStatusBadge(computedEmailStatus)}>
-            {computedEmailStatus}
-          </Badge>
-        )
-      },
+      render: (invoice) => (
+        <Badge className={getEmailStatusBadge(invoice.emailStatus || "-")}>
+          {invoice.emailStatus}
+        </Badge>
+      ),
       sortable: true,
       searchable: true,
       align: "center",

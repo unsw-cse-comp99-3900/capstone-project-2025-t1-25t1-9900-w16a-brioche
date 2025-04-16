@@ -1,3 +1,23 @@
+/**
+ * @file useProducts.ts - Defines the `useProducts` hook to retrieve a paginated list of products from the Reckon API.
+ * * Calls `/items` endpoint scoped by current `bookId`.
+ * * Validates the response using `productResponseSchema` (Zod).
+ * * Supports optional pagination via `page` and `perPage` params.
+ */
+
+/**
+ * useProducts Hook
+ *
+ * * Fetches a list of products scoped to the current book.
+ * * Uses React Query to handle fetching, caching, and background updates.
+ * * Supports optional pagination (defaults to fetch all).
+ * * Parses and validates API response using `productResponseSchema`.
+ *
+ * @param {number} page - Page number to fetch (default: 1).
+ * @param {number} perPage - Number of items per page (default: 9999 to fetch all).
+ * @returns {UseQueryResult<Product[]>} React Query result with validated product list or error/loading state.
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { productResponseSchema, type Product } from "@/types/product"

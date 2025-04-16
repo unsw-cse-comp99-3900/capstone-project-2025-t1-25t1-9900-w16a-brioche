@@ -1,3 +1,14 @@
+/**
+ * @file LandingButtonsContainer.tsx - Container component for landing page buttons
+ * Demonstrates usage of shadcn Button component and toast notifications
+ */
+
+/**
+ * Import required dependencies:
+ * - React for JSX support
+ * - Button component from shadcn UI library
+ * - toast notification from sonner library
+ */
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"

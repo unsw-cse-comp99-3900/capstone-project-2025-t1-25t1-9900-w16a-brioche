@@ -1,8 +1,21 @@
+/**
+ * @file Toaster.tsx - Defines the customized Toaster component using Sonner and theme support from next-themes.
+ */
+
 import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
+/**
+ * Toaster Component
+ *
+ * A wrapper around the Sonner Toaster that integrates with the app's theme system via `next-themes`.
+ * Provides consistent styling for toast notifications across light/dark/system themes.
+ *
+ * @param {ToasterProps} props - Optional props to pass through to the Sonner toaster component.
+ * @returns {JSX.Element} A themed and styled Sonner toaster.
+ */
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
 

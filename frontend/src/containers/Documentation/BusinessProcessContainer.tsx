@@ -1,3 +1,16 @@
+/**
+ * @file BusinessProcessContainer.tsx - Defines the BusinessProcessContainer component, which outlines the business process flow.
+ * It displays the steps involved in creating, validating, and sending e-invoices.
+ */
+
+/**
+ * BusinessProcessContainer Component
+ *
+ * This component renders the business process flow section, including visual steps and detailed descriptions for each step.
+ *
+ * @returns {JSX.Element} The business process flow section.
+ */
+
 import { processSteps } from "@/constants/Documentation/BusinessProcess"
 import React from "react"
 

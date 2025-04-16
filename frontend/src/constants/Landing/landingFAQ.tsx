@@ -1,3 +1,21 @@
+/**
+ * @file landingFAQ.tsx - Provides FAQ content and help section for the landing page.
+ *
+ * ** Defines structured question-and-answer entries used in the FAQ accordion.
+ * ** Includes help CTA section and embedded icons for enhanced visual presentation.
+ */
+
+/**
+ * landingFAQ Object
+ *
+ * Contains content for the FAQ section of the landing page, including:
+ * - Static headings
+ * - Help section (with CTA buttons)
+ * - List of expandable FAQ items
+ *
+ * @returns {object} - Structured data for rendering landing page FAQ and support section.
+ */
+
 export const landingFAQ = {
   content: {
     tagText: "Support",

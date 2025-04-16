@@ -1,3 +1,16 @@
+/**
+ * @file RegistrationContainer.tsx - Defines the RegistrationContainer component, which serves as the main container for the registration page.
+ * It will include the registration form and related functionalities.
+ */
+
+/**
+ * RegistrationContainer Component
+ *
+ * This component renders the main container for the registration page, including the title and placeholder for the registration form.
+ *
+ * @returns {JSX.Element} The registration page container.
+ */
+
 import React from "react"
 
 const RegistrationContainer: React.FC = () => {

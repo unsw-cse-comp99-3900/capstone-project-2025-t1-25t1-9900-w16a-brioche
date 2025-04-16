@@ -1,12 +1,35 @@
+/**
+ * @file invoice.ts - Defines schemas for invoice-related data, validation, and transformations.
+ *
+ * ** Contains Zod schemas for invoice creation, validation, and transformation between form and API data.
+ * ** Includes schemas for line items, customer, tax, payment terms, and more.
+ * ** Provides helper functions to convert form data to API request format and vice versa.
+ */
+
 import { z } from "zod"
 
-// Define enum types
+/**
+ * AmountTaxStatus Enum
+ *
+ * Represents the tax status of an invoice, indicating whether taxes are included, excluded, or non-taxable.
+ * Used to determine how tax is applied to the invoice.
+ *
+ * @returns {object} - Object with tax status options such as NonTaxed, Inclusive, and Exclusive.
+ */
 export const AmountTaxStatus = {
   NonTaxed: "NonTaxed",
   Inclusive: "Inclusive",
   Exclusive: "Exclusive",
 } as const
 
+/**
+ * InvoiceStatus Enum
+ *
+ * Represents the various statuses that an invoice can have in the system.
+ * Includes statuses like Draft, Approved, Paid, Overdue, and Pending.
+ *
+ * @returns {object} - Invoice status options such as Draft, Approved, Paid, etc.
+ */
 export const InvoiceStatus = {
   Draft: "Draft",
   Approved: "Approved",
@@ -15,6 +38,14 @@ export const InvoiceStatus = {
   Pending: "Pending", // Added for UI purposes
 } as const
 
+/**
+ * EmailStatus Enum
+ *
+ * Represents the status of an email sent for invoice notifications.
+ * Useful for tracking email delivery progress.
+ *
+ * @returns {object} - Email status options such as Unsent, Processing, Sent, etc.
+ */
 export const EmailStatus = {
   Unsent: "Unsent",
   Processing: "Processing",
@@ -23,6 +54,14 @@ export const EmailStatus = {
   Failed: "Failed",
 } as const
 
+/**
+ * LineItemRowType Enum
+ *
+ * Represents different types of rows in an invoice's line items.
+ * Can either be "Data" or "Group".
+ *
+ * @returns {object} - Line item row types like Data and Group.
+ */
 export const LineItemRowType = {
   Data: "Data",
   Group: "Group",
@@ -349,7 +388,7 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
         description: lineItem?.description || "",
         qty: lineItem?.itemDetails?.quantity?.toString() || "",
         discount: lineItem?.itemDetails?.discountPercent?.toString() || "",
-        taxCode: lineItem?.taxRate?.id || "",
+        taxCode: lineItem?.taxRate?.name || "",
         tax: lineItem?.taxAmount?.toString() || "",
         amount:
           lineItem?.itemDetails?.price && lineItem?.itemDetails?.quantity

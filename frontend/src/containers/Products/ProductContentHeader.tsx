@@ -1,3 +1,16 @@
+/**
+ * @file ProductContentHeader.tsx - Defines the ProductContentHeader component, which provides the header for product management views.
+ * It includes navigation and action buttons for managing products.
+ */
+
+/**
+ * Import required dependencies and components:
+ * - React for JSX support
+ * - Button component for action buttons
+ * - Link component for navigation
+ * - PageHeader component for consistent page headers
+ * - Users icon from Lucide icon set
+ */
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"

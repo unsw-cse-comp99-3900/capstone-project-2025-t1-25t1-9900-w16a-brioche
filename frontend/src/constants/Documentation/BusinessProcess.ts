@@ -1,3 +1,18 @@
+/**
+ * @file BusinessProcess.ts - Defines the `processSteps` array used to describe the step-by-step
+ * business process for invoice handling in the application.
+ *
+ * ** Contains descriptive metadata and UI styles for each process step.
+ * ** Used to render the visual flow of invoice creation, validation, and delivery.
+ */
+
+/**
+ * ProcessStep Interface
+ *
+ * Represents a single step in the invoice process flow, including metadata and UI-related styles.
+ *
+ * @returns {ProcessStep} - A step object with display attributes and step-level details.
+ */
 export interface ProcessStep {
   id: string
   title: string
@@ -9,17 +24,25 @@ export interface ProcessStep {
   subpoints?: string[]
 }
 
+/**
+ * processSteps Array
+ *
+ * Defines the three core steps of the invoice workflow: creation, validation, and sending.
+ * Each step contains a title, UI styles, descriptions, and subpoints to support rendering.
+ *
+ * @returns {ProcessStep[]} - Array of ordered process steps used in the invoice pipeline.
+ */
 export const processSteps: ProcessStep[] = [
   {
     id: "invoice-creation",
     title: "1. Invoice Creation",
-    subtitle: "CSV/Excel/Manual Entry",
+    subtitle: "PDF Upload / Manual Entry",
     color: "bg-primary-50",
     borderColor: "border-primary-200",
     textColor: "text-primary-700",
 
     subpoints: [
-      "Upload a CSV or Excel file with invoice data",
+      "Upload a PDF file containing invoice data",
       "Manually enter invoice details through our form",
     ],
     description: [
@@ -28,46 +51,34 @@ export const processSteps: ProcessStep[] = [
     ],
   },
   {
-    id: "ubl-conversion",
-    title: "2. UBL XML Conversion",
-    subtitle: "Australian Standard Format",
-    color: "bg-green-50",
-    borderColor: "border-green-200",
-    textColor: "text-green-700",
-    description: [
-      "After creating the invoice in Reckon One, our platform automatically converts it to UBL XML format, which is the standard required for Australian e-invoicing. This conversion maps all relevant fields to their corresponding UBL XML elements.",
-    ],
-  },
-  {
     id: "invoice-validation",
-    title: "3. Invoice Validation",
-    subtitle: "ESS Validator",
+    title: "2. Invoice Validation",
+    subtitle: "AI-based Rule Simulation",
     color: "bg-blue-50",
     borderColor: "border-blue-200",
     textColor: "text-blue-700",
     description: [
-      "The UBL XML invoice is validated against Australian e-invoicing standards using the ESS Validator. This validation includes:",
+      "Our platform validates invoice structure against key PEPPOL BIS Billing 3.0 rules using Google Gemini AI. This ensures invoices meet essential field requirements before sending.",
     ],
     subpoints: [
-      "XML wellformedness checking",
-      "Schema validation against UBL 2.1 XSD",
-      "Business rules validation (EN16931)",
-      "PEPPOL rules validation (Australia-specific)",
+      "Checks for required fields such as invoiceNumber, customerName, and lineItems",
+      "Follows PEPPOL rule IDs (e.g., ibt-001, ibt-131) via AI prompt-based simulation",
+      "Returns user-friendly error messages and suggestions",
     ],
   },
   {
     id: "invoice-sending",
-    title: "4. Invoice Sending",
-    subtitle: "Email or PEPPOL Network",
+    title: "3. Invoice Sending",
+    subtitle: "Email Delivery",
     color: "bg-yellow-50",
     borderColor: "border-yellow-200",
     textColor: "text-yellow-700",
     description: [
-      "Once validated, the invoice can be sent using one of two methods:",
+      "Once validated, the invoice is sent to the customer via email.",
     ],
     subpoints: [
-      "Email: Send via email with PDF and UBL XML attachments",
-      "PEPPOL Network: Send directly to recipients on the PEPPOL network",
+      "Attach a PDF version of the invoice to the email",
+      "Include key invoice details such as due date, total amount, and reference",
     ],
   },
 ]

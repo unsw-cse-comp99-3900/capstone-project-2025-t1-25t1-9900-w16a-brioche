@@ -1,3 +1,17 @@
+/**
+ * @file LoadingContainer.tsx - Defines the LoadingContainer component, which displays a loading animation.
+ * It provides a visual indication that content is being loaded.
+ */
+
+/**
+ * LoadingContainer Component
+ *
+ * This component renders a loading animation, indicating to users that content is being loaded.
+ * It includes decorative elements and animations to enhance user experience.
+ *
+ * @returns {JSX.Element} The loading animation container.
+ */
+
 import React from "react"
 
 const LoadingContainer: React.FC = () => {

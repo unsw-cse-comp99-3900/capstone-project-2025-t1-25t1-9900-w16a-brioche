@@ -1,7 +1,19 @@
+/**
+ * @file ProcessTimeline.tsx - Renders the full vertical timeline layout with connected process steps.
+ */
+
 import React from "react"
 import ProcessStep from "@/components/landing/ProcessStep"
 import { landingProcess } from "@/constants/Landing/landingProcess"
 
+/**
+ * ProcessTimeline Component
+ *
+ * This component renders a vertical timeline layout for the landing page,
+ * composed of multiple `ProcessStep` components and a decorative timeline line in the center (for desktop).
+ *
+ * @returns {JSX.Element} - A complete process timeline layout.
+ */
 const ProcessTimeline: React.FC = () => {
   return (
     <div className="relative">
