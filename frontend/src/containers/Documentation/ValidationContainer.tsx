@@ -53,15 +53,126 @@ const Validation: React.FC = () => {
       </ul>
 
       <h3 className="mt-8 text-xl font-medium text-secondary-900">
+        Description
+      </h3>
+      <ul className="mt-2 list-disc pl-5 text-secondary-700">
+        <li>Takes invoice XML file as input</li>
+        <li>Generates a report in json format as output</li>
+      </ul>
+
+      <h3 className="mt-8 text-xl font-medium text-secondary-900">
+        Validation Report format
+      </h3>
+      <p className="mt-4 text-secondary-700">
+        The high level structure is the following:
+      </p>
+      <ul className="list-none pl-5 text-secondary-700">
+        <li>
+          - Overall Validation result (Successful or Not, and Summary of the
+          result)
+        </li>
+        <li>
+          - List of individual Validations, one Section for each Set of Rules:
+          <ul className="list-none pl-5">
+            <li>
+              - For Each Set of Rules: List of Failed Validations:
+              <ul className="list-none pl-5">
+                <li>
+                  - For Each Failed Validation:
+                  <ul className="list-none pl-5">
+                    <li>- id=Rule Code</li>
+                    <li>- text=Description of the Validation error</li>
+                    <li>- location=the XPath of the data (path in the XML)</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div className="mt-4 border border-secondary-200 rounded-md">
+        <div className="bg-secondary-50 px-4 py-2 border-b border-secondary-200">
+          <h4 className="text-md font-medium text-secondary-900">
+            Example of Failed report:{" "}
+          </h4>
+        </div>
+        <div className="p-4">
+          <div className="bg-secondary-800 rounded-md overflow-auto">
+            <pre className="text-xs text-secondary-100 p-4 font-mono">
+              {`{
+  "customer": "Online validation tool",
+  "successful": false,
+  "message": "Schematron validation on file 'invoice.xml' completed with status: FAILED. Total failed assertions count= 2. Failed assertions codes: { PEPPOL-EN16931-R007-AUNZ-SB, PEPPOL-EN16931-R004-AUNZ-SB }. Total reports count= 0.",
+  "report": {
+    "successful": false,
+    "summary": "Validation failed. Check individual validation reports for details",
+    "filename": "invoice.xml",
+    "reports": {
+      "AUNZ_PEPPOL_SB_1_0_10": {
+        "rules": "AUNZ_PEPPOL_SB_1_0_10",
+        "successful": false,
+        "summary": "Validation result for AUNZ_PEPPOL_SB_1_0_10: Failed. Failed assertions count = 2. Assertion errors: { PEPPOL-EN16931-R007-AUNZ-SB, PEPPOL-EN16931-R004-AUNZ-SB }. Schematron Reports fired: no schematron reports fired.",
+        "firedAssertionErrors": [
+          {
+            "id": "PEPPOL-EN16931-R007-AUNZ-SB",
+            "text": "Business process MUST be in the format 'urn:fdc:peppol.eu:2017:poacc:selfbilling:NN:1.0' where NN indicates the process number.",
+            "location": "/*:Invoice[namespace-uri()='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'][1]",
+            "test": "$profile != 'Unknown'",
+            "flag": "fatal"
+          },
+          {
+            "id": "PEPPOL-EN16931-R004-AUNZ-SB",
+            "text": "Specification identifier MUST have the value 'urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0'.",
+            "location": "/*:Invoice[namespace-uri()='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'][1]",
+            "test": "starts-with(normalize-space(cbc:CustomizationID/text()), 'urn:cen.eu:en16931:2017#conformant#urn:fdc:peppol.eu:2017:poacc:selfbilling:international:aunz:3.0')",
+            "flag": "fatal"
+          }
+        ],
+        "firedSuccessfulReports": [],
+        "firedAssertionErrorsCount": 2,
+        "firedSuccessfulReportsCount": 0,
+        "firedAssertionErrorCodes": [
+          "PEPPOL-EN16931-R007-AUNZ-SB",
+          "PEPPOL-EN16931-R004-AUNZ-SB"
+        ]
+      },
+      "AUNZ_UBL_1_0_10": {
+        "rules": "AUNZ_UBL_1_0_10",
+        "successful": true,
+        "summary": "Validation result for AUNZ_UBL_1_0_10: Successful. No assertion errors fired. Schematron Reports fired: no schematron reports fired.",
+        "firedAssertionErrors": [],
+        "firedSuccessfulReports": [],
+        "firedAssertionErrorsCount": 0,
+        "firedSuccessfulReportsCount": 0,
+        "firedAssertionErrorCodes": []
+      }
+    },
+    "firedAssertionErrorsCount": 2,
+    "allAssertionErrorCodes": [
+      "PEPPOL-EN16931-R007-AUNZ-SB",
+      "PEPPOL-EN16931-R004-AUNZ-SB"
+    ],
+    "firedSuccessfulReportsCount": 0
+  }
+}
+
+`}
+            </pre>
+          </div>
+        </div>
+      </div>
+
+      {/* <h3 className="mt-8 text-xl font-medium text-secondary-900">
         Validation Results
       </h3>
       <p className="mt-4 text-secondary-700">
         After validation, our platform displays the results, including any
         errors or warnings that need to be addressed. If the invoice passes
         validation, it's ready to be sent.
-      </p>
+      </p> */}
 
-      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {/* <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <h4 className="text-lg font-medium text-secondary-900">
@@ -261,7 +372,7 @@ const Validation: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   )
 }

@@ -28,14 +28,83 @@ const InvoiceCreation: React.FC = () => {
         Manual Invoice Creation
       </h3>
       <p className="mt-4 text-secondary-700">
-        The manual invoice form allows you to create invoices by entering all
-        details directly. The form includes fields for:
+        The manual invoice creation form allows you to generate invoices by
+        directly entering all necessary details. The form includes the following
+        fields:
       </p>
-      <ul className="mt-2 list-disc pl-5 text-secondary-700">
+      {/* <ul className="mt-2 list-disc pl-5 text-secondary-700">
         <li>Customer information (name, ABN, address, contact details)</li>
         <li>Invoice details (number, date, due date, reference)</li>
         <li>Line items (description, quantity, unit price, tax)</li>
         <li>Notes and payment terms</li>
+      </ul> */}
+
+      <ul className="mt-2 list-disc pl-5 text-secondary-700">
+        <li>
+          <strong>Customer Information</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Name</strong>: Enter the full name.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Invoice Details</strong>
+          <ul className="list-disc pl-5">
+            {/* <li>
+              <strong>Invoice Number</strong>: Enter a unique invoice number for
+              tracking and management purposes.
+            </li> */}
+            <li>
+              <strong>Invoice Date</strong>: Set the date on which the invoice
+              is issued.
+            </li>
+            <li>
+              <strong>Due Date</strong>: Specify the payment due date to ensure
+              timely payment.
+            </li>
+            <li>
+              <strong>Reference Information</strong>: Include any relevant
+              reference numbers or notes for identification.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Invoice Items</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Item</strong>: Enter the name of the product or service.
+            </li>
+            <li>
+              <strong>Item Price</strong>: Enter the price per item.
+            </li>
+            <li>
+              <strong>Description</strong>: Provide a brief description of each
+              item or service to help the customer understand what they are
+              purchasing.
+            </li>
+            <li>
+              <strong>Quantity</strong>: Enter the number of products or
+              services provided.
+            </li>
+            <li>
+              <strong>Tax</strong>: Specify the applicable tax rate or amount.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Notes and Payment Terms</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Notes</strong>: Add any additional information or
+              instructions you wish to convey to the customer.
+            </li>
+            <li>
+              <strong>Payment Terms</strong>: Clearly state the payment
+              conditions to inform the customer of the payment requirements.
+            </li>
+          </ul>
+        </li>
       </ul>
 
       <p className="mt-4 text-secondary-700">
@@ -88,10 +157,65 @@ const InvoiceCreation: React.FC = () => {
         The CSV/Excel upload feature allows you to create multiple invoices at
         once by uploading a spreadsheet. The file should contain columns for:
       </p>
-      <ul className="mt-2 list-disc pl-5 text-secondary-700">
+      {/* <ul className="mt-2 list-disc pl-5 text-secondary-700">
         <li>Customer details (name, ABN, email)</li>
         <li>Invoice details (number, date, due date)</li>
         <li>Line item details (description, quantity, unit price, tax)</li>
+      </ul> */}
+
+      <ul className="mt-2 list-disc pl-5 text-secondary-700">
+        <li>
+          <strong>Customer Information</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Name</strong>: Enter the full name of the customer.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Invoice Details</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Invoice Number</strong>: Enter a unique invoice number for
+              tracking and management purposes.
+            </li>
+            <li>
+              <strong>Invoice Date</strong>: Set the date on which the invoice
+              is issued.
+            </li>
+            <li>
+              <strong>Due Date</strong>: Specify the payment due date to ensure
+              timely payment.
+            </li>
+            <li>
+              <strong>Reference Information</strong>: Include any relevant
+              reference numbers or notes for identification.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Line Items</strong>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Item</strong>: Enter the name of the product or service.
+            </li>
+            <li>
+              <strong>Item Price</strong>: Enter the price per item.
+            </li>
+            <li>
+              <strong>Description</strong>: Provide a brief description of each
+              item or service to help the customer understand what they are
+              purchasing.
+            </li>
+            <li>
+              <strong>Quantity</strong>: Enter the number of products or
+              services provided.
+            </li>
+            <li>
+              <strong>Tax</strong>: Specify the applicable tax rate or amount.
+            </li>
+          </ul>
+        </li>
       </ul>
 
       <p className="mt-4 text-secondary-700">
