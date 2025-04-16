@@ -33,9 +33,7 @@ const SMEGuidelines: React.FC = () => {
           <li>Register for an account on our platform</li>
           <li>Connect your Reckon One account</li>
           <li>Set up your business profile with your ABN and other details</li>
-          <li>
-            Create your first e-invoice using the manual form.
-          </li>
+          <li>Create your first e-invoice using the manual form.</li>
           <li>Send the validated e-invoice to your customer</li>
         </ol>
       </div>
@@ -239,8 +237,9 @@ const SMEGuidelines: React.FC = () => {
             Can I still send PDF invoices?
           </h4>
           <p className="mt-2 text-secondary-700">
-          Yes, when sending invoices by email, our platform currently attaches only 
-          the PDF version. UBL XML attachments will be added in a future update.
+            Yes, when sending invoices by email, our platform currently attaches
+            only the PDF version. UBL XML attachments will be added in a future
+            update.
           </p>
         </div>
 
@@ -259,8 +258,8 @@ const SMEGuidelines: React.FC = () => {
             How do I know if my invoice was delivered?
           </h4>
           <p className="mt-2 text-secondary-700">
-            Our platform provides delivery status updates for invoices sent via 
-            email. PEPPOL status tracking will be added in future versions. You 
+            Our platform provides delivery status updates for invoices sent via
+            email. PEPPOL status tracking will be added in future versions. You
             can check the status of your invoices on the dashboard.
           </p>
         </div>
