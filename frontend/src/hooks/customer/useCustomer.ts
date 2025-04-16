@@ -1,3 +1,22 @@
+/**
+ * @file useCustomer.ts - Defines the `useCustomer` hook for retrieving a single customer's details from the Reckon API.
+ * * This hook fetches customer data based on the provided customer ID and the current book context.
+ * * Uses React Query for caching and async handling.
+ * * Utilizes a Zod schema (`customerSchema`) to validate the structure of the API response.
+ */
+
+/**
+ * useCustomer Hook
+ *
+ * * Fetches the details of a specific customer using a dynamically resolved book ID.
+ * * Performs a GET request to `/books/{bookId}/customers/{customerId}`.
+ * * Response is validated using a Zod schema to ensure type safety.
+ * * Automatically disables the query if `customerId` is falsy.
+ *
+ * @param {string} customerId - The unique ID of the customer to retrieve.
+ * @returns {UseQueryResult<Customer>} - React Query result with customer data, loading state, and error handling.
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { customerSchema, type Customer } from "@/types/customer"

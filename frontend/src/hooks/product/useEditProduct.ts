@@ -1,3 +1,21 @@
+/**
+ * @file useEditProduct.ts - Defines the `useEditProduct` hook for updating product details in the Reckon API.
+ * * Sends a PUT request to `/items/{productId}` with form data validated by Zod.
+ * * Automatically invalidates the `products` query on success.
+ */
+
+/**
+ * useEditProduct Hook
+ *
+ * * Accepts a product ID and form values to update an existing product.
+ * * Transforms form data into the correct API format using `apiRequestSchema`.
+ * * Sends a PUT request to update product details in the Reckon backend.
+ * * On success, invalidates the cached list of products to refresh UI.
+ *
+ * @param {string} productId - The ID of the product to be edited.
+ * @returns {UseMutationResult<void, Error, ProductFormValues>} A mutation hook for editing a product.
+ */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type ProductFormValues, apiRequestSchema } from "@/types/product"

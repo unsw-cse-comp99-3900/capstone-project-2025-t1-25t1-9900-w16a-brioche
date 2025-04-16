@@ -1,7 +1,21 @@
+/**
+ * @file Textarea.tsx - Defines a styled textarea component with consistent theming and accessibility support.
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Textarea Component
+ *
+ * A custom styled textarea element that supports full width, rounded borders, placeholder styling,
+ * and focus-visible accessibility enhancements. It is responsive and theme-aware.
+ *
+ * @param {React.ComponentProps<"textarea">} props - Standard textarea props.
+ * @param {string} [props.className] - Additional CSS class names to apply.
+ * @returns {JSX.Element} - A styled <textarea> element.
+ */
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.ComponentProps<"textarea">

@@ -1,12 +1,34 @@
+/**
+ * @file FAQItem.tsx - Represents a single FAQ question and answer block with an expand/collapse interaction and glow hover effect.
+ */
+
 import React, { ReactNode, useState } from "react"
 import GlowHoverEffect from "@/components/common/GlowHoverEffect"
 
 interface FAQItemProps {
+  /** Icon displayed to the left of the question */
   icon: ReactNode
+  /** FAQ question text */
   question: string
+  /** Answer content which can include JSX */
   answer: ReactNode
 }
 
+/**
+ * FAQItem Component
+ *
+ * This component renders a single FAQ item with:
+ * - An icon
+ * - A clickable question
+ * - A collapsible answer section
+ * - Visual enhancements like a glowing hover effect and gradient divider
+ *
+ * @param {FAQItemProps} props - The FAQ item properties
+ * @param {ReactNode} props.icon - The icon representing the FAQ topic
+ * @param {string} props.question - The question to be displayed
+ * @param {ReactNode} props.answer - The answer content to be revealed upon click
+ * @returns {JSX.Element} A stylized expandable FAQ item
+ */
 const FAQItem: React.FC<FAQItemProps> = ({ icon, question, answer }) => {
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,6 +1,22 @@
+/**
+ * @file FeaturesContent.tsx - Displays the heading, subheading, and label for the features section of the landing page.
+ */
+
 import React from "react"
 import { landingFeature } from "@/constants/Landing/landingFeature"
 
+/**
+ * FeaturesContent Component
+ *
+ * Renders the main content area of the Features section, including:
+ * - A section label (tagline) with a gradient background
+ * - A heading and subheading to describe the value proposition
+ *
+ * Content is sourced from the `landingFeature` constant.
+ * Animations are applied via AOS (Animate On Scroll) attributes.
+ *
+ * @returns {JSX.Element} A formatted section header with textual content.
+ */
 const FeaturesContent: React.FC = () => {
   return (
     <div className="text-center mb-16 -mt-8" data-aos="fade-up">

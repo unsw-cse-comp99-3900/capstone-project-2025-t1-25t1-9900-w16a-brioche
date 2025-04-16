@@ -1,3 +1,18 @@
+/**
+ * @file InvoiceContentHeader.tsx - Defines the header component for the invoice management page
+ * Contains the page title and create invoice button with dropdown options
+ */
+
+/**
+ * InvoiceContentHeader Component
+ *
+ * This component renders the header section of the invoice management page,
+ * including a page title with icon and a create invoice button that reveals
+ * dropdown options for manual creation or PDF upload when hovered.
+ *
+ * @returns {JSX.Element} The invoice content header section
+ */
+
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"

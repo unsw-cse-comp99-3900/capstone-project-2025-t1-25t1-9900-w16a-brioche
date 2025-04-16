@@ -1,3 +1,12 @@
+/**
+ * @file LandingHeaderContainer.tsx - Container component for landing page header
+ * Displays the main title and welcome message of the landing page
+ */
+
+/**
+ * Import required dependencies:
+ * - React for JSX support
+ */
 import React from "react"
 
 const LandingHeaderContainer: React.FC = () => {

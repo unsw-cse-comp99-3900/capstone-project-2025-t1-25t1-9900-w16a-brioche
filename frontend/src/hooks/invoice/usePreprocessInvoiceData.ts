@@ -1,3 +1,23 @@
+/**
+ * @file usePreprocessInvoiceData.ts - Defines the `usePreprocessInvoiceData` hook for preprocessing invoice data from uploaded PDFs.
+ * * This hook ensures customers and products mentioned in the invoice exist in the system.
+ * * If not found, it auto-creates missing customers and products using default values.
+ * * It leverages other hooks like `useCreateCustomer`, `useCreateProduct`, `useCustomers`, and `useProducts`.
+ */
+
+/**
+ * usePreprocessInvoiceData Hook
+ *
+ * * Accepts partially parsed invoice data (typically from PDF).
+ * * Validates if the customer exists — creates one if not found.
+ * * Iterates through items — creates missing products with default values.
+ * * Returns a structured response with success flag and optional error or transformed data.
+ * * Automatically invalidates `customers` and `products` queries after successful mutation.
+ *
+ * @returns {UseMutationResult<PreprocessResult, Error, Partial<InvoiceFormValues>>}
+ *  A React Query mutation object to trigger invoice data preprocessing.
+ */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useCustomers } from "@/hooks/customer/useCustomers"
 import { useCreateCustomer } from "@/hooks/customer/useCreateCustomer"

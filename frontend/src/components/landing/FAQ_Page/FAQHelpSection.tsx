@@ -1,6 +1,24 @@
+/**
+ * @file FAQHelpSection.tsx - Displays a help or contact section below the FAQ on the landing page.
+ * Includes a styled call-to-action box with a title, description, and multiple action buttons.
+ */
+
 import React from "react"
 import { landingFAQ } from "@/constants/Landing/landingFAQ"
 
+/**
+ * FAQHelpSection Component
+ *
+ * This component renders a styled help section beneath the FAQ block.
+ * It includes:
+ * - A title and description text
+ * - Decorative background gradients and blur effects
+ * - Multiple CTA buttons with optional icons and primary styling
+ *
+ * The section also supports fade-up animation via AOS and is anchored with `id="contact"`.
+ *
+ * @returns {JSX.Element} A gradient-based help/contact card with buttons.
+ */
 const FAQHelpSection: React.FC = () => {
   const { title, description, buttons } = landingFAQ.helpSection
 

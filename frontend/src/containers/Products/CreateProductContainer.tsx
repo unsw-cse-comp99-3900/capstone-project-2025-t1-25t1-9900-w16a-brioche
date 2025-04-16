@@ -1,3 +1,17 @@
+/**
+ * @file CreateProductContainer.tsx - Defines the CreateProductContainer component, which manages the creation of new products.
+ * It includes form handling, validation, and submission logic.
+ */
+
+/**
+ * CreateProductContainer Component
+ *
+ * This component renders the main container for creating a new product, including form fields for product details,
+ * pricing, and tax information. It handles form submission and validation.
+ *
+ * @returns {JSX.Element} The product creation container.
+ */
+
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -36,25 +50,22 @@ import {
 } from "@/types/product"
 import { useCreateProduct } from "@/hooks/product/useCreateProduct"
 import { toast } from "sonner"
-import useProducts from "@/hooks/product/useProducts"
 import useAccounts from "@/hooks/account/useAccounts"
 
 const CreateProductContainer: React.FC = () => {
   const navigate = useNavigate()
   const createProduct = useCreateProduct()
-  const { data: products = [], isLoading: isLoadingProducts } = useProducts()
   const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts()
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: "",
-      parentItem: "",
       itemType: ItemType.Product,
       itemCode: "",
       status: ItemStatus.Active,
       amountTaxStatus: ItemAmountTaxStatus.Inclusive,
-      price: 0,
+      price: undefined,
       description: "",
       ledgerAccount: "",
       taxRate: "GST", // Default to GST
@@ -66,9 +77,26 @@ const CreateProductContainer: React.FC = () => {
       await createProduct.mutateAsync(data)
       toast.success("Product created successfully")
       navigate("/products")
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to create product."
+
+      const backendMessage = error?.response?.data?.message
+      if (backendMessage) {
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      } else {
+        errorMessage = JSON.stringify(error)
+      }
+
       toast.error("Failed to create product", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error creating product:", error)
     }
@@ -95,36 +123,6 @@ const CreateProductContainer: React.FC = () => {
                       </FormLabel>
                       <FormControl>
                         <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Parent Item */}
-                <FormField
-                  control={form.control}
-                  name="parentItem"
-                  render={({ field }) => (
-                    <FormItem className="sm:col-span-3">
-                      <FormLabel className="flex items-center gap-1">
-                        <Package className="h-4 w-4 text-secondary-500" />
-                        Parent Item
-                      </FormLabel>
-                      <FormControl>
-                        <select
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                          value={field.value || ""}
-                          onChange={(e) => field.onChange(e.target.value)}
-                          disabled={isLoadingProducts}
-                        >
-                          <option value="">No Parent</option>
-                          {products.map((product) => (
-                            <option key={product.id} value={product.name}>
-                              {product.name}
-                            </option>
-                          ))}
-                        </select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -259,9 +257,13 @@ const CreateProductContainer: React.FC = () => {
                           min="0"
                           {...field}
                           onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value) || 0)
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : parseFloat(e.target.value)
+                            )
                           }
-                          value={field.value}
+                          value={field.value ?? ""}
                         />
                       </FormControl>
                       <FormDescription>

@@ -1,4 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * @file DataTable.tsx - A flexible, fully-featured data table component with sorting, searching, and pagination support.
+ *
+ * This component supports:
+ * - Column-based rendering and alignment
+ * - Search across specified columns
+ * - Sortable headers
+ * - Custom row actions
+ * - Pagination with dynamic page size
+ *
+ * It is designed to work generically with any data shape using TypeScript generics.
+ */
+
 import React, { useMemo } from "react"
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import {
@@ -57,6 +70,10 @@ export type DataTableProps<T> = {
 
 const SIBLING_COUNT = 1
 
+/**
+ * Generates a pagination array with page numbers and ellipsis indicators.
+ * Ensures the first and last pages are always shown, with a window of adjacent pages.
+ */
 function generatePagination(currentPage: number, totalPages: number) {
   const pages: (number | "...")[] = []
 
@@ -90,6 +107,17 @@ function generatePagination(currentPage: number, totalPages: number) {
   return pages
 }
 
+/**
+ * DataTable Component
+ *
+ * A generic and reusable data table component for displaying tabular data with:
+ * - Column configs (with renderers)
+ * - Optional sorting/searching
+ * - Optional row actions
+ * - Full pagination
+ *
+ * @template T - The data type of each row item.
+ */
 export function DataTable<T extends Record<string, any>>({
   data,
   columns,

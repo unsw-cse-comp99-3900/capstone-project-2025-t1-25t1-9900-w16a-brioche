@@ -1,7 +1,20 @@
+/**
+ * @file Input.tsx - A reusable and styled input component built with Tailwind CSS and React.forwardRef.
+ *
+ * This component wraps a native <input> element with consistent styling
+ * and supports forwarding refs for integration with forms and validation tools like react-hook-form.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Input Component
+ *
+ * A generic text input field with base styles applied.
+ * Supports all native <input> props (via React.ComponentProps<"input">).
+ * Designed to be used across forms in the application with consistent styling.
+ */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (

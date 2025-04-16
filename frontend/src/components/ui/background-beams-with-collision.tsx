@@ -1,7 +1,21 @@
+/**
+ * @file BackgroundBeamsWithCollision.tsx - Interactive animated background featuring falling beams and collision-triggered explosions.
+ * Utilizes motion/react for animation and React state/refs for real-time collision detection.
+ */
+
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "motion/react"
 import React, { useRef, useState, useEffect } from "react"
 
+/**
+ * BackgroundBeamsWithCollision Component
+ *
+ * Renders a background with animated falling beams. When a beam hits a specific "collision container"
+ * (invisible and placed at the bottom), an explosion animation is triggered.
+ *
+ * @param {React.ReactNode} children - The content to overlay on top of the animated background.
+ * @param {string} [className] - Optional styling for the wrapper container.
+ */
 export const BackgroundBeamsWithCollision = ({
   children,
   className,
@@ -96,6 +110,12 @@ export const BackgroundBeamsWithCollision = ({
   )
 }
 
+/**
+ * CollisionMechanism Component
+ *
+ * Handles a single falling beam and checks for collision with the bottom "container".
+ * When collision is detected, it triggers an <Explosion /> animation.
+ */
 const CollisionMechanism = React.forwardRef<
   HTMLDivElement,
   {
@@ -221,6 +241,12 @@ const CollisionMechanism = React.forwardRef<
 
 CollisionMechanism.displayName = "CollisionMechanism"
 
+/**
+ * Explosion Component
+ *
+ * A visual explosion effect rendered at the collision point.
+ * Creates 20 animated particle span elements + a glowing line.
+ */
 const Explosion = ({ ...props }: React.HTMLProps<HTMLDivElement>) => {
   const spans = Array.from({ length: 20 }, (_, index) => ({
     id: index,

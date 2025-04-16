@@ -1,3 +1,22 @@
+/**
+ * @file useSendInvoice.ts - Defines the `useSendInvoice` hook for emailing an invoice to recipients using the Reckon API.
+ * * Sends invoice emails via POST request to `/invoices/{id}/email`.
+ * * Validates recipient input and handles user feedback through toast notifications.
+ */
+
+/**
+ * useSendInvoice Hook
+ *
+ * * Accepts recipient and email content information.
+ * * Dynamically injects the current book ID and invoice ID into the API path.
+ * * Sends a POST request to the Reckon email endpoint.
+ * * On success, displays a toast confirmation.
+ * * On failure, displays an error toast.
+ *
+ * @param {string} invoiceId - The ID of the invoice to be emailed.
+ * @returns {UseMutationResult<void, Error, SendInvoiceEmailData>} Mutation result with success/error handling.
+ */
+
 import { useMutation } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { toast } from "sonner"

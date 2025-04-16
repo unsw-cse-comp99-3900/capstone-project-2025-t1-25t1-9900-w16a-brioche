@@ -1,3 +1,20 @@
+/**
+ * @file InvoicePdfUploadContainer.tsx - Defines the InvoicePdfUploadContainer component for handling PDF invoice uploads.
+ * It includes functionality for file selection, preview, and processing of PDF invoices.
+ */
+
+/**
+ * InvoicePdfUploadContainer Component
+ *
+ * This component provides a user interface for uploading PDF invoices. It includes:
+ * - PDF file upload and validation
+ * - File preview functionality
+ * - Error handling and user feedback
+ * - Processing of uploaded PDFs for invoice data extraction
+ *
+ * @returns {JSX.Element} The PDF upload container component
+ */
+
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"

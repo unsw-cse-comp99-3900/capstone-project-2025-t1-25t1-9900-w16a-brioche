@@ -1,3 +1,19 @@
+/**
+ * @file landingbenefits.tsx - Defines benefit content and call-to-action for the landing page.
+ *
+ * ** Lists key SME benefits such as faster payments and reduced errors.
+ * ** Includes SVG icons and CTA buttons for UI rendering on the homepage.
+ */
+
+/**
+ * landingBenefits Object
+ *
+ * Contains homepage content targeted at small and medium enterprises (SMEs),
+ * highlighting the platform’s benefits and encouraging user engagement.
+ *
+ * @returns {object} - Contains section title, benefit list, and CTA content for landing page use.
+ */
+
 export const landingBenefits = {
   sectionTitle: "Benefits for SMEs",
   benefits: [

@@ -1,3 +1,20 @@
+/**
+ * @file useCreateProduct.ts - Defines the `useCreateProduct` hook for creating a product via the Reckon API.
+ * * Sends a POST request to `/items` with validated product data.
+ * * Parses form values using Zod (`apiRequestSchema`).
+ * * On success, invalidates the `products` query to refresh the product list.
+ */
+
+/**
+ * useCreateProduct Hook
+ *
+ * * Submits a new product to the Reckon backend using the current book ID.
+ * * Transforms form data into the expected API schema using Zod validation.
+ * * Invalidates the cached list of products after successful creation.
+ *
+ * @returns {UseMutationResult<any, Error, ProductFormValues>} React Query mutation object for creating a product.
+ */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { type ProductFormValues, apiRequestSchema } from "@/types/product"
