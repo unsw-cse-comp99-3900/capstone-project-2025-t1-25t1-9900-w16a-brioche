@@ -67,7 +67,7 @@ const InvoiceInformation: React.FC<InvoiceInformationProps> = ({ form }) => {
                   onChange={(e) => field.onChange(e.target.value)}
                   disabled={isLoadingCustomers}
                 >
-                  <option value="">None</option>
+                  {!field.value && <option value=""> </option>}
                   {customers.map((customer) => (
                     <option key={customer.id} value={customer.name}>
                       {customer.name}

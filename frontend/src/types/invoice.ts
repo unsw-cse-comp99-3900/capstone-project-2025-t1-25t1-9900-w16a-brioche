@@ -388,7 +388,7 @@ export const apiToFormSchema = (invoice: Invoice): InvoiceFormValues => {
         description: lineItem?.description || "",
         qty: lineItem?.itemDetails?.quantity?.toString() || "",
         discount: lineItem?.itemDetails?.discountPercent?.toString() || "",
-        taxCode: lineItem?.taxRate?.id || "",
+        taxCode: lineItem?.taxRate?.name || "",
         tax: lineItem?.taxAmount?.toString() || "",
         amount:
           lineItem?.itemDetails?.price && lineItem?.itemDetails?.quantity
