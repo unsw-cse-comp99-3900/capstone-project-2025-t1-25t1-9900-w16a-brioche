@@ -202,45 +202,11 @@ const SMEGuidelines: React.FC = () => {
       <div className="mt-4 space-y-4">
         <div>
           <h4 className="text-lg font-medium text-secondary-900">
-            What is UBL XML?
-          </h4>
-          <p className="mt-2 text-secondary-700">
-            Universal Business Language (UBL) XML is a standardized XML format
-            for business documents, including invoices. It's the format used for
-            e-invoicing in Australia and many other countries.
-          </p>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-medium text-secondary-900">
-            What is the PEPPOL network?
-          </h4>
-          <p className="mt-2 text-secondary-700">
-            PEPPOL (Pan-European Public Procurement Online) is a network that
-            enables businesses to exchange electronic documents, including
-            e-invoices, in a standardized way. Australia has adopted PEPPOL for
-            e-invoicing.
-          </p>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-medium text-secondary-900">
-            Do I need to register for PEPPOL?
-          </h4>
-          <p className="mt-2 text-secondary-700">
-            No, our platform handles the PEPPOL connection for you. You only
-            need to register on our platform and connect your Reckon One
-            account.
-          </p>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-medium text-secondary-900">
             Can I still send PDF invoices?
           </h4>
           <p className="mt-2 text-secondary-700">
-            Yes, when sending invoices by email, our platform automatically
-            attaches a PDF version along with the UBL XML file.
+            Yes, when sending invoices by email, our platform attaches a PDF
+            version of the invoice.
           </p>
         </div>
 
@@ -259,9 +225,8 @@ const SMEGuidelines: React.FC = () => {
             How do I know if my invoice was delivered?
           </h4>
           <p className="mt-2 text-secondary-700">
-            Our platform provides delivery status updates for both email and
-            PEPPOL transmissions. You can check the status of your invoices on
-            the dashboard.
+            Our platform provides delivery status updates for invoices sent via
+            email.You can check the status in the dashboard.
           </p>
         </div>
 
