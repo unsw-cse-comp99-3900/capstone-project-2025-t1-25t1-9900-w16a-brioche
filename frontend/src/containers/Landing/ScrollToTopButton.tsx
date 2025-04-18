@@ -13,10 +13,8 @@ import { cn } from "@/lib/utils"
 const ScrollToTopButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false)
 
-  // Listen for scroll events to determine button visibility
   useEffect(() => {
     const toggleVisibility = () => {
-      // Show the button when scrolling exceeds 70% of the document height
       const scrolled = document.documentElement.scrollTop
       const pageHeight = document.documentElement.scrollHeight
       const viewportHeight = window.innerHeight

@@ -18,17 +18,16 @@ import Overview from "@/containers/Documentation/OverviewContainer"
 import BusinessProcess from "@/containers/Documentation/BusinessProcessContainer"
 import ReckonIntegration from "@/containers/Documentation/ReckonIntegrationContainer"
 import InvoiceCreation from "@/containers/Documentation/InvoiceCreationContainer"
-import UBLConversion from "@/containers/Documentation/UBLConversionContainer"
 import Validation from "@/containers/Documentation/ValidationContainer"
 import Sending from "@/containers/Documentation/SendingContainer"
 import SMEGuidelines from "@/containers/Documentation/SMEGuidelinesContainer"
+import ScrollToTopButton from "@/containers/Documentation/BackToTopButton"
 
 const DocumentationPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("overview")
 
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId)
-    // Scroll to the section
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
@@ -50,11 +49,11 @@ const DocumentationPage: React.FC = () => {
                 <Overview />
                 <BusinessProcess />
                 <ReckonIntegration />
-                <InvoiceCreation />
-                <UBLConversion />
+                <InvoiceCreation /> 
                 <Validation />
                 <Sending />
                 <SMEGuidelines />
+                <ScrollToTopButton />
               </div>
             </div>
           </div>
