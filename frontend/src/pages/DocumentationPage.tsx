@@ -49,7 +49,7 @@ const DocumentationPage: React.FC = () => {
                 <Overview />
                 <BusinessProcess />
                 <ReckonIntegration />
-                <InvoiceCreation /> 
+                <InvoiceCreation />
                 <Validation />
                 <Sending />
                 <SMEGuidelines />

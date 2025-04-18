@@ -9,36 +9,36 @@
  *   when the user scrolls down more than 300 pixels.
  * - When clicked, it smoothly scrolls the page back to the top.
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react"
 
 const BackToTopButton: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
 
   // Toggle button visibility based on scroll position
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
-      setIsVisible(true);
+      setIsVisible(true)
     } else {
-      setIsVisible(false);
+      setIsVisible(false)
     }
-  };
+  }
 
   // Scroll the page to the top smoothly
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    });
-  };
+      behavior: "smooth",
+    })
+  }
 
   // Add and clean up the scroll event listener
   useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility)
 
     return () => {
-      window.removeEventListener('scroll', toggleVisibility);
-    };
-  }, []);
+      window.removeEventListener("scroll", toggleVisibility)
+    }
+  }, [])
 
   return (
     <>
@@ -61,7 +61,7 @@ const BackToTopButton: React.FC = () => {
         </button>
       )}
     </>
-  );
-};
+  )
+}
 
-export default BackToTopButton;
+export default BackToTopButton
