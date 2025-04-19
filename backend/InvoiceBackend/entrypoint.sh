@@ -9,7 +9,7 @@ RETRY_DELAY=5
 echo "Waiting for DB and applying migrations..."
 
 # Loop until migrations succeed or max retries are reached
-until dotnet ef database update --no-build --project InvoiceBackend.csproj; do
+until dotnet ef database update --no-build --project InvoiceBackend.csproj --configuration Release; do
   COUNTER=$((COUNTER+1))
   if [ $COUNTER -ge $MAX_RETRIES ]; then
     echo "Migration failed after $MAX_RETRIES attempts. Exiting." >&2

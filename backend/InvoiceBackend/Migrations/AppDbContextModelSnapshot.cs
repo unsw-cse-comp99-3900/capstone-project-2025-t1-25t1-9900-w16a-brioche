@@ -62,19 +62,6 @@ namespace InvoiceBackend.Migrations
                         .IsUnique();
 
                     b.ToTable("ReckonTokens");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessToken = "bfdf433c15482b40aa1940d865a999ec",
-                            CreatedAt = new DateTime(2025, 4, 10, 13, 47, 37, 277, DateTimeKind.Unspecified).AddTicks(1703),
-                            ExpiryTime = new DateTime(2025, 4, 10, 16, 47, 37, 276, DateTimeKind.Unspecified).AddTicks(6302),
-                            RefreshToken = "32f262f7c1cc60767bc9da0f15c2a3e6",
-                            SessionId = "888",
-                            TokenType = "Bearer",
-                            UpdatedAt = new DateTime(2025, 4, 10, 13, 47, 37, 277, DateTimeKind.Unspecified).AddTicks(1951)
-                        });
                 });
 #pragma warning restore 612, 618
         }
