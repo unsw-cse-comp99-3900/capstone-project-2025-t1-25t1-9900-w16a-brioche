@@ -37,7 +37,6 @@ export const navItems: NavItem[] = [
     icon: "lightning",
   },
   { id: "invoice-creation", title: "Invoice Creation", icon: "plus" },
-  { id: "ubl-conversion", title: "UBL Conversion", icon: "template" },
   { id: "validation", title: "Validation", icon: "check-circle" },
   { id: "sending", title: "Sending Invoices", icon: "paper-airplane" },
   { id: "sme-guidelines", title: "SME Guidelines", icon: "information-circle" },
