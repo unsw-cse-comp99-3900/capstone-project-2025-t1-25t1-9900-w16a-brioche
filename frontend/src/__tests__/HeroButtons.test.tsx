@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
-import HeroButtons from "./HeroButtons"
+import HeroButtons from "@/components/landing/HeroButtons"
 
 // Mock the HeroButton component
 vi.mock("@/components/landing/HeroButton", () => ({

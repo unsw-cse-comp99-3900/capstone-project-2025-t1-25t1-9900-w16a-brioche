@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
-import BrowserFrame from "./BrowserFrame"
+import BrowserFrame from "@/components/landing/BrowserFrame"
 
 describe("BrowserFrame", () => {
   it("renders without crashing", () => {

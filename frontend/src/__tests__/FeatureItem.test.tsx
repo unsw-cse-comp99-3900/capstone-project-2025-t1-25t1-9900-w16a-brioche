@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
-import FeatureItem from "./FeatureItem"
+import FeatureItem from "@/components/landing/FeatureItem"
 
 describe("FeatureItem", () => {
   it("renders without crashing", () => {

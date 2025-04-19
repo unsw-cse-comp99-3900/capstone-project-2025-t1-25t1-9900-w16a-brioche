@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
-import HeroContent from "./HeroContent"
+import HeroContent from "@/components/landing/HeroContent"
 
 // 定义类型替代 `any`
 interface FeatureBadgeProps {

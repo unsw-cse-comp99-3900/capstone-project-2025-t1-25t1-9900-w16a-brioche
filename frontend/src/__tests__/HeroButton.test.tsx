@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
-import HeroButton from "./HeroButton"
+import HeroButton from "@/components/landing/HeroButton"
 
 describe("HeroButton", () => {
   it("renders without crashing", () => {

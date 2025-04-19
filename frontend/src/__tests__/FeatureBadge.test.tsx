@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
-import FeatureBadge from "./FeatureBadge"
+import FeatureBadge from "@/components/landing/FeatureBadge"
 
 describe("FeatureBadge", () => {
   it("renders without crashing", () => {
