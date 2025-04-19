@@ -1,11 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import HeroContent from "./HeroContent"
-import FeatureBadge from "@/components/landing/FeatureBadge"
-import HeroHeading from "@/components/landing/HeroHeading"
-import HeroButtons from "@/components/landing/HeroButtons"
-import FeatureList from "@/components/landing/FeatureList"
-import { landingHero } from "@/constants/Landing/landingHero"
 
 // Mock the FeatureBadge component
 vi.mock("@/components/landing/FeatureBadge", () => ({
