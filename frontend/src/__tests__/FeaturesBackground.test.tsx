@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import FeaturesBackground from "./FeaturesBackground"
-import GridPatternOverlay from "@/components/common/GridPatternOverlay"
 
 // Mock the GridPatternOverlay component
 vi.mock("@/components/common/GridPatternOverlay", () => ({

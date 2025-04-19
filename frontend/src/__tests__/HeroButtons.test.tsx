@@ -1,13 +1,11 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import HeroButtons from "./HeroButtons"
-import HeroButton from "@/components/landing/HeroButton"
-import { landingHero } from "@/constants/Landing/landingHero"
 
 // Mock the HeroButton component
 vi.mock("@/components/landing/HeroButton", () => ({
   __esModule: true,
-  default: ({ children, href, variant, icon }: any) => (
+  default: ({ children, href, variant, icon }: { children: React.ReactNode; href: string; variant: string; icon?: React.ReactNode }) => (
     <a href={href} className={variant}>
       {children}
       {icon}

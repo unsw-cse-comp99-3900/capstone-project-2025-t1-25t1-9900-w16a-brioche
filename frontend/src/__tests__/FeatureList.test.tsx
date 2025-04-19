@@ -1,8 +1,6 @@
 import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import FeatureList from "./FeatureList"
-import FeatureItem from "@/components/landing/FeatureItem"
-import { landingHero } from "@/constants/Landing/landingHero"
 
 // Mock the FeatureItem component
 vi.mock("@/components/landing/FeatureItem", () => ({
