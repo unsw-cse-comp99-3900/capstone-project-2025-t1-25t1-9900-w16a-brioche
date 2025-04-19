@@ -5,7 +5,17 @@ import HeroButtons from "./HeroButtons"
 // Mock the HeroButton component
 vi.mock("@/components/landing/HeroButton", () => ({
   __esModule: true,
-  default: ({ children, href, variant, icon }: { children: React.ReactNode; href: string; variant: string; icon?: React.ReactNode }) => (
+  default: ({
+    children,
+    href,
+    variant,
+    icon,
+  }: {
+    children: React.ReactNode
+    href: string
+    variant: string
+    icon?: React.ReactNode
+  }) => (
     <a href={href} className={variant}>
       {children}
       {icon}
@@ -42,7 +52,10 @@ describe("HeroButtons", () => {
     const secondaryButton = getByText("Learn More")
 
     expect(secondaryButton).toBeInTheDocument()
-    expect(secondaryButton.closest("a")).toHaveAttribute("href", "#how-it-works")
+    expect(secondaryButton.closest("a")).toHaveAttribute(
+      "href",
+      "#how-it-works"
+    )
   })
 
   it("renders the primary button with the correct variant", () => {
@@ -68,9 +81,7 @@ describe("HeroButtons", () => {
     expect(icons).toHaveLength(2)
 
     // Check the primary button icon
-    const primaryIcon = container.querySelector(
-      ".group-hover\\:translate-x-1"
-    )
+    const primaryIcon = container.querySelector(".group-hover\\:translate-x-1")
     expect(primaryIcon).toBeInTheDocument()
 
     // Check the secondary button icon

@@ -8,7 +8,8 @@ vi.mock("@/constants/Landing/landingFeature", () => ({
     content: {
       tagText: "Our Features",
       headingText: "Discover the Benefits",
-      subheadingText: "Explore the unique advantages we bring to your business.",
+      subheadingText:
+        "Explore the unique advantages we bring to your business.",
     },
   },
 }))
@@ -31,7 +32,9 @@ describe("FeaturesContent", () => {
 
   it("displays the correct subheading text", () => {
     const { getByText } = render(<FeaturesContent />)
-    expect(getByText("Explore the unique advantages we bring to your business.")).toBeInTheDocument()
+    expect(
+      getByText("Explore the unique advantages we bring to your business.")
+    ).toBeInTheDocument()
   })
 
   it("applies the correct styling classes to the section label", () => {

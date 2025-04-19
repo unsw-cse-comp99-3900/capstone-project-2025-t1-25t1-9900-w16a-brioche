@@ -59,7 +59,9 @@ describe("HeroContent", () => {
 
   it("renders the description text correctly", () => {
     const { getByText } = render(<HeroContent />)
-    expect(getByText("This is the Hero section description.")).toBeInTheDocument()
+    expect(
+      getByText("This is the Hero section description.")
+    ).toBeInTheDocument()
   })
 
   it("renders the HeroButtons component", () => {
