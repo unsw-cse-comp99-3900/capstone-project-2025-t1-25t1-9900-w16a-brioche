@@ -2,10 +2,15 @@ import { render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import HeroContent from "./HeroContent"
 
+// 定义类型替代 `any`
+interface FeatureBadgeProps {
+  text: string
+}
+
 // Mock the FeatureBadge component
 vi.mock("@/components/landing/FeatureBadge", () => ({
   __esModule: true,
-  default: ({ text }: any) => <div>MockFeatureBadge: {text}</div>,
+  default: ({ text }: FeatureBadgeProps) => <div>MockFeatureBadge: {text}</div>,
 }))
 
 // Mock the HeroHeading component
