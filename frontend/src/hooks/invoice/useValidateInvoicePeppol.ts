@@ -60,7 +60,7 @@ const violationDetailSchema = z.object({
     ),
   severity: z
     .enum(["Error", "Warning"])
-    .default("Error")
+
     .describe("Severity of the violation (default is Error)."),
 })
 
@@ -127,16 +127,14 @@ const validateInvoiceWithAI = async ({
   invoice,
 }: ValidateInvoiceParams): Promise<ValidationOutcome> => {
   if (import.meta.env.MODE !== "production") {
-    console.log("invoice for validation", invoice)
+    console.log("invoice raw data for validation", invoice)
   }
 
-  // Select relevant fields
   const invoiceDataForPrompt = JSON.stringify({
     customerName: invoice.customer?.name,
     invoiceDate: invoice.invoiceDate,
     dueDate: invoice.dueDate,
     invoiceNumber: invoice.invoiceNumber,
-    totalAmount: invoice.totalAmount,
     lineItems: invoice.lineItems?.map((item) => ({
       itemName: item?.itemDetails?.item?.name,
       description: item?.description,
@@ -146,33 +144,35 @@ const validateInvoiceWithAI = async ({
     })),
   })
 
-  const prompt = `Please validate the following invoice data strictly against key Australian PEPPOL BIS Billing 3.0 requirements. Focus on mandatory fields and common rules for a non-technical user. Ensure your response strictly adheres to the provided JSON schema.
+  if (import.meta.env.MODE !== "production") {
+    console.log("invoice for validation", invoiceDataForPrompt)
+  }
 
-**Output Requirements:**
-Respond ONLY with a JSON object matching the schema provided below. Consistency is critical. Apply the rules exactly as described.
-For each violation found, provide:
-- 'field': The technical JSON path (e.g., 'customerName', 'lineItems[0].quantity').
-- 'userFriendlyField': A user-friendly name for the field (e.g., 'Customer Name', 'Line Item "MacBook Pro": Quantity'). Use the 'itemName' from the line item data. If 'itemName' is missing, use 'Line Item [Number]: '.
-- 'message': Concise explanation of the rule violation (e.g., "is missing", "must be a positive number").
-- 'ruleId': The specific PEPPOL rule ID associated with the violation (e.g., 'ibt-001', 'ibt-131'). Use the IDs provided below.
-- 'lineNumber': 1-based index for 'lineItems' violations.
-- 'severity': Set to "Error" ONLY for MANDATORY violations as specified below. Set to "Warning" for RECOMMENDED/OPTIONAL violations.
+  const prompt = `
+You are an expert in PEPPOL BIS Billing 3.0 specification. Validate the following invoice JSON object against the specification. Follow these basic rules:
+- customerName: required, non-empty string, maximum 100 characters.
+- invoiceDate: required, must be in YYYY-MM-DD format.
+- dueDate: required, must be in YYYY-MM-DD format and on or after invoiceDate.
+- invoiceNumber: required, non-empty alphanumeric string.
+- lineItems: required array with at least one item. For each line item:
+  - itemName: required, non-empty string.
+  - description: required, severity 'Warning' if missing.
+  - quantity: required, number greater than 0.
+  - unitPrice: required, number greater than or equal to 0.
+  - taxRateId: required, string representing a valid tax rate code.
+For any violation, create an entry with:
+  - field: JSON path to the invalid field
+  - userFriendlyField: human-readable field name
+  - message: description of the violation
+  - ruleId: PEPPOL rule identifier if known
+  - lineNumber: 1-based index for line items if applicable
+  - severity: 'Error' for mandatory violations or 'Warning' for optional issues
+Output must be a single JSON object exactly matching validationResultSchema and nothing else.
 
-**Key Validation Rules & IDs (Apply Severity Strictly):**
-- **ibt-001 (Invoice Number):** 'invoiceNumber' MUST be present. (Severity: Error)
-- **ibt-002 (Invoice Issue Date):** 'invoiceDate' MUST be present and a valid date. (Severity: Error)
-- **ibt-009 (Payment Due Date):** 'dueDate' SHOULD be present. If present, it MUST be a valid date. (Severity: Warning if missing, Error if present but invalid format)
-- **ibt-044 (Buyer Name):** 'customerName' MUST be present. (Severity: Error)
-- **For each Line Item:**
-    - **ibt-131 (Invoiced Quantity):** 'quantity' MUST be present and be a positive number. (Severity: Error)
-    - **ibt-146 (Item Net Price):** 'unitPrice' MUST be present and be a non-negative number. (Severity: Error)
-    - **ibt-154 (Item Name):** 'itemName' MUST be present. (Severity: Error)
-    - **ibt-154 (Item Description):** 'lineItems.description' SHOULD be present for clarity. (Severity: Warning if missing)
 
-If all MANDATORY checks pass (no "Error" severity violations), set 'isValid' to true (even if warnings exist) and list all violations (Errors and Warnings). If any "Error" violations exist, set 'isValid' to false and list all violations.
-
-**Invoice Data:**
-${invoiceDataForPrompt}`
+Invoice Data:
+${invoiceDataForPrompt}
+`
 
   try {
     console.log("Sending invoice data to AI for validation...")
