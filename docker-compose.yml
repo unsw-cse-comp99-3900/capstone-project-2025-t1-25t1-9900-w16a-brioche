@@ -41,9 +41,9 @@ services:
     environment:
       ACCEPT_EULA: "Y" # Required by Microsoft SQL Server image
       SA_PASSWORD: "YourStrong_Password123" # Set a strong password here
-    ports:
+    # ports:
       # Optionally map host port if you need direct DB access from host machine (e.g., 1434:1433)
-      - "1434:1433"
+      # - "1434:1433"
     volumes:
       - mssql_data:/var/opt/mssql # Persist database data
     networks:
