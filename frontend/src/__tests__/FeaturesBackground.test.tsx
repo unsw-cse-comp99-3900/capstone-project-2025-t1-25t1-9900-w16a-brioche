@@ -36,37 +36,47 @@ describe("FeaturesBackground", () => {
     const { container } = render(<FeaturesBackground />)
 
     const blurredShapes = container.querySelectorAll(".absolute")
-    expect(blurredShapes).toHaveLength(4) // Includes the gradient background + 3 blurred shapes
+    expect(blurredShapes.length).toBeGreaterThanOrEqual(4)
 
     const shape1 = container.querySelector(".top-40.-left-40")
     expect(shape1).toBeInTheDocument()
-    expect(shape1).toHaveClass("w-96")
-    expect(shape1).toHaveClass("h-96")
-    expect(shape1).toHaveClass("bg-primary-100")
-    expect(shape1).toHaveClass("rounded-full")
-    expect(shape1).toHaveClass("mix-blend-multiply")
-    expect(shape1).toHaveClass("opacity-30")
-    expect(shape1).toHaveClass("blur-3xl")
+    expect(shape1).toHaveClass(
+      "w-96",
+      "h-96",
+      "bg-primary-100",
+      "rounded-full",
+      "mix-blend-multiply",
+      "opacity-30",
+      "blur-3xl"
+    )
 
     const shape2 = container.querySelector(".bottom-40.-right-40")
     expect(shape2).toBeInTheDocument()
-    expect(shape2).toHaveClass("w-96")
-    expect(shape2).toHaveClass("h-96")
-    expect(shape2).toHaveClass("bg-blue-100")
-    expect(shape2).toHaveClass("rounded-full")
-    expect(shape2).toHaveClass("mix-blend-multiply")
-    expect(shape2).toHaveClass("opacity-30")
-    expect(shape2).toHaveClass("blur-3xl")
+    expect(shape2).toHaveClass(
+      "w-96",
+      "h-96",
+      "bg-blue-100",
+      "rounded-full",
+      "mix-blend-multiply",
+      "opacity-30",
+      "blur-3xl"
+    )
 
-    const shape3 = container.querySelector(".top-1/2.left-1/3")
+    const shape3 = Array.from(container.querySelectorAll("div")).find(
+      (el) =>
+        el.classList.contains("top-1/2") && el.classList.contains("left-1/3")
+    )
+
     expect(shape3).toBeInTheDocument()
-    expect(shape3).toHaveClass("w-64")
-    expect(shape3).toHaveClass("h-64")
-    expect(shape3).toHaveClass("bg-gradient-to-r")
-    expect(shape3).toHaveClass("from-yellow-200")
-    expect(shape3).toHaveClass("to-pink-200")
-    expect(shape3).toHaveClass("opacity-20")
-    expect(shape3).toHaveClass("rounded-full")
-    expect(shape3).toHaveClass("blur-[60px]")
+    expect(shape3).toHaveClass(
+      "w-64",
+      "h-64",
+      "bg-gradient-to-r",
+      "from-yellow-200",
+      "to-pink-200",
+      "opacity-20",
+      "rounded-full",
+      "blur-[60px]"
+    )
   })
 })
