@@ -47,9 +47,26 @@ const DeleteInvoiceDialog: React.FC<DeleteInvoiceDialogProps> = ({
       await deleteInvoice.mutateAsync(invoiceId)
       toast.success("Invoice deleted successfully")
       onClose()
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to delete invoice."
+
+      const backendMessage = error?.response?.data?.message
+      if (backendMessage) {
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      } else {
+        errorMessage = JSON.stringify(error)
+      }
+
       toast.error("Failed to delete invoice", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error deleting invoice:", error)
     }

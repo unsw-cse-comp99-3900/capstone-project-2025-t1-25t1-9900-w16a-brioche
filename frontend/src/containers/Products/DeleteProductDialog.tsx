@@ -55,9 +55,26 @@ const DeleteProductDialog: React.FC<DeleteProductDialogProps> = ({
       await deleteProduct.mutateAsync(productId)
       toast.success("Product deleted successfully")
       onClose()
-    } catch (error) {
+    } catch (
+      error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    ) {
+      let errorMessage = "Failed to delete product."
+
+      const backendMessage = error?.response?.data?.message
+      if (backendMessage) {
+        errorMessage = Array.isArray(backendMessage)
+          ? backendMessage.join("; ")
+          : backendMessage
+      } else if (error?.message) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      } else {
+        errorMessage = JSON.stringify(error)
+      }
+
       toast.error("Failed to delete product", {
-        description: `Error: ${error}`,
+        description: errorMessage,
       })
       console.error("Error deleting product:", error)
     }
