@@ -3,8 +3,9 @@
  * Includes a styled call-to-action box with a title, description, and multiple action buttons.
  */
 
-import React from "react"
+import React, { useState } from "react"
 import { landingFAQ } from "@/constants/Landing/landingFAQ"
+import { toast } from "sonner"
 
 /**
  * FAQHelpSection Component
@@ -21,6 +22,27 @@ import { landingFAQ } from "@/constants/Landing/landingFAQ"
  */
 const FAQHelpSection: React.FC = () => {
   const { title, description, buttons } = landingFAQ.helpSection
+  const [copied, setCopied] = useState(false)
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(landingFAQ.contactEmail)
+      setCopied(true)
+      toast.success("Email copied to clipboard!")
+      setTimeout(() => setCopied(false), 1500)
+    } catch (err) {
+      // fallback: select and copy
+      const textarea = document.createElement("textarea")
+      textarea.value = landingFAQ.contactEmail
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textarea)
+      setCopied(true)
+      toast.success("Email copied to clipboard!")
+      setTimeout(() => setCopied(false), 1500)
+    }
+  }
 
   return (
     <div
@@ -36,20 +58,39 @@ const FAQHelpSection: React.FC = () => {
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
         <p className="text-gray-600 mb-6 max-w-lg mx-auto">{description}</p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          {buttons.map((button, index) => (
-            <a
-              key={index}
-              href={button.href}
-              className={`inline-flex items-center justify-center px-6 py-3 border ${
-                button.primary
-                  ? "border-transparent text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600"
-                  : "border-primary-300 text-primary-700 bg-white hover:bg-primary-50"
-              } text-base font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300`}
-            >
-              {button.icon}
-              {button.text}
-            </a>
-          ))}
+          {buttons.map((button, index) => {
+            if (button.text === "Contact Email") {
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className={`inline-flex items-center justify-center px-6 py-3 border ${
+                    button.primary
+                      ? "border-transparent text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600"
+                      : "border-primary-300 text-primary-700 bg-white hover:bg-primary-50"
+                  } text-base font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300`}
+                >
+                  {button.icon}
+                  {copied ? "Copied!" : button.text}
+                </button>
+              )
+            }
+            return (
+              <a
+                key={index}
+                href={button.href}
+                className={`inline-flex items-center justify-center px-6 py-3 border ${
+                  button.primary
+                    ? "border-transparent text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600"
+                    : "border-primary-300 text-primary-700 bg-white hover:bg-primary-50"
+                } text-base font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300`}
+              >
+                {button.icon}
+                {button.text}
+              </a>
+            )
+          })}
         </div>
       </div>
     </div>

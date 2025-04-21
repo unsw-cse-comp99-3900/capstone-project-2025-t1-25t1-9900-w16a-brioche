@@ -17,6 +17,7 @@
  */
 
 export const landingFAQ = {
+  contactEmail: "contact@invoice-flow.org",
   content: {
     tagText: "Support",
     headingText: "Frequently Asked Questions",
@@ -30,7 +31,7 @@ export const landingFAQ = {
     buttons: [
       {
         text: "Contact Email",
-        href: "#",
+        href: "mailto:zanema528@gmail.com",
         primary: true,
         icon: (
           <svg
@@ -51,7 +52,7 @@ export const landingFAQ = {
       },
       {
         text: "View Documentation",
-        href: "#",
+        href: "/documentation",
         primary: false,
         icon: (
           <svg
