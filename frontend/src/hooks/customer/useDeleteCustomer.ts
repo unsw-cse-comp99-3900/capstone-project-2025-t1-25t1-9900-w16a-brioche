@@ -31,8 +31,9 @@ export const useDeleteCustomer = () => {
       )
       return response.status === 204
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch customers list
+      await new Promise((resolve) => setTimeout(resolve, 500))
       queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })
