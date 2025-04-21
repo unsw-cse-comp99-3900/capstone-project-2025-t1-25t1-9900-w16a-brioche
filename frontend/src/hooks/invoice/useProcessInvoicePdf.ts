@@ -83,8 +83,8 @@ const processPdf = async (pdfFile: File): Promise<ProcessPdfResult> => {
               text:
                 "Please analyze this invoice PDF and extract the following information:\n" +
                 "- Customer: match the customer name in the invoice\n" +
-                "- invoiceDate: match the invoice date in the invoice\n" +
-                "- dueDate: match the due date in the invoice if you not found just set same as invoice date\n" +
+                "- invoiceDate: match the invoice date in the invoice, must in Date format\n" +
+                "- dueDate: match the due date in the invoice if you not found just set same as invoice date, must in Date format\n" +
                 "- referenceCode: match the reference code you find in the invoice\n" +
                 "- invoiceDiscount: match the invoice discount setting not the discount number after the calculation and discount is for entire invoice not per item\n" +
                 "- lineItems: item(the item name), description(text to describe the item), price(the price of the item), quantity(the quantity of the item), discount(the discount of this item), tax(the tax of the item), taxCode(the tax code of the item if you are not sure just leave blank)\n" +
