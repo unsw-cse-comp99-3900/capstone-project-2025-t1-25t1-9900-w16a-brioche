@@ -19,9 +19,9 @@ export const landingBenefits = {
   benefits: [
     {
       id: 1,
-      title: "Faster Payments",
+      title: "Invoices Management",
       description:
-        "Receive payments up to 5 days faster with compliant e-invoicing",
+        "Manage your invoices with ease, including sending, receiving, and storing.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

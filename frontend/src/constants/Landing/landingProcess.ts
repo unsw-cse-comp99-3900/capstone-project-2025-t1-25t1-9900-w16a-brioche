@@ -26,8 +26,8 @@ export const landingProcess = {
       stepNumber: 1,
       title: "Create",
       description:
-        "Create e-invoices by uploading CSV/Excel files, or filling out a form. Our system converts your data into standardized UBL XML format.",
-      features: ["Multiple input formats", "UBL XML conversion"],
+        "Create e-invoices by uploading PDF files, or filling out a user friendly form.",
+      features: ["Multiple input formats", "PDF AI conversion"],
       imageUrl:
         "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
       imageAlt: "Create invoices",
@@ -37,7 +37,7 @@ export const landingProcess = {
       stepNumber: 2,
       title: "Validate",
       description:
-        "Ensure your invoices comply with Australian e-invoicing standards. Our validation system checks for wellformedness, syntax rules, and PEPPOL compliance.",
+        "Ensure your invoices comply with Australian e-invoicing standards. Our validation system checks for basic PEPPOL compliance.",
       features: ["Australian standards compliance", "Detailed error reporting"],
       imageUrl:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
@@ -48,7 +48,7 @@ export const landingProcess = {
       stepNumber: 3,
       title: "Send",
       description:
-        "Transmit your e-invoices securely via email. Track delivery status and maintain a complete history of all sent invoices for easy reference.",
+        "Transmit your invoices securely via email. Track delivery status and maintain a complete history of all sent invoices for easy reference.",
       features: ["Email delivery", "Delivery tracking"],
       imageUrl:
         "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",

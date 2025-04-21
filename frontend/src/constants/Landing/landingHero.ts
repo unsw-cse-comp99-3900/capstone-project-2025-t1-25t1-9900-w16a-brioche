@@ -36,9 +36,9 @@ export const landingHero = {
     heading: "Key Features:",
     features: [
       "Reckon One Integration",
-      "UBL XML Conversion",
-      "Automated Validation",
-      "PEPPOL Network Support",
+      "Invoices Management",
+      "PEPPOL Validation",
+      "Send with Email",
     ],
   },
 

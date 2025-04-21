@@ -27,17 +27,17 @@ export const landingFeature = {
       description: "Create invoices through multiple methods:",
       features: [
         "Manual entry through intuitive forms",
-        "CSV/Excel CSV/Excel file upload with direct processing",
-        "Real-time validation during data entry",
+        "PDF file upload with direct processing",
+        "Peppol validation after upload",
       ],
     },
     {
-      title: "Automated Validation",
+      title: "PEPPOL Validation",
       description: "Ensure compliance with Australian e-invoicing standards:",
       features: [
-        "UBL XML conversion and validation",
+        "One click validation after upload",
         "Checks against PEPPOL and Australian rules",
-        "Clear validation reports with error details",
+        "Clear validation results with error details",
       ],
     },
     {
@@ -45,8 +45,8 @@ export const landingFeature = {
       description:
         "Send validated invoices directly to recipients through multiple channels:",
       features: [
-        "Email delivery with PDF and UBL XML attachments",
-        "PEPPOL network transmission for e-invoicing enabled recipients",
+        "One click send with email",
+        "Email delivery with PDF attachments",
         "Delivery confirmation and status tracking",
       ],
     },
