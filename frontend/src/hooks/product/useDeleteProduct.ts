@@ -30,8 +30,9 @@ export const useDeleteProduct = () => {
       const response = await authApi.delete(`/${bookId}/items/${productId}`)
       return response.status === 204
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch products list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
   })

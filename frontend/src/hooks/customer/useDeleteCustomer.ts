@@ -33,7 +33,7 @@ export const useDeleteCustomer = () => {
     },
     onSuccess: async () => {
       // Invalidate and refetch customers list
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })

@@ -50,7 +50,7 @@ export const useEditCustomer = (customerId: string) => {
     },
     onSuccess: async () => {
       // Invalidate the customers query to refetch the list
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })
