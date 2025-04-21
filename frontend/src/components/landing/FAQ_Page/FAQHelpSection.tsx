@@ -30,7 +30,7 @@ const FAQHelpSection: React.FC = () => {
       setCopied(true)
       toast.success("Email copied to clipboard!")
       setTimeout(() => setCopied(false), 1500)
-    } catch (err) {
+    } catch {
       // fallback: select and copy
       const textarea = document.createElement("textarea")
       textarea.value = landingFAQ.contactEmail
