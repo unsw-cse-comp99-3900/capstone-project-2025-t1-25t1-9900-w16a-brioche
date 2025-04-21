@@ -12,7 +12,8 @@
  * @returns {JSX.Element} The complete documentation layout with sidebar and content.
  */
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import SideBar from "@/containers/Documentation/SideBarContainer"
 import Overview from "@/containers/Documentation/OverviewContainer"
 import BusinessProcess from "@/containers/Documentation/BusinessProcessContainer"
@@ -25,6 +26,7 @@ import ScrollToTopButton from "@/containers/Documentation/BackToTopButton"
 
 const DocumentationPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>("overview")
+  const location = useLocation()
 
   const handleSectionChange = (sectionId: string) => {
     setActiveSection(sectionId)
@@ -33,6 +35,18 @@ const DocumentationPage: React.FC = () => {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
+
+  // Smooth scroll to section if hash in URL changes (e.g., from Footer link)
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "")
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+        setActiveSection(id)
+      }
+    }
+  }, [location])
 
   return (
     <div className="min-h-screen bg-white">

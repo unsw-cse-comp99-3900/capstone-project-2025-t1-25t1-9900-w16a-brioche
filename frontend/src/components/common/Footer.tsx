@@ -33,11 +33,11 @@ const Footer = () => {
                 Features
               </a>
             </li>
-            <li>
+            {/* <li>
               <Link to="/about" className="hover:text-blue-400">
                 About Us
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -46,14 +46,17 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-gray-300">Resources</h3>
           <ul className="mt-3 flex flex-col md:flex-row md:gap-x-4 space-y-2 md:space-y-0 text-gray-400 font-medium">
             <li>
-              <Link to="/docs" className="hover:text-blue-400">
+              <Link to="/documentation" className="hover:text-blue-400">
                 Documentation
               </Link>
             </li>
             <li>
-              <Link to="/api" className="hover:text-blue-400">
+              <a
+                href="/documentation#reckon-integration"
+                className="hover:text-blue-400"
+              >
                 API Reference
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
@@ -87,7 +90,7 @@ const Footer = () => {
       <div className="mt-6 border-t border-gray-700 pt-4 text-center text-gray-400 text-sm flex flex-wrap justify-center md:justify-between items-center max-w-7xl mx-auto px-4 md:px-12">
         <p>© 2025 W16a-Brioche Development Team. All rights reserved.</p>
         <div className="flex flex-wrap justify-center gap-6 mt-2 md:mt-0">
-          <Link to="/privacy" className="hover:text-blue-400">
+          {/* <Link to="/privacy" className="hover:text-blue-400">
             Privacy Policy
           </Link>
           <Link to="/terms" className="hover:text-blue-400">
@@ -95,7 +98,7 @@ const Footer = () => {
           </Link>
           <Link to="/cookies" className="hover:text-blue-400">
             Cookie Policy
-          </Link>
+          </Link> */}
         </div>
       </div>
     </footer>
