@@ -52,9 +52,11 @@ export const useCreateInvoice = () => {
       // Parse and validate the response data
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate the invoices query to refetch the list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["invoices"] })
+      console.log("Invoices list invalidated")
     },
   })
 }

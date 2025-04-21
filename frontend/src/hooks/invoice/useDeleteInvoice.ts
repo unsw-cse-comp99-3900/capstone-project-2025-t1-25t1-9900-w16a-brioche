@@ -30,9 +30,11 @@ export const useDeleteInvoice = () => {
       const response = await authApi.delete(`/${bookId}/invoices/${invoiceId}`)
       return response.status === 204
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate and refetch invoices list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["invoices"] })
+      console.log("Invoices query invalidated successfully.")
     },
   })
 }

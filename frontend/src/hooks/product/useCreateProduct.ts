@@ -45,8 +45,9 @@ export const useCreateProduct = () => {
       // Return the response data
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate the products query to refetch the list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
   })

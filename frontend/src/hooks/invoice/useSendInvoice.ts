@@ -17,7 +17,7 @@
  * @returns {UseMutationResult<void, Error, SendInvoiceEmailData>} Mutation result with success/error handling.
  */
 
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthApi } from "@/lib/axios"
 import { toast } from "sonner"
 import { getBookId } from "@/lib/utils"
@@ -32,6 +32,7 @@ interface SendInvoiceEmailData {
 }
 
 const useSendInvoice = (invoiceId: string) => {
+  const queryClient = useQueryClient()
   const authApi = useAuthApi()
 
   console.log("Auth API base URL:", authApi.defaults.baseURL)
@@ -55,7 +56,12 @@ const useSendInvoice = (invoiceId: string) => {
       console.log("Invoice email sent response:", response)
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      // Invalidate the invoices query to refetch the list
+      queryClient.invalidateQueries({ queryKey: ["invoices"] })
+      // Also invalidate the specific invoice query
+      queryClient.invalidateQueries({ queryKey: ["invoice", invoiceId] })
       toast.success("Invoice sent successfully")
     },
     onError: (error) => {

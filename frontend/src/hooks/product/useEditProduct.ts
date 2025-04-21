@@ -47,8 +47,9 @@ const useEditProduct = (productId: string) => {
       console.log("Edit product response:", response)
       // No need to parse response as it's 204 No Content
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate the products query to refetch the list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
   })

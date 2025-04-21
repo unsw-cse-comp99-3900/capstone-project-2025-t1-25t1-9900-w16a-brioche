@@ -52,8 +52,9 @@ export const useCreateCustomer = () => {
       const result = createCustomerResponseSchema.parse(response)
       return result
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate the customers query to refetch the list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })

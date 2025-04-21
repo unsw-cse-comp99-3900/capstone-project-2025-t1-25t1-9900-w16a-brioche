@@ -48,8 +48,9 @@ export const useEditCustomer = (customerId: string) => {
       console.log("Edit customer response:", response)
       // No need to parse response as it's 204 No Content
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Invalidate the customers query to refetch the list
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })
