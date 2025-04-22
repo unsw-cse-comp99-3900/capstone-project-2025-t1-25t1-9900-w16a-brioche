@@ -38,7 +38,8 @@ const useUpdateInvoiceStatus = (
       // Parse and validate the response data
       return response.data
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       // Invalidate the invoices query to refetch the list
       queryClient.invalidateQueries({ queryKey: ["invoices"] })
       // Also invalidate the specific invoice query

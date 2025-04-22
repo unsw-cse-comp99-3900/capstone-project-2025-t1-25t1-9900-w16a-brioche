@@ -119,7 +119,10 @@ const InvoiceTableContainer: React.FC = () => {
       header: "Status",
       render: (invoice) => {
         let computedStatus = ""
-        if (invoice.status === InvoiceStatus.Paid) {
+        if (
+          invoice.status === InvoiceStatus.Paid ||
+          invoice.purchaseOrderNumber === "Paid"
+        ) {
           computedStatus = "Paid"
         } else if (invoice.dueDate) {
           const dueDate = new Date(invoice.dueDate)
