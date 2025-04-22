@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useWatch } from "react-hook-form"
 import { toast } from "sonner"
 import { format } from "date-fns"
-import { Save, X } from "lucide-react"
+import { DollarSign, Save, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 
@@ -37,6 +37,7 @@ import InvoiceInformation from "@/components/invoice/InvoiceInformation"
 import InvoiceDetails from "@/components/invoice/InvoiceDetails"
 import InvoiceItems from "@/components/invoice/InvoiceItems"
 import InvoiceNotesAndTotals from "@/components/invoice/InvoiceTotal"
+import PaymentStatusModal from "@/components/invoice/PaymentStatusModal"
 
 const EditInvoiceContainer: React.FC = () => {
   const navigate = useNavigate()
@@ -236,6 +237,17 @@ const EditInvoiceContainer: React.FC = () => {
     }
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [isSending, setIsSending] = useState(false)
+
+  const openPaymentModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const closePaymentModal = () => {
+    setIsModalOpen(false)
+  }
+
   if (isLoadingInvoice) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -244,24 +256,27 @@ const EditInvoiceContainer: React.FC = () => {
     )
   }
 
-  const CustomFormActions = () => (
-    <div className="flex justify-end mb-4 space-x-2">
-      <Button
-        type="button"
-        onClick={() => form.handleSubmit(onSubmit)()}
-        disabled={isEditing}
-        className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
-      >
-        <Save className="h-4 w-4" />
-        {isEditing ? "Updating..." : "Receive Payment"}
-      </Button>
-    </div>
-  )
-
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-5">
       <div className="px-4 py-5 sm:p-6">
-        <CustomFormActions />
+        <div className="flex justify-end mb-4 space-x-2">
+          <Button
+            type="button"
+            onClick={openPaymentModal}
+            disabled={isEditing}
+            className="bg-primary-600 hover:bg-primary-700 text-white flex items-center gap-1"
+          >
+            <DollarSign className="h-4 w-4" />
+            {isEditing ? "Updating..." : "Receive Payment"}
+          </Button>
+        </div>
+
+        {isModalOpen && (
+          <PaymentStatusModal
+            invoiceId={id ?? ""}
+            onClose={closePaymentModal}
+          />
+        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
