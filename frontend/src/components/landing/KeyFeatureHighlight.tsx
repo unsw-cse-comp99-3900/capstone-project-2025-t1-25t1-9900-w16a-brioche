@@ -14,8 +14,8 @@ interface FeatureHighlightProps {
 // Predefined list of highlight messages
 const highlights = [
   "Reckon One API Integration",
-  "ESS Validator Integration",
-  "ESS PEPPOL Network Support",
+  "AI Validator Integration",
+  "Email Delivery",
 ]
 
 /**

@@ -17,6 +17,7 @@
  */
 
 export const landingFAQ = {
+  contactEmail: "contact@invoice-flow.org",
   content: {
     tagText: "Support",
     headingText: "Frequently Asked Questions",
@@ -30,7 +31,7 @@ export const landingFAQ = {
     buttons: [
       {
         text: "Contact Email",
-        href: "#",
+        href: "mailto:zanema528@gmail.com",
         primary: true,
         icon: (
           <svg
@@ -51,7 +52,7 @@ export const landingFAQ = {
       },
       {
         text: "View Documentation",
-        href: "#",
+        href: "/documentation",
         primary: false,
         icon: (
           <svg
@@ -148,17 +149,17 @@ export const landingFAQ = {
           <p className="text-gray-600 leading-relaxed">
             Our platform integrates directly with Reckon One's API to create and
             manage invoices. After connecting your Reckon One account, you can
-            create invoices either manually or by uploading CSV/Excel files. The
-            platform then automatically converts these invoices to UBL XML
-            format for e-invoicing compliance. The integration requires your
-            Reckon One credentials and bookId to access your business data.
+            create invoices either manually or by uploading PDF files. The
+            platform then automatically converts these invoices to format that
+            for e-invoicing compliance. The integration requires your Reckon One
+            credentials and bookId to access your business data.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
               Reckon One API
             </span>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              UBL XML Conversion
+              PDF AI Conversion
             </span>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Automated Workflow
@@ -189,16 +190,10 @@ export const landingFAQ = {
       answer: (
         <>
           <p className="text-gray-600 leading-relaxed">
-            Our platform automatically validates invoices against Australian
-            e-invoicing standards using the ESS Validator. The validation
-            process checks for:
+            Our platform validates invoices against Australian e-invoicing
+            standards using the AI Validator. The validation process checks for
+            basic PEPPOL compliance.
           </p>
-          <ul className="mt-4 space-y-2 text-gray-600 list-disc pl-5">
-            <li>XML wellformedness</li>
-            <li>Schema validation against UBL 2.1 XSD</li>
-            <li>Business rules validation (EN16931)</li>
-            <li>PEPPOL rules validation (Australia-specific)</li>
-          </ul>
           <p className="mt-4 text-gray-600">
             If validation fails, you'll receive detailed error messages to help
             you fix the issues. Once validated, invoices can be sent directly to
@@ -229,8 +224,8 @@ export const landingFAQ = {
       answer: (
         <>
           <p className="text-gray-600 leading-relaxed">
-            After an invoice has been validated, our platform offers two methods
-            to send it to your customers:
+            After an invoice has been validated, our platform offers Email
+            delivery method to send it to your customers:
           </p>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-secondary-50 p-4 rounded-lg">
@@ -241,18 +236,9 @@ export const landingFAQ = {
                 systems support it.
               </p>
             </div>
-            <div className="bg-secondary-50 p-4 rounded-lg">
-              <h4 className="font-medium text-secondary-900 mb-2">
-                PEPPOL Network
-              </h4>
-              <p className="text-sm text-secondary-700">
-                Send invoices directly to recipients on the PEPPOL network using
-                their business identifier (typically their ABN with a prefix).
-              </p>
-            </div>
           </div>
           <p className="mt-4 text-gray-600">
-            Both methods are accessible directly from the validation results
+            Email delivery is accessible directly from the validation results
             page, making the process seamless and efficient.
           </p>
         </>
@@ -303,7 +289,7 @@ export const landingFAQ = {
                 </div>
               </div>
               <span className="text-sm text-gray-600">
-                Faster payments (up to 5 days)
+                Easy to use and user friendly
               </span>
             </div>
             <div className="flex items-center">
