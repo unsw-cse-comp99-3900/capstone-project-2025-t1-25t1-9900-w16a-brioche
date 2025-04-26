@@ -4,6 +4,7 @@ using InvoiceBackend.Services.ClerkAuthService;
 using InvoiceBackend.Services.ReckonApiService;
 using InvoiceBackend.Services.ReckonTokenService;
 using Microsoft.EntityFrameworkCore;
+using InvoiceBackend.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,12 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Dynamically insert demo token (only if the token does not exist in the database)
+using (var scope = app.Services.CreateScope())
+{
+    DemoTokenSeeder.Seed(scope.ServiceProvider);
+}
 
 app.MapControllers();
 

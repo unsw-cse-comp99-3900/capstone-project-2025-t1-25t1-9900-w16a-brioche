@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:443" # Map host port 5173 to container port 443 (HTTPS)
+      # Optionally, you can also map port 80 for the redirect, but it's less critical
+      # - "8080:80"
+    depends_on:
+      - backend
+    environment:
+      # Ensure frontend knows the backend URL (if needed, already baked into image)
+      - VITE_API_BASE_URL=http://backend:5080
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend/InvoiceBackend
+      dockerfile: Dockerfile
+    ports:
+      - "5080:5080" # Map host port 5080 to container port 5080
+    depends_on:
+      - db # Wait for db container to start (not necessarily healthy)
+    environment:
+      # Override the connection string to use the DB service name and password
+      - ConnectionStrings__DefaultConnection=Server=db;Database=InvoiceFlow_Db;User ID=sa;Password=YourStrong_Password123;TrustServerCertificate=True;Encrypt=False;
+      - ASPNETCORE_URLS=http://+:5080 # Make ASP.NET Core listen on the container's port 5080
+      - Clerk__SecretKey=sk_test_kCAEoGoIukOH5y51YsJnAemnZhoHbxTSba5sa1z46J # Hardcoded Clerk secret
+      # ReckonAPI settings can also be overridden if needed, but using appsettings values for now
+      # - ReckonAPI__BaseUrl=...
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest # Use official image
+    environment:
+      ACCEPT_EULA: "Y" # Required by Microsoft SQL Server image
+      SA_PASSWORD: "YourStrong_Password123" # Set a strong password here
+    # ports:
+      # Optionally map host port if you need direct DB access from host machine (e.g., 1434:1433)
+      # - "1434:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql # Persist database data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mssql_data: # Define a volume for database persistence

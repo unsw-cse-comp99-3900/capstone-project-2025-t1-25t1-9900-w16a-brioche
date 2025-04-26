@@ -4,7 +4,6 @@
 
 # [Production Subdomain Website](https://myinvoiceflow.netlify.app)
 
-
 # Frontend Development Guide
 
 This guide provides the initial setup and development instructions for the frontend portion of the InvoiceFlow project.
@@ -45,11 +44,15 @@ This guide provides the initial setup and development instructions for the front
    ```
 
 5. Start the development server:
+
    ```bash
    pnpm run dev
    ```
-   
+
    The development server will start, and you can access the application at http://localhost:5173 (or the configured port).
+
+   ```
+
    ```
 
 ## Development Guidelines
@@ -63,6 +66,7 @@ This guide provides the initial setup and development instructions for the front
 This guide provides setup and development instructions for the backend portion of the InvoiceFlow project.
 
 ## Prerequisites
+
 - .NET 8
 
 - SQL Server (Recommended: SQL Server Management Studio (SSMS))
@@ -70,21 +74,26 @@ This guide provides setup and development instructions for the backend portion o
 - Postman or swapper for testing API endpoints
 
 ## Initial Setup
+
 1. Open your terminal or VS Code and navigate to the backend project directory:
 
    ```bash
    cd ./backend/InvoiceBackend
    ```
+
 2. Apply database migrations using Entity Framework Core:
 
    ```bash
    dotnet ef database update
    ```
+
    if doesnt work:
    Update the connection string in appsettings.json, add your userid and password.
+
    ```bash
    "DefaultConnection": "Server=localhost;Database=InvoiceFlow_Db;User Id=your_user;Password=your_password;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=false;Integrated Security=True;"
    ```
+
 3. Run the backend server with hot reload:
    ```bash
    dotnet watch run
@@ -133,3 +142,59 @@ The core purpose of this application is to:
    - Week 4: Invoice validation integration
    - Week 5: Email and PEPPOL sending implementation
    - Week 6: Dashboard, testing, and bug fixes
+
+## Running the Application with Docker (Recommended for Testing)
+
+This setup uses Docker Compose to run the frontend, backend, and database in containers for a consistent testing environment across different operating systems.
+
+**Prerequisites:**
+
+- Docker Desktop installed and running.
+
+**Steps:**
+
+1.  **Open a terminal or command prompt** in the root directory of the project (where `docker-compose.yml` is located).
+
+2.  **Build and start the containers:**
+
+    ```bash
+    docker-compose up --build
+    ```
+
+    - Use `docker-compose up -d --build` to run in detached (background) mode.
+    - The first build might take some time as it downloads images and builds the applications.
+
+3.  **Wait for services to be ready:** Observe the logs in your terminal (if not running in detached mode). Look for messages indicating:
+
+    - Backend migration completion (`Migration successful. Starting application...`)
+    - Backend application start (`Now listening on: ...`, `Application started.`)
+    - Frontend Nginx start (usually logs requests or shows Nginx process started).
+    - Backend started. Access frontend at: https://localhost:5173/ （`This message show final success `）
+
+4.  **Access the application:** Once the services appear to be ready, open your web browser and navigate to:
+
+    **https://localhost:5173/**
+
+5.  **Accept Self-Signed Certificates:** Your browser will likely show security warnings for both the frontend (`https://localhost:5173`) and potentially for backend connections made by the frontend (due to the self-signed certificates generated for HTTPS). You will need to accept the security risk to proceed.
+
+6.  **Stopping the application:**
+    - If running in the foreground, press `Ctrl + C` in the terminal.
+    - If running in detached mode, run: `docker-compose down`
+    - To remove the database volume (and all its data), run: `docker-compose down -v`
+
+## Local Development Setup (Without Docker)
+
+# ... (Keep existing local development instructions here) ...
+
+## Database Seeding
+
+Seed data (e.g., the initial Reckon token) is applied automatically when running database migrations (both locally via `dotnet ef database update` and during Docker startup).
+
+## Troubleshooting
+
+- **Port Conflicts:** If you get errors about ports (e.g., 5173, 5080, 1434) being already allocated, ensure no other applications or Docker containers are using these ports on your host machine.
+- **Database Connection Issues (Docker):** If the backend fails to connect to the database:
+  - Ensure Docker Desktop has sufficient resources (RAM, CPU).
+  - Try stopping and removing the volume: `docker-compose down -v` followed by `docker-compose up --build`.
+  - Check logs (`docker-compose logs backend` and `docker-compose logs db`).
+- **CORS Errors:** Ensure the backend CORS policy (`Program.cs`) correctly allows the frontend origin (`https://localhost:5173`) and allows credentials if needed.
