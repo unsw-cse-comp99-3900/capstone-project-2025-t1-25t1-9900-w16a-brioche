@@ -83,11 +83,11 @@ const processPdf = async (pdfFile: File): Promise<ProcessPdfResult> => {
               text:
                 "Please analyze this invoice PDF and extract the following information:\n" +
                 "- Customer: match the customer name in the invoice\n" +
-                "- invoiceDate: match the invoice date in the invoice, must in Date format\n" +
+                "- invoiceDate: match the invoice date in the invoice, must in Date format, if you not found just set same as a random valid date\n" +
                 "- dueDate: match the due date in the invoice if you not found just set same as invoice date, must in Date format\n" +
                 "- referenceCode: match the reference code you find in the invoice\n" +
-                "- invoiceDiscount: match the invoice discount setting not the discount number after the calculation and discount is for entire invoice not per item\n" +
-                "- lineItems: item(the item name), description(text to describe the item), price(the price of the item), quantity(the quantity of the item), discount(the discount of this item), tax(the tax of the item), taxCode(the tax code of the item if you are not sure just leave blank)\n" +
+                "- invoiceDiscount: must be a integer, match the invoice discount setting not the discount number after the calculation and discount is for entire invoice not per item\n" +
+                "- lineItems: item(the item name), description(text to describe the item), price(the price of the item), quantity(the quantity of the item), discount(type must transfer to Number,the discount of this item), tax(type must transfer to Number, the tax of the item, if is percentage just calculate the tax and transfer to number), taxCode(must be one of GST, FRE, WET, WGST, if not any of these just leave GST)\n" +
                 "- notes: match the notes leave to customer\n" +
                 "- paymentDetails: match the payment method information in the invoice",
             },
@@ -107,12 +107,16 @@ const processPdf = async (pdfFile: File): Promise<ProcessPdfResult> => {
     // Map the extracted data to our form structure
     const mappedData: Partial<InvoiceFormValues> = {
       customer: extractedData.customer || "",
-      invoiceDate: extractedData.invoiceDate
-        ? new Date(extractedData.invoiceDate)
-        : new Date(),
-      dueDate: extractedData.dueDate
-        ? new Date(extractedData.dueDate)
-        : new Date(),
+      invoiceDate:
+        extractedData.invoiceDate &&
+        !isNaN(new Date(extractedData.invoiceDate).getTime())
+          ? new Date(extractedData.invoiceDate)
+          : new Date(),
+      dueDate:
+        extractedData.dueDate &&
+        !isNaN(new Date(extractedData.dueDate).getTime())
+          ? new Date(extractedData.dueDate)
+          : new Date(),
       referenceCode: extractedData.referenceCode || "",
       invoiceDiscount: extractedData.invoiceDiscount || "",
       items: extractedData.lineItems.map((item) => ({

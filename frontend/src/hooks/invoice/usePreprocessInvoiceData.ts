@@ -120,7 +120,7 @@ export const usePreprocessInvoiceData = () => {
                 itemType: ItemType.Product,
                 ledgerAccount: "Sales",
                 parentItem: "",
-                price: 0,
+                price: parseFloat(parseFloat(item.itemPrice || "0").toFixed(2)),
                 status: ItemStatus.Active,
                 taxRate: "GST",
               })

@@ -116,9 +116,10 @@ const CreateInvoiceContainer: React.FC = () => {
   })
   const invoiceDate = useWatch({ control: form.control, name: "invoiceDate" })
 
-  const formattedInvoiceDate = invoiceDate
-    ? format(new Date(invoiceDate), "yyyy-MM-dd")
-    : ""
+  const formattedInvoiceDate =
+    invoiceDate instanceof Date && !isNaN(invoiceDate.getTime())
+      ? format(invoiceDate, "yyyy-MM-dd")
+      : ""
 
   const { data: dueDateData } = useDueDate(
     paymentTermId || "",
